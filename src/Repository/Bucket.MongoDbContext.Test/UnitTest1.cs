@@ -18,7 +18,7 @@ namespace Bucket.MongoDbContext.Test
             var ser = Init<Student>();
             for (int i = 0; i < 100; i++)
             {
-                var std = new Student { Id = i, Name = $"zhang{i}" };
+                var std = new Student { Age = i, Name = $"zhang{i}" };
                 ser.InsertOne(std);
             }
 
@@ -31,7 +31,7 @@ namespace Bucket.MongoDbContext.Test
             var ser = Init<Student>();
             //var filter = Builders<Student>.Filter.Where(p => p.Id == 1);
             //var update = Builders<Student>.Update.Set(p => p.Name, "ajsdafskdlajf");
-            var result = ser.UpdateOne<string>(p => p.Id == 15, p => p.Name, "lisi");
+            var result = ser.UpdateOne<string>(p => p.Age == 15, p => p.Name, "lisi");
         }
 
         [Fact]
@@ -39,13 +39,13 @@ namespace Bucket.MongoDbContext.Test
         {
             //var filter = Builders<Student>.Filter.Where(p => p.Id == 1);
             var ser = Init<Student>();
-            var result = ser.DeleteOne(p=>p.Id==6);
+            var result = ser.DeleteOne(p=>p.Age == 6);
         }
 
         [Fact]
         public void TestQuery()
         {
-            Expression<Func<Student, bool>> filter = p => p.Id == 5 || p.Id == 8;
+            Expression<Func<Student, bool>> filter = p => p.Age == 5 || p.Age == 8;
             var ser = Init<Student>();
             var result = ser.Query(filter).ToList();
             Assert.NotNull(result);
