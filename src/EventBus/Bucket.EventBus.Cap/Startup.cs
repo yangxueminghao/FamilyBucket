@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bucket.MongoDbContext;
 
 namespace Bucket.EventBus.Cap
 {
@@ -30,6 +31,23 @@ namespace Bucket.EventBus.Cap
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bucket.EventBus.Cap", Version = "v1" });
             });
+            services.AddCap(x =>
+            {
+                // If you are using ADO.NET, choose to add configuration you needed：
+                x.UseMySql(Configuration["Cap:Db:Con"].ToString());
+                
+                // CAP support RabbitMQ,Kafka,AzureService as the MQ, choose to add configuration you needed：
+                //x.UseRabbitMQ(Configuration["Cap:Mq:Con"].ToString());
+                x.UseRabbitMQ(options =>
+                {
+                    //上一篇中我创建的用户名密码 
+                    options.HostName = "127.0.0.1";
+                    options.UserName = "sa";
+                    options.Password = "123456";
+                });
+            });
+            services.AddMongoDbContext()
+                .AddMongoDbRepository();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -63,6 +63,12 @@ namespace Bucket.MongoDbContext
         {
             var service = services.First(x => x.ServiceType == typeof(IConfiguration));
             var configuration = (IConfiguration)service.ImplementationInstance;
+            if (configuration==null)
+            {
+                var singletonObject = service.ImplementationFactory.Invoke(services.BuildServiceProvider());
+                configuration = (IConfiguration)singletonObject;
+            }
+            
             return AddMongoDbContext(services, configuration, contextLifetime, section);
         }
 
