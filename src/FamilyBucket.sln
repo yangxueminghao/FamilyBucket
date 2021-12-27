@@ -187,6 +187,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.MongoDbContext.Test", "Repository\Bucket.MongoDbContext.Test\Bucket.MongoDbContext.Test.csproj", "{02519BB7-70A0-4332-B0AA-DC09A7343703}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.EventBus.Cap", "EventBus\Bucket.EventBus.Cap\Bucket.EventBus.Cap.csproj", "{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -453,6 +455,10 @@ Global
 		{02519BB7-70A0-4332-B0AA-DC09A7343703}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02519BB7-70A0-4332-B0AA-DC09A7343703}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02519BB7-70A0-4332-B0AA-DC09A7343703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -524,6 +530,7 @@ Global
 		{54BAA30C-1759-47C4-BC33-C2DC6C23BEBD} = {D7BAC7F7-413F-4C18-8F57-F171410F3C93}
 		{1661D8E3-05FC-4E38-8EFE-200FFE7DAC46} = {1AD4D26C-78D9-45F1-9EC4-2239CFEF6062}
 		{02519BB7-70A0-4332-B0AA-DC09A7343703} = {1AD4D26C-78D9-45F1-9EC4-2239CFEF6062}
+		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D} = {CAAD2A94-B46B-4D18-8B36-C0C9DD03117B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA0759A0-104C-4213-9D48-D4F7E3E74EEB}
