@@ -2,6 +2,7 @@ using Bucket.MongoDbContext.Mongo;
 using Bucket.MongoDbContext.Test.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Linq;
@@ -39,15 +40,15 @@ namespace Bucket.MongoDbContext.Test
         {
             //var filter = Builders<Student>.Filter.Where(p => p.Id == 1);
             var ser = Init<Student>();
-            var result = ser.DeleteOne(p=>p.Age == 6);
+            var result = ser.DeleteOne(p => p.Age == 6);
         }
 
         [Fact]
         public void TestQuery()
         {
-            Expression<Func<Student, bool>> filter = p => p.Age == 5 || p.Age == 8;
+            Expression<Func<Student, bool>> filter = p => (p.Age == 5 || p.Age == 8) && p.Tags.Contains("good");
             var ser = Init<Student>();
-            var result = ser.Query(filter).ToList();
+            var result = ser.Query(filter).OrderByDescending(p => p.Id).ToList();
             Assert.NotNull(result);
         }
         public IMongoDbRepository<T> Init<T>() where T : class, new()
@@ -64,6 +65,21 @@ namespace Bucket.MongoDbContext.Test
             var ser = services.BuildServiceProvider().GetService<IMongoDbRepository<T>>();
             return ser;
 
+        }
+        [Theory]
+        [InlineData("bj", "shanghai")]
+        [InlineData("changsha", "wuhan")]
+        public void TestInsertBson(string addr1, string addr2)
+        {
+            var ser = Init<BsonDocument>();
+            BsonDocument bson = new BsonDocument()
+            {
+                { "address",new BsonArray{ addr1, addr2 } },
+
+                { "name","li"+addr1}
+            };
+            ser.InsertOne(bson);
+            Assert.Equal(1,1);
         }
     }
 }
