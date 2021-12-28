@@ -189,6 +189,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.MongoDbContext.Test"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.EventBus.Cap", "EventBus\Bucket.EventBus.Cap\Bucket.EventBus.Cap.csproj", "{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.DapperContext", "ORM\Bucket.DapperContext\Bucket.DapperContext.csproj", "{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.DapperContext.Test", "ORM\Bucket.DapperContext.Test\Bucket.DapperContext.Test.csproj", "{D3E5143F-661D-47B4-A93A-C358D4205C0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -459,6 +463,14 @@ Global
 		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E5143F-661D-47B4-A93A-C358D4205C0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E5143F-661D-47B4-A93A-C358D4205C0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E5143F-661D-47B4-A93A-C358D4205C0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E5143F-661D-47B4-A93A-C358D4205C0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -531,6 +543,8 @@ Global
 		{1661D8E3-05FC-4E38-8EFE-200FFE7DAC46} = {1AD4D26C-78D9-45F1-9EC4-2239CFEF6062}
 		{02519BB7-70A0-4332-B0AA-DC09A7343703} = {1AD4D26C-78D9-45F1-9EC4-2239CFEF6062}
 		{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D} = {CAAD2A94-B46B-4D18-8B36-C0C9DD03117B}
+		{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D} = {20411163-EFBD-4A04-9583-5567665CE8A7}
+		{D3E5143F-661D-47B4-A93A-C358D4205C0A} = {20411163-EFBD-4A04-9583-5567665CE8A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA0759A0-104C-4213-9D48-D4F7E3E74EEB}
