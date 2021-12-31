@@ -58,7 +58,7 @@ namespace Bucket.EventBus.Cap.Controllers
                     //docker run -d--hostname my-rabbit--name rabbit -e RABBITMQ_DEFAULT_USER = sa - e RABBITMQ_DEFAULT_PASS = 123456 - p 15672:15672 - p 5672:5672 - p 25672:25672 - p 61613:61613 - p 1883:1883 rabbitmq: management
                     
                     _logger.LogInformation("CreateStudent({student})", JsonSerializer.Serialize(stu));
-                    _capBus.Publish("Bucket.EventBus.Cap.CreateStudent", JsonSerializer.Serialize(stu));
+                    _capBus.Publish<Student>("Bucket.EventBus.Cap.CreateStudent", stu);
                 }
             }
 
@@ -73,9 +73,8 @@ namespace Bucket.EventBus.Cap.Controllers
         }
         [NonAction]
         [CapSubscribe("Bucket.EventBus.Cap.CreateStudent")]
-        public Student CreateStudentHander(string  s)
+        public Student CreateStudentHander(Student stu)
         {
-            Student stu = JsonSerializer.Deserialize<Student>(s);
             _logger.LogInformation("CreateStudentHander({student})", JsonSerializer.Serialize(stu));
             _mongo.InsertOne(stu);
             return stu;
