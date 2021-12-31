@@ -7,7 +7,7 @@ namespace Bucket.Utility.Test
     public class UnitTest1
     {
         [Fact]
-        public void Test1()
+        public void TestExcel()
         {
 
             //ReadFromExcelFile(@"H:\班级文件（15软件）\15级软件工程班名单.xls");
@@ -16,5 +16,14 @@ namespace Bucket.Utility.Test
             Assert.Equal(1,1);
 
         }
+        [Fact]
+        public void TestRegex()
+        {
+
+            //ReadFromExcelFile(@"H:\班级文件（15软件）\15级软件工程班名单.xls");
+            var result = RegexHelper.ReplaceChinese("hsadjfhh软件工,weqrweqwer班级文件teryrteyrt");
+            Assert.NotNull(result);
+        }
+        
     }
 }
