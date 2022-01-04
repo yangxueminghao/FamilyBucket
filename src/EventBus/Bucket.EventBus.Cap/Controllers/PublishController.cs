@@ -62,7 +62,7 @@ namespace Bucket.EventBus.Cap.Controllers
                     //docker run -d--hostname my-rabbit--name rabbit -e RABBITMQ_DEFAULT_USER = sa - e RABBITMQ_DEFAULT_PASS = 123456 - p 15672:15672 - p 5672:5672 - p 25672:25672 - p 61613:61613 - p 1883:1883 rabbitmq: management
                     
                     _logger.LogInformation("CreateStudent({student})", JsonSerializer.Serialize(stu));
-                    _capBus.Publish<Student>("Bucket.EventBus.Cap.CreateStudent", stu);
+                    _capBus.Publish<Student>("Bucket.EventBus.Cap.CreateStudent", stu,callbackName: "Bucket.EventBus.Cap.CreateStudentCallback");
                 }
             }
 
@@ -76,7 +76,7 @@ namespace Bucket.EventBus.Cap.Controllers
             return datetime.ToString("yyyy-MM-dd HH:mm:ss");
         }
         [NonAction]
-        [CapSubscribe("Bucket.EventBus.Cap.CreateStudent", Group = "Mongor")]
+        [CapSubscribe("Bucket.EventBus.Cap.CreateStudent", Group = "Mongo")]
         public Student CreateStudentMongoHander(Student stu)
         {
             _logger.LogInformation("CreateStudentMongoHander({student})", JsonSerializer.Serialize(stu));
@@ -88,6 +88,15 @@ namespace Bucket.EventBus.Cap.Controllers
         public Student CreateStudentDapperHander(Student stu)
         {
             _logger.LogInformation("CreateStudentDapperHander({student})", JsonSerializer.Serialize(stu));
+            _dapper.Insert(stu);
+            return stu;
+        }
+        [NonAction]
+        [CapSubscribe("Bucket.EventBus.Cap.CreateStudentCallback")]
+        public Student CreateStudentCallback(Student stu)
+        {
+            _logger.LogInformation("CreateStudentCallback({student})", JsonSerializer.Serialize(stu));
+            stu.Name += "callback";
             _dapper.Insert(stu);
             return stu;
         }
