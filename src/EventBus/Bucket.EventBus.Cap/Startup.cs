@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bucket.MongoDbContext;
+using Bucket.DapperContext;
 
 namespace Bucket.EventBus.Cap
 {
@@ -46,8 +47,10 @@ namespace Bucket.EventBus.Cap
                     options.Password = "123456";
                 });
             });
-            services.AddMongoDbContext()
+            services.AddMongoDbContext(section: "MongoDbConfig")
                 .AddMongoDbRepository();
+            services.AddDapperDbContext(section: "DapperDbConfig")
+                .AddDapperDbRepository();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

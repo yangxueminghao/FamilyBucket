@@ -89,6 +89,11 @@ namespace Bucket.DapperContext
         {
             var service = services.First(x => x.ServiceType == typeof(IConfiguration));
             var configuration = (IConfiguration)service.ImplementationInstance;
+            if (configuration == null)
+            {
+                var singletonObject = service.ImplementationFactory.Invoke(services.BuildServiceProvider());
+                configuration = (IConfiguration)singletonObject;
+            }
             return AddDapperDbContext(services, configuration, contextLifetime, section);
         }
 

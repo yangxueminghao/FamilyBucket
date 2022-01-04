@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ORM\Bucket.DapperContext\Bucket.DapperContext.csproj" />
     <ProjectReference Include="..\..\Repository\Bucket.MongoDbContext\Bucket.MongoDbContext.csproj" />
   </ItemGroup>
 

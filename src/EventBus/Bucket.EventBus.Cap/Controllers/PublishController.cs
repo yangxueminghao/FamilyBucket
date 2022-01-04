@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Bucket.MongoDbContext.Mongo;
+using Bucket.DapperContext.Dapper;
 
 namespace Bucket.EventBus.Cap.Controllers
 {
@@ -21,15 +22,18 @@ namespace Bucket.EventBus.Cap.Controllers
         private readonly IConfiguration _Configuration;
         private readonly ICapPublisher _capBus;
         private readonly IMongoDbRepository<Student> _mongo;
+        private readonly IDapperDbRepository<Student> _dapper;
         public PublishController(ILogger<PublishController> logger, 
             IConfiguration Configuration,
             ICapPublisher capBus,
-            IMongoDbRepository<Student> mongo) 
+            IMongoDbRepository<Student> mongo,
+            IDapperDbRepository<Student> dapper) 
         {
             _logger = logger;
             _Configuration = Configuration;
             _capBus = capBus;
             _mongo = mongo;
+            _dapper = dapper;
         }
         [HttpGet]
         [Route("~/adonet/transaction")]
@@ -72,11 +76,19 @@ namespace Bucket.EventBus.Cap.Controllers
             return datetime.ToString("yyyy-MM-dd HH:mm:ss");
         }
         [NonAction]
-        [CapSubscribe("Bucket.EventBus.Cap.CreateStudent")]
-        public Student CreateStudentHander(Student stu)
+        [CapSubscribe("Bucket.EventBus.Cap.CreateStudent", Group = "Mongor")]
+        public Student CreateStudentMongoHander(Student stu)
         {
-            _logger.LogInformation("CreateStudentHander({student})", JsonSerializer.Serialize(stu));
+            _logger.LogInformation("CreateStudentMongoHander({student})", JsonSerializer.Serialize(stu));
             _mongo.InsertOne(stu);
+            return stu;
+        }
+        [NonAction]
+        [CapSubscribe("Bucket.EventBus.Cap.CreateStudent", Group ="Dapper")]
+        public Student CreateStudentDapperHander(Student stu)
+        {
+            _logger.LogInformation("CreateStudentDapperHander({student})", JsonSerializer.Serialize(stu));
+            _dapper.Insert(stu);
             return stu;
         }
     }

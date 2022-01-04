@@ -11,7 +11,7 @@ namespace Bucket.Utility.Test
 {
     class ExcelHelper
     {
-        
+
         public static List<string> ReadFromExcelFile(string filePath)
         {
             List<string> result = new List<string>();
@@ -56,7 +56,7 @@ namespace Bucket.Utility.Test
                                 {
                                     if (b.Contains("/"))
                                     {
-                                        subBuilder.Append(int.Parse(b.Split("/")[0]).ToString("X2")).Append("/").Append(b.Split("/")[1]);
+                                        subBuilder.Append(int.Parse(b.Split("/")[0]).ToString("X2")).Append("/").Append(int.Parse(b.Split("/")[1]).ToString("X2"));
                                     }
                                     else
                                     {
@@ -80,7 +80,7 @@ namespace Bucket.Utility.Test
             }
             return result;
         }
-        public static void WriteToExcel(string filePath, List<string> data)
+        public static void WriteToExcel(string filePath, List<string> data, int colIndex = 2)
         {
             if (File.Exists(filePath))
             {
@@ -89,14 +89,29 @@ namespace Bucket.Utility.Test
             using (Stream fileStream = File.OpenWrite(filePath))
             {
                 IWorkbook wb = new XSSFWorkbook();//如果生成xls则是HSSFWorkbook
-                ISheet sheet = wb.CreateSheet();
-                
+                ISheet sheet = wb.CreateSheet();//新增sheet
+
                 for (int i = 0; i < data.Count; i++)
                 {
                     IRow row = sheet.CreateRow(i);//0行号
                     row.CreateCell(0).SetCellValue(data[i]);
                 }
-                
+
+                //ISheet sheet = wb.GetSheetAt(0); 
+
+                //for (int i = 0; i < data.Count+1; i++)
+                //{
+                //    IRow row = sheet.GetRow(i);//0行号
+                //    if (i==0)
+                //    {
+                //        row.CreateCell(colIndex).SetCellValue("GN地址段(16进制)");
+                //    }
+                //    else
+                //    {
+                //        row.CreateCell(colIndex).SetCellValue(data[i-1]);
+                //    }
+                //}
+
                 wb.Write(fileStream);
             }
 
