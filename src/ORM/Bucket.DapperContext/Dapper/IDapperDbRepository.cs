@@ -10,5 +10,10 @@ namespace Bucket.DapperContext.Dapper
     {
         long Insert(T entity);
         T Get(long id);
+        bool Update(T entity);
+        bool Delete(T entity);
+        int Execute(string cmdStr, IDictionary<string, object> prams);
+        TOut ExecuteScalar<TOut>(string cmdStr, IDictionary<string, object> prams);
+        IEnumerable<T> Query(string cmdStr, IDictionary<string, object> prams);
     }
 }

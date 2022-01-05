@@ -20,9 +20,29 @@ namespace Bucket.DapperContext.Dapper
         {
             return _dbConnection.Insert(entity);
         }
+        public bool Update(T entity)
+        {
+            return _dbConnection.Update(entity);
+        }
         public T Get(long id)
         {
             return _dbConnection.Get<T>(id);
+        }
+        public bool Delete(T entity)
+        {
+            return _dbConnection.Delete(entity);
+        }
+        public int Execute(string cmdStr,IDictionary<string,object> prams)
+        {
+            return _dbConnection.Execute(cmdStr, prams);
+        }
+        public TOut ExecuteScalar<TOut>(string cmdStr, IDictionary<string, object> prams)
+        {
+            return _dbConnection.ExecuteScalar<TOut>(cmdStr, prams);
+        }
+        public IEnumerable<T> Query(string cmdStr, IDictionary<string, object> prams)
+        {
+            return _dbConnection.Query<T>(cmdStr, prams);
         }
 
     }
