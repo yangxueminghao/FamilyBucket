@@ -181,19 +181,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Sample.Client", "Sam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Sample.WebApi", "Sample\Bucket.Sample.WebApi\Bucket.Sample.WebApi.csproj", "{54BAA30C-1759-47C4-BC33-C2DC6C23BEBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.MongoDbContext", "Repository\Bucket.MongoDbContext\Bucket.MongoDbContext.csproj", "{1661D8E3-05FC-4E38-8EFE-200FFE7DAC46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.MongoDbContext", "Repository\Bucket.MongoDbContext\Bucket.MongoDbContext.csproj", "{1661D8E3-05FC-4E38-8EFE-200FFE7DAC46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{1AD4D26C-78D9-45F1-9EC4-2239CFEF6062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.MongoDbContext.Test", "Repository\Bucket.MongoDbContext.Test\Bucket.MongoDbContext.Test.csproj", "{02519BB7-70A0-4332-B0AA-DC09A7343703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.MongoDbContext.Test", "Repository\Bucket.MongoDbContext.Test\Bucket.MongoDbContext.Test.csproj", "{02519BB7-70A0-4332-B0AA-DC09A7343703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.EventBus.Cap", "EventBus\Bucket.EventBus.Cap\Bucket.EventBus.Cap.csproj", "{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.EventBus.Cap", "EventBus\Bucket.EventBus.Cap\Bucket.EventBus.Cap.csproj", "{054D8B4F-DA8F-44F4-880E-46A8A86ACC0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.DapperContext", "ORM\Bucket.DapperContext\Bucket.DapperContext.csproj", "{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.DapperContext", "ORM\Bucket.DapperContext\Bucket.DapperContext.csproj", "{F23C2E72-325A-45D8-9FE6-D595C7F4AB3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.DapperContext.Test", "ORM\Bucket.DapperContext.Test\Bucket.DapperContext.Test.csproj", "{D3E5143F-661D-47B4-A93A-C358D4205C0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.DapperContext.Test", "ORM\Bucket.DapperContext.Test\Bucket.DapperContext.Test.csproj", "{D3E5143F-661D-47B4-A93A-C358D4205C0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Utility.Test", "Utility\Bucket.Utility.Test\Bucket.Utility.Test.csproj", "{9F1C981B-3B7E-4551-AB2A-17D07960D108}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Utility.Test", "Utility\Bucket.Utility.Test\Bucket.Utility.Test.csproj", "{9F1C981B-3B7E-4551-AB2A-17D07960D108}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
