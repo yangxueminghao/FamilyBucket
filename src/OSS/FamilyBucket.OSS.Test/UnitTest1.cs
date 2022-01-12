@@ -17,8 +17,10 @@ namespace FamilyBucket.OSS.Test
             var services = Init();
             services.AddLogging();
             services.AddOSS();
-            IOSSServiceFactory oSSServiceFactory = services.BuildServiceProvider().GetService<IOSSServiceFactory>();
-            IOSSService _OSSService = oSSServiceFactory.Create();
+            //IOSSServiceFactory oSSServiceFactory = services.BuildServiceProvider().GetService<IOSSServiceFactory>();
+            //IOSSService _OSSService = oSSServiceFactory.Create();
+            
+            IOSSService _OSSService = services.BuildServiceProvider().GetService<IOSSService>();
             _OSSService.CreateBucketAsync(bucketName);
             var result = _OSSService.ListBucketsAsync().Result;
             var isUplod=_OSSService.PutObjectAsync(bucketName, "myfile", File.OpenRead(@"D:\备份文件\d23fcea51d98587ef7e50d58955557c.png")).Result;
