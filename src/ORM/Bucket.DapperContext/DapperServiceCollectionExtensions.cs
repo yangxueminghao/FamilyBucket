@@ -30,7 +30,7 @@ namespace Bucket.DapperContext
                     {
                         if (connectOptions.DbType == DbTypeEnum.Mysql)
                         {
-                            return new MySqlConnection(connectOptions.ConStr);
+                            return new MySqlConnection(connectOptions.ConStrs[0]);
                         }
                         else { throw new ArgumentException("暂不支持非Mysql数据库！"); }
 
@@ -40,7 +40,7 @@ namespace Bucket.DapperContext
                     {
                         if (connectOptions.DbType == DbTypeEnum.Mysql)
                         {
-                            return new MySqlConnection(connectOptions.ConStr);
+                            return new MySqlConnection(connectOptions.ConStrs[0]);
                         }
                         else { throw new ArgumentException("暂不支持非Mysql数据库！"); }
 
@@ -50,7 +50,7 @@ namespace Bucket.DapperContext
                     {
                         if (connectOptions.DbType == DbTypeEnum.Mysql)
                         {
-                            return new MySqlConnection(connectOptions.ConStr);
+                            return new MySqlConnection(connectOptions.ConStrs[0]);
                         }
                         else { throw new ArgumentException("暂不支持非Mysql数据库！"); }
 

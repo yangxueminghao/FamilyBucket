@@ -15,8 +15,13 @@ namespace Bucket.Cache.StackExchangeRedis.Test
         {
             var services = Init();
             var service=services.BuildServiceProvider().GetRequiredService<ICachingProvider>();
-            service.Set<string>("a","fdsgdfg",TimeSpan.FromDays(1));
-            service.Get<string>("a");
+            for (int i = 0X41; i < 0X5A; i++)
+            {
+                string key = Convert.ToChar(i).ToString();
+                service.Set<string>(key, "fdsgdfg"+i, TimeSpan.FromDays(1));
+                service.Get<string>(key);
+            }
+            
             
         }
         public IServiceCollection Init()

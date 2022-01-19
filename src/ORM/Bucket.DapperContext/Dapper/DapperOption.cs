@@ -9,7 +9,7 @@ namespace Bucket.DapperContext.Dapper
    public class DapperOption
     {
         public DbTypeEnum DbType { get; set; }
-        public string ConStr { get; set; }
+        public string[] ConStrs { get; set; }
     }
     public enum DbTypeEnum
     {
