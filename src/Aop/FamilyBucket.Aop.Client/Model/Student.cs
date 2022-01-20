@@ -10,7 +10,7 @@ namespace FamilyBucket.Aop.Client.Model
         public long Id { get; set; }
         public string Name { get; set; }
         public DateTime Birthday { get; set; }
-        public sbyte Sex { get; set; }
-        public int ClassId { get; set; }
+        //public sbyte Sex { get; set; }
+        //public int ClassId { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace FamilyBucket.Aop
         }
         public override void Intercept(IInvocation invocation)
         {
+            int count = 0;
             try
             {
                 //在被拦截的方法执行完毕后 继续执行当前方法，注意是被拦截的是异步的
@@ -39,8 +40,14 @@ namespace FamilyBucket.Aop
             {
                 if (invocation.TargetType.IsAssignableTo(typeof(IDbConnection)))
                 {
-                    //invocation.SetArgumentValue(0, _dapperOption.ConStrs[new Random().Next(0, _dapperOption.ConStrs.Length - 1)]);
-                    //invocation.Proceed();
+                    var target = invocation.InvocationTarget as IDbConnection;
+                    count++;
+                    target.ConnectionString = _dapperOption.ConStrs[new Random().Next(count, _dapperOption.ConStrs.Length)];
+                    if (count< _dapperOption.ConStrs.Length)
+                    {
+                        invocation.Proceed();
+                    }
+                    
                 }
 
             }
