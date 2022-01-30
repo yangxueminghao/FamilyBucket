@@ -215,6 +215,42 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.ElasticSearch"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.ElasticSearch.Client", "Search\FamilyBucket.ElasticSearch.Client\FamilyBucket.ElasticSearch.Client.csproj", "{90325439-4128-44F5-ABC6-BB9D3672F7C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5-75C3-4650-83B6-8497BD548B0B}"
+	ProjectSection(SolutionItems) = preProject
+		Shell\baget.sh = Shell\baget.sh
+		Shell\docker-compose-mongodb.yml = Shell\docker-compose-mongodb.yml
+		Shell\docker-compose-mysql.yml = Shell\docker-compose-mysql.yml
+		Shell\docker-compose.sh = Shell\docker-compose.sh
+		Shell\docker-compose.yml = Shell\docker-compose.yml
+		Shell\docker.sh = Shell\docker.sh
+		Shell\elasticserach.sh = Shell\elasticserach.sh
+		Shell\elk.yml = Shell\elk.yml
+		Shell\filebrowser.sh = Shell\filebrowser.sh
+		Shell\gitlab.sh = Shell\gitlab.sh
+		Shell\harbor.sh = Shell\harbor.sh
+		Shell\jenkins.sh = Shell\jenkins.sh
+		Shell\k8s.yml = Shell\k8s.yml
+		Shell\kibana.sh = Shell\kibana.sh
+		Shell\mailserver.sh = Shell\mailserver.sh
+		Shell\minio.sh = Shell\minio.sh
+		Shell\mongodb.sh = Shell\mongodb.sh
+		Shell\mssql.sh = Shell\mssql.sh
+		Shell\mysql.sh = Shell\mysql.sh
+		Shell\mysqlmaster.sh = Shell\mysqlmaster.sh
+		Shell\mysqlslave.sh = Shell\mysqlslave.sh
+		Shell\navicat.sh = Shell\navicat.sh
+		Shell\nginx.conf = Shell\nginx.conf
+		Shell\nginx.sh = Shell\nginx.sh
+		Shell\phpMyadmin.sh = Shell\phpMyadmin.sh
+		Shell\pxc.sh = Shell\pxc.sh
+		Shell\redis.sh = Shell\redis.sh
+		Shell\rediscluster.sh = Shell\rediscluster.sh
+		Shell\sonarqube.sh = Shell\sonarqube.sh
+		Shell\tool.sql = Shell\tool.sql
+		Shell\treesoft.sh = Shell\treesoft.sh
+		Shell\zentao.sh = Shell\zentao.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
