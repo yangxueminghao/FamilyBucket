@@ -205,9 +205,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Cache.StackExchangeR
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aop", "Aop", "{F63DE177-1D94-437C-B34A-943F79121591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.Aop", "Aop\FamilyBucket.Aop\FamilyBucket.Aop.csproj", "{C7BAF708-37E7-446A-817A-6F9EC3EF9699}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.Aop", "Aop\FamilyBucket.Aop\FamilyBucket.Aop.csproj", "{C7BAF708-37E7-446A-817A-6F9EC3EF9699}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.Aop.Client", "Aop\FamilyBucket.Aop.Client\FamilyBucket.Aop.Client.csproj", "{1B670341-04AE-442D-BB13-AF28E08C9968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.Aop.Client", "Aop\FamilyBucket.Aop.Client\FamilyBucket.Aop.Client.csproj", "{1B670341-04AE-442D-BB13-AF28E08C9968}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Search", "Search", "{D69E4F80-1BB9-4E9F-9AE3-05126F8493AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.ElasticSearch", "Search\FamilyBucket.ElasticSearch\FamilyBucket.ElasticSearch.csproj", "{C65AB06E-D7C2-443F-97CB-59EA481352BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.ElasticSearch.Client", "Search\FamilyBucket.ElasticSearch.Client\FamilyBucket.ElasticSearch.Client.csproj", "{90325439-4128-44F5-ABC6-BB9D3672F7C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -511,6 +517,14 @@ Global
 		{1B670341-04AE-442D-BB13-AF28E08C9968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B670341-04AE-442D-BB13-AF28E08C9968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B670341-04AE-442D-BB13-AF28E08C9968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C65AB06E-D7C2-443F-97CB-59EA481352BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C65AB06E-D7C2-443F-97CB-59EA481352BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C65AB06E-D7C2-443F-97CB-59EA481352BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C65AB06E-D7C2-443F-97CB-59EA481352BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90325439-4128-44F5-ABC6-BB9D3672F7C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90325439-4128-44F5-ABC6-BB9D3672F7C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90325439-4128-44F5-ABC6-BB9D3672F7C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90325439-4128-44F5-ABC6-BB9D3672F7C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -591,6 +605,8 @@ Global
 		{382BF9AF-329C-4B32-9771-93EB87E6CE0A} = {CD8CA6D6-EC0D-4E8D-89BB-6301F3869BC4}
 		{C7BAF708-37E7-446A-817A-6F9EC3EF9699} = {F63DE177-1D94-437C-B34A-943F79121591}
 		{1B670341-04AE-442D-BB13-AF28E08C9968} = {F63DE177-1D94-437C-B34A-943F79121591}
+		{C65AB06E-D7C2-443F-97CB-59EA481352BE} = {D69E4F80-1BB9-4E9F-9AE3-05126F8493AE}
+		{90325439-4128-44F5-ABC6-BB9D3672F7C7} = {D69E4F80-1BB9-4E9F-9AE3-05126F8493AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA0759A0-104C-4213-9D48-D4F7E3E74EEB}

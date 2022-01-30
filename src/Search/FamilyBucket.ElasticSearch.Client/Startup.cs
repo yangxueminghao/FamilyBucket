@@ -1,7 +1,3 @@
-using Autofac;
-using Bucket.DapperContext;
-using Bucket.DapperContext.Dapper;
-using FamilyBucket.Aop.Client.Util;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,14 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FamilyBucket.Aop.Client
+namespace FamilyBucket.ElasticSearch.Client
 {
     public class Startup
     {
@@ -26,10 +21,6 @@ namespace FamilyBucket.Aop.Client
         }
 
         public IConfiguration Configuration { get; }
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            AutofacExt.InitAutofac(builder, Configuration);
-        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -48,14 +39,14 @@ namespace FamilyBucket.Aop.Client
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
-            services.AddOptions();
-            services.Configure<DapperOption>(Configuration.GetSection("DapperDbConfig"));
+            services.AddElasticSearch();
+
             services.AddSwaggerGen(option =>
             {
                 option.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = " FamilyBucket.Aop.Client",
+                    Title = " FamilyBucket.ElasticSearch.Client",
                     Description = "by haohanyuzhou"
                 });
 
@@ -68,10 +59,6 @@ namespace FamilyBucket.Aop.Client
 
 
             });
-
-            //services.AddDapperDbContext()
-            //    .AddDapperDbRepository();
-            services.AddDapperDbRepository();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,7 +99,6 @@ namespace FamilyBucket.Aop.Client
                 //c.OAuthClientId("FamilyBucket.Aop.Client");  //oauth客户端名称
                 //c.OAuthAppName("FamilyBucket.Aop.Client认证"); // 描述
             });
-
         }
     }
 }
