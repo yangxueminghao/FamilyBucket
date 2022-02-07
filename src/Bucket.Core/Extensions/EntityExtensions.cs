@@ -22,7 +22,7 @@ namespace Bucket.Extensions
             prps.ForEach(p=> {
                 if (dic.ContainsKey(p.Name))
                 {
-                    p.SetValue(entity, dic[p.Name]);
+                    p.SetValue(entity,Convert.ChangeType(dic[p.Name],p.PropertyType));
                 }
             });
             return entity;
@@ -33,7 +33,7 @@ namespace Bucket.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static IDictionary<string, object> ToDic<T>(T entity)
+        public static IDictionary<string, object> ToDic<T>(this T entity)
         {
             IDictionary<string, object> dic = new Dictionary<string, object>();
             var prps = typeof(T).GetProperties().ToList();
