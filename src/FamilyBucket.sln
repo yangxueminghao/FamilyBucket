@@ -242,6 +242,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\nginx.conf = Shell\nginx.conf
 		Shell\nginx.sh = Shell\nginx.sh
 		Shell\ngrok.sh = Shell\ngrok.sh
+		Shell\ngrok2.sh = Shell\ngrok2.sh
 		Shell\phpMyadmin.sh = Shell\phpMyadmin.sh
 		Shell\pxc.sh = Shell\pxc.sh
 		Shell\redis.sh = Shell\redis.sh
