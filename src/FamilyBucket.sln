@@ -251,6 +251,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\zentao.sh = Shell\zentao.sh
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bat", "Bat", "{CFB338E4-A35A-4B8D-918D-528C96A03CF7}"
+	ProjectSection(SolutionItems) = preProject
+		Bat\RedisCluster.bat = Bat\RedisCluster.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

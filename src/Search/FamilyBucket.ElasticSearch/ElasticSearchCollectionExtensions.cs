@@ -8,7 +8,7 @@ namespace FamilyBucket.ElasticSearch
     public static class ElasticSearchCollectionExtensions
     {
         /// <summary>
-        /// 添加Mongo多数据库支持
+        /// 添加ElasticSearch数据库支持
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
