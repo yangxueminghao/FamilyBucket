@@ -9,6 +9,7 @@ echo '开始启动nginx'
 #docker run -d -p 6379:6379 --net pkngroknet --name myredis redis
 #docker run -d -p 4040:4040 --net pkngroknet --name ngrok -e NGROK_PROTOCOL="TCP" -e NGROK_AUTH="24m3m9usXH4U2KSdbWE7fZTwkvm_3MSyexVzL8dY3VukYkeBp" -e NGROK_PORT="myredis:6379" wernight/ngrok
 
-docker run -d -p 4040:4040 --net pkngroknet --name ngrok -e NGROK_PROTOCOL="TCP" -e NGROK_AUTH="24m3m9usXH4U2KSdbWE7fZTwkvm_3MSyexVzL8dY3VukYkeBp" -e NGROK_PORT="redis-node1:6379" wernight/ngrok 
+docker run -d -p 6379:6379 --net host --name myredis redis
+docker run -d -p 4040:4040 --net host --name ngrok -e NGROK_PROTOCOL="TCP" -e NGROK_AUTH="24m3m9usXH4U2KSdbWE7fZTwkvm_3MSyexVzL8dY3VukYkeBp" -e NGROK_PORT="myredis:6379" wernight/ngrok 
 echo '启动完成'
 
