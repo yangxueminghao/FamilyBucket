@@ -239,6 +239,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\mysqlmaster.sh = Shell\mysqlmaster.sh
 		Shell\mysqlslave.sh = Shell\mysqlslave.sh
 		Shell\navicat.sh = Shell\navicat.sh
+		Shell\nginx-ngrok.sh = Shell\nginx-ngrok.sh
 		Shell\nginx.conf = Shell\nginx.conf
 		Shell\nginx.sh = Shell\nginx.sh
 		Shell\ngrok.sh = Shell\ngrok.sh
