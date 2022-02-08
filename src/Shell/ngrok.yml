@@ -1,0 +1,12 @@
+authtoken: 24m3m9usXH4U2KSdbWE7fZTwkvm_3MSyexVzL8dY3VukYkeBp
+region: us
+console_ui: true
+web_addr: localhost:4040
+
+tunnels:
+  demo:
+    proto: http
+    addr: 8080
+    hostname: demo.mysite.com
+    inspect: false
+    auth: "demo:secret"
