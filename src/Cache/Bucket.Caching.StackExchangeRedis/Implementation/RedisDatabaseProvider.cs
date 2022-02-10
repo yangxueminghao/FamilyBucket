@@ -65,7 +65,8 @@ namespace Bucket.Caching.StackExchangeRedis.Implementation
         {
             if (!IsConnected)
             {
-                throw new InvalidOperationException("No Redis connections are available to perform this action");
+                //throw new InvalidOperationException("No Redis connections are available to perform this action");
+                TryConnect();
             }
 
             return _connectionMultiplexer.GetDatabase();
