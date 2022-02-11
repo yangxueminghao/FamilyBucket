@@ -16,6 +16,8 @@ using Bucket.Caching.StackExchangeRedis.Abstractions;
 using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace Bucket.Cache.StackExchangeRedis.Test
 {
@@ -146,6 +148,81 @@ namespace Bucket.Cache.StackExchangeRedis.Test
                 Thread.Sleep(1000);
             }
 
+            Assert.True(isSuc);
+            Assert.NotNull(sb.ToString());
+
+        }
+        [Fact]
+        public void TestRedisTrans()
+        {
+            var services = Init();
+            var redis = services.BuildServiceProvider().GetRequiredService<IRedisDatabaseProvider>();
+            StringBuilder sb = new StringBuilder();
+
+            var database = redis.GetDatabase();
+            var tran = database.CreateTransaction();
+            //tran.AddCondition(Condition.ListIndexEqual("zlh:1", 0, "zhanglonghao"));
+            tran.ListRightPushAsync("zlh:1", "zhanglonghao2");
+            tran.AddCondition(Condition.ListIndexNotEqual("zlh:1", 0, "zhanglonghao"));
+            tran.ListRightPushAsync("zlh:1", "zhanglonghao3");
+            bool committed = tran.Execute();
+
+            Assert.True(committed);
+            Assert.NotNull(sb.ToString());
+
+        }
+        [Fact]
+        public void TestRedisGeo()
+        {
+            var services = Init();
+            var redis = services.BuildServiceProvider().GetRequiredService<IRedisDatabaseProvider>();
+            StringBuilder sb = new StringBuilder();
+            bool isSuc = true;
+            var database = redis.GetDatabase();
+            database.GeoAdd("sale", 116.325505, 39.923568, "beijing");
+            database.GeoAdd("sale", 116.385297, 39.110897, "bazhou");
+            database.GeoAdd("sale", 117.217774, 38.999724, "tianjin");
+            database.GeoAdd("sale", 117.355754, 40.05403, "jzhou");
+            database.GeoAdd("sale", 114.52717, 38.082192, "shijiazhang");
+            var result=database.GeoRadius("sale", 116.382422, 39.923125, 100560.00);
+            foreach (var item in result)
+            {
+                sb.AppendLine(item.Member);
+            }
+            Assert.True(isSuc);
+            Assert.NotNull(sb.ToString());
+
+        }
+        [Fact]
+        public void TestRedisStream()
+        {
+            var services = Init();
+            var redis = services.BuildServiceProvider().GetRequiredService<IRedisDatabaseProvider>();
+            StringBuilder sb = new StringBuilder();
+            bool isSuc = true;
+            var db = redis.GetDatabase();
+            //var values = new NameValueEntry[]
+            //{
+            //    new NameValueEntry("sensor_id", "1234"),
+            //    new NameValueEntry("temp", "19.8")
+            //};
+            List<NameValueEntry> list = new List<NameValueEntry>();
+            for (int i = 0; i < 100; i++)
+            {
+                list.Add(new NameValueEntry("temp" + i, i));
+            }
+            var messageId = db.StreamAdd("sensor_stream", list.ToArray());
+            //读取 messageId="0-0"的 stream 中的'所有'消息。
+            var messages = db.StreamRead("sensor_stream", "0-0");
+            foreach (var item in messages)
+            {
+                foreach (var subitem in item.Values)
+                {
+                    sb.AppendLine(JsonSerializer.Serialize(new { Name = subitem.Name.ToString(), Value = subitem.Value.ToString() }));
+                }
+                
+            }
+            //db.StreamDelete("sensor_stream");
             Assert.True(isSuc);
             Assert.NotNull(sb.ToString());
 
