@@ -227,6 +227,24 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             Assert.NotNull(sb.ToString());
 
         }
+        [Fact]
+        public void TestRedisCluster()
+        {
+            var services = Init();
+            var redis = services.BuildServiceProvider().GetRequiredService<IRedisDatabaseProvider>();
+            StringBuilder sb = new StringBuilder();
+            bool isSuc = true;
+            var db = redis.GetDatabase();
+            
+            for (int i = 0; i < 100; i++)
+            {
+                db.StringSet("keywetwertwer" + i, i, flags: CommandFlags.DemandMaster);
+            }
+            
+            Assert.True(isSuc);
+            Assert.NotNull(sb.ToString());
+
+        }
         public IServiceCollection Init()
         {
 
