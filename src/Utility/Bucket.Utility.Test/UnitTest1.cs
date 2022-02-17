@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using System.IO;
+using Spire.OCR;
 
 namespace Bucket.Utility.Test
 {
@@ -21,6 +22,15 @@ namespace Bucket.Utility.Test
             var result = RegexHelper.ReplaceChinese("hsadjfhh软件工,weqrweqwer班级文件teryrteyrt");
             Assert.NotNull(result);
         }
-        
+        [Fact]
+        public void TestOcr()
+        {
+            //ReadFromExcelFile(@"H:\班级文件（15软件）\15级软件工程班名单.xls");
+            OcrScanner scanner = new OcrScanner();
+            var isSuc=scanner.Scan(@"D:\临时文件\微信图片_20220331173157.jpg");
+            var result=scanner.Text.ToString();
+            Assert.NotNull(result);
+        }
+
     }
 }
