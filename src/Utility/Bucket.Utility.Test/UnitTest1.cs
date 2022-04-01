@@ -27,8 +27,9 @@ namespace Bucket.Utility.Test
         {
             //ReadFromExcelFile(@"H:\班级文件（15软件）\15级软件工程班名单.xls");
             OcrScanner scanner = new OcrScanner();
-            var isSuc=scanner.Scan(@"D:\临时文件\微信图片_20220331173157.jpg");
-            var result=scanner.Text.ToString();
+            //var isSuc=scanner.Scan(@"D:\临时文件\微信图片_20220331173157.jpg"); 
+            var isSuc = scanner.Scan(@"D:\临时文件\1648721535(1).png");
+            var result=scanner.Text.ToString().Replace("Evaluation Warning : The version can be used only for evaluation purpose...","");
             Assert.NotNull(result);
         }
 
