@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Shell\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="libiomp5md.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
