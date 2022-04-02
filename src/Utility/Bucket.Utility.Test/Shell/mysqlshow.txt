@@ -20,6 +20,12 @@ r. show [storage] engines; --显示安装后的可用存储引擎和默认引擎
 show status like 'Table%';
 show OPEN TABLES where In_use > 0;
 show status;
+Maven 中央仓库地址：
+
+1. http://www.sonatype.org/nexus/
+2. http://mvnrepository.com/ （本人推荐仓库）
+
+3. http://repo1.maven.org/maven2
 
 --MySQL自带的mysqlshow命令--可以让我们在不连接到MySQL客户端的情况下查看MySQL的一些参数、数据库、表、列、索引等信息，其使用方法如下： 
 1. mysqlshow -uroot -p    --查看都有哪些库
