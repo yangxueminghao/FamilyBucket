@@ -17,6 +17,9 @@ o. show logs; -- 显示BDB存储引擎的日志。
 p. show warnings; -- 显示最后一个执行的语句所产生的错误、警告和通知。
 q. show errors; -- 只显示最后一个执行语句所产生的错误。
 r. show [storage] engines; --显示安装后的可用存储引擎和默认引擎。
+show status like 'Table%';
+show OPEN TABLES where In_use > 0;
+show status;
 
 --MySQL自带的mysqlshow命令--可以让我们在不连接到MySQL客户端的情况下查看MySQL的一些参数、数据库、表、列、索引等信息，其使用方法如下： 
 1. mysqlshow -uroot -p    --查看都有哪些库
