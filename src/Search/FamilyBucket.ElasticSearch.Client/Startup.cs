@@ -1,3 +1,4 @@
+using FamilyBucket.ElasticSearch.Client.Job;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +41,7 @@ namespace FamilyBucket.ElasticSearch.Client
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
             services.AddElasticSearch();
+            services.AddHostedService<MedicationJob>();
 
             services.AddSwaggerGen(option =>
             {
