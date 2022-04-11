@@ -1,3 +1,4 @@
+using Bucket.DapperContext;
 using FamilyBucket.ElasticSearch.Client.Job;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,7 +43,8 @@ namespace FamilyBucket.ElasticSearch.Client
             });
             services.AddElasticSearch();
             services.AddHostedService<MedicationJob>();
-
+            services.AddDapperDbContext()
+                .AddDapperDbRepository();
             services.AddSwaggerGen(option =>
             {
                 option.SwaggerDoc("v1", new OpenApiInfo

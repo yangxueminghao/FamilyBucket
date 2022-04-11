@@ -22,7 +22,7 @@ namespace FamilyBucket.ElasticSearch.Client.Controllers
             {
                 Id = 3,
                 Name = "zhangsi",
-                Birthday = DateTime.Now
+                //Birthday = DateTime.Now
             };
             var response = _elasticClient.Index(student, idx => idx.Index("students"));
             var result = _elasticClient.Get<Student>(3, idx => idx.Index("students"));

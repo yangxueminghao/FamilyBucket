@@ -9,7 +9,7 @@ using Dapper.Contrib.Extensions;
 
 namespace Bucket.DapperContext.Dapper
 {
-    public class DapperDbRepository<T> : IDapperDbRepository<T> where T:class
+    public class DapperDbRepository<T> : IDapperDbRepository<T> where T : class
     {
         private readonly IDbConnection _dbConnection;
         public DapperDbRepository(IDbConnection dbConnection)
@@ -32,7 +32,7 @@ namespace Bucket.DapperContext.Dapper
         {
             return _dbConnection.Delete(entity);
         }
-        public int Execute(string cmdStr,IDictionary<string,object> prams)
+        public int Execute(string cmdStr, IDictionary<string, object> prams)
         {
             return _dbConnection.Execute(cmdStr, prams);
         }
@@ -42,6 +42,10 @@ namespace Bucket.DapperContext.Dapper
         }
         public IEnumerable<T> Query(string cmdStr, IDictionary<string, object> prams)
         {
+            if (_dbConnection.State == ConnectionState.Open)
+            {
+                _dbConnection.Close();
+            }
             return _dbConnection.Query<T>(cmdStr, prams);
         }
 

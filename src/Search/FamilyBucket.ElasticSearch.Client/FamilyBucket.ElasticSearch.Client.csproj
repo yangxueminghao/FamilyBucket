@@ -5,13 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NEST" Version="7.16.0" />
+    <PackageReference Include="NEST" Version="7.7.0" />
     <PackageReference Include="NLog" Version="4.7.15" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ORM\Bucket.DapperContext\Bucket.DapperContext.csproj" />
+    <ProjectReference Include="..\..\Utility\Bucket.Utility\Bucket.Utility.csproj" />
     <ProjectReference Include="..\FamilyBucket.ElasticSearch\FamilyBucket.ElasticSearch.csproj" />
   </ItemGroup>
 

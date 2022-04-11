@@ -307,5 +307,51 @@ namespace Bucket.Utility.Helpers
         {
             return string.IsNullOrWhiteSpace(input) ? new byte[] { } : encoding.GetBytes(input);
         }
+        /// <summary>
+        /// 中文转为UNICODE字符
+        /// </summary>
+        /// <param name="input">输入值</param>
+        public static string ChineseToUnicode(string input)
+        {            
+            string outStr = "";
+            if (!string.IsNullOrEmpty(input))
+            {
+                for (int i = 0; i < input.Length; i++)
+                {
+                    //将中文字符转为10进制整数，然后转为16进制unicode字符
+                    outStr += @"\u" + ((int)input[i]).ToString("x");
+                }
+            }
+            return outStr;
+        }
+        /// <summary>
+        /// UNICODE转为中文字符
+        /// </summary>
+        /// <param name="input">输入值</param>
+        public static string UnicodeToChinese(string input)
+        {
+            string outStr = "";
+            if (!string.IsNullOrEmpty(input) && input.Contains(@"\u"))
+            {
+                string[] strlist = input.Split(new string[] { @"\u" }, StringSplitOptions.RemoveEmptyEntries);
+                try
+                {
+                    for (int i = 1; i < strlist.Length; i++)
+                    {
+                        //将unicode字符转为10进制整数，然后转为char中文字符
+                        outStr += (char)int.Parse(strlist[i], System.Globalization.NumberStyles.HexNumber);
+                    }
+                }
+                catch (FormatException ex)
+                {
+                    //outStr = ex.Message;
+                }
+            }
+            else
+            {
+                return input;
+            }
+            return outStr;
+        }
     }
 }
