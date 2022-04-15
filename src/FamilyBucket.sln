@@ -263,7 +263,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bat", "Bat", "{CFB338E4-A35
 		Bat\RedisCluster.bat = Bat\RedisCluster.bat
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Config.AgileConfigClient", "Config\Bucket.Config.AgileConfigClient\Bucket.Config.AgileConfigClient.csproj", "{5A8503DF-CEA4-4860-BF94-7577128A1F0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Config.AgileConfigClient", "Config\Bucket.Config.AgileConfigClient\Bucket.Config.AgileConfigClient.csproj", "{5A8503DF-CEA4-4860-BF94-7577128A1F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.Images.Console", "FamilyBucket.Images.Console\FamilyBucket.Images.Console.csproj", "{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -579,6 +581,10 @@ Global
 		{5A8503DF-CEA4-4860-BF94-7577128A1F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A8503DF-CEA4-4860-BF94-7577128A1F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A8503DF-CEA4-4860-BF94-7577128A1F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -662,6 +668,7 @@ Global
 		{C65AB06E-D7C2-443F-97CB-59EA481352BE} = {D69E4F80-1BB9-4E9F-9AE3-05126F8493AE}
 		{90325439-4128-44F5-ABC6-BB9D3672F7C7} = {D69E4F80-1BB9-4E9F-9AE3-05126F8493AE}
 		{5A8503DF-CEA4-4860-BF94-7577128A1F0E} = {60BED2A5-2C44-43FA-879F-C8EFB5AC1696}
+		{947B49F0-6B23-4B7C-A039-C0B2C2FC2598} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA0759A0-104C-4213-9D48-D4F7E3E74EEB}

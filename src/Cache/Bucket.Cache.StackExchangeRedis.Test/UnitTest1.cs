@@ -71,7 +71,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
 
             bool isSuc = true;
             var database = redis.GetDatabase();
-            var batch=database.CreateBatch();
+            var batch = database.CreateBatch();
             batch.StringSetAsync("a", "asjghsd");
             batch.StringSetAsync("b", "ewqrweqr");
             batch.HashSetAsync("h1", "name", "zhafjads");
@@ -93,7 +93,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             var database = redis.GetDatabase();
             const string script = "redis.call('set',@key,@value)";
             var lua = LuaScript.Prepare(script);
-            database.ScriptEvaluate(lua,new { key=(RedisKey)"mykey",value=123});
+            database.ScriptEvaluate(lua, new { key = (RedisKey)"mykey", value = 123 });
             //database.ScriptEvaluate("redis.call('HMSET',@key,@value)", new RedisKey[] {"rediskey1" },new RedisValue[] { "id",123, "name", 456, "title", "lisi" });
             Assert.True(isSuc);
             Assert.NotNull(sb.ToString());
@@ -111,10 +111,10 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             var pub = database.Multiplexer.GetSubscriber();
             for (int i = 0; i < 100; i++)
             {
-                pub.Publish("chanel1", "fdshgsfjkdgl"+i);
+                pub.Publish("chanel1", "fdshgsfjkdgl" + i);
                 Thread.Sleep(1000);
             }
-            
+
             Assert.True(isSuc);
             Assert.NotNull(sb.ToString());
 
@@ -129,7 +129,8 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             bool isSuc = true;
             var database = redis.GetDatabase();
             {
-                Task.Run(()=> {
+                Task.Run(() =>
+                {
                     var pub = database.Multiplexer.GetSubscriber();
                     for (int i = 0; i < 100; i++)
                     {
@@ -141,7 +142,8 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             var sub = database.Multiplexer.GetSubscriber();
             for (int i = 0; i < 100; i++)
             {
-                sub.Subscribe("chanel1",(ch,v)=> {
+                sub.Subscribe("chanel1", (ch, v) =>
+                {
                     sb.Append(v.ToString());
                     sb.AppendLine();
                 });
@@ -184,7 +186,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             database.GeoAdd("sale", 117.217774, 38.999724, "tianjin");
             database.GeoAdd("sale", 117.355754, 40.05403, "jzhou");
             database.GeoAdd("sale", 114.52717, 38.082192, "shijiazhang");
-            var result=database.GeoRadius("sale", 116.382422, 39.923125, 100560.00);
+            var result = database.GeoRadius("sale", 116.382422, 39.923125, 100560.00);
             foreach (var item in result)
             {
                 sb.AppendLine(item.Member);
@@ -220,7 +222,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
                 {
                     sb.AppendLine(JsonSerializer.Serialize(new { Name = subitem.Name.ToString(), Value = subitem.Value.ToString() }));
                 }
-                
+
             }
             //db.StreamDelete("sensor_stream");
             Assert.True(isSuc);
@@ -235,14 +237,42 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             StringBuilder sb = new StringBuilder();
             bool isSuc = true;
             var db = redis.GetDatabase();
-            
+
             for (int i = 0; i < 100; i++)
             {
                 db.StringSet("keywetwertwer" + i, i, flags: CommandFlags.DemandMaster);
             }
-            
+
             Assert.True(isSuc);
             Assert.NotNull(sb.ToString());
+
+        }
+        [Fact]
+        public void TestBitmap()
+        {
+            var services = Init();
+            var redis = services.BuildServiceProvider().GetRequiredService<IRedisDatabaseProvider>();
+            var database = redis.GetDatabase();
+            Student student = new Student();
+            student.Id = 10000;
+            //Random random = new Random();
+            var key = $"usersign:{DateTime.Now.Year }:{student.Id}";
+            for (int i = 0; i < 100; i++)
+            {
+                database.StringSetBit(key, DateTime.Now.DayOfYear + i, true);
+            }
+            int count = 0;
+            for (int i = 99; i > -1; i--)
+            {
+                bool isTrue = database.StringGetBit(key, DateTime.Now.DayOfYear + i);
+                if (isTrue)
+                {
+                    count++;
+                }
+                
+            }
+
+            Assert.True(count == 100);
 
         }
         public IServiceCollection Init()

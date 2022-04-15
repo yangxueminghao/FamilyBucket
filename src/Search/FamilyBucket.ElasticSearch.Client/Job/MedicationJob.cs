@@ -44,6 +44,7 @@ namespace FamilyBucket.ElasticSearch.Client.Job
                 _elasticClient = scope.ServiceProvider.GetService<IElasticClient>();
                 foreach (var student in students)
                 {
+                   //docker run -d --name elasticsearch -v /d/dockerData/elasticsearch/config:/usr/share/elasticsearch/config -v /d/dockerData/elasticsearch/plugins:/usr/share/elasticsearch/plugins - p 9200:9200 - p 9300:9300 - e "discovery.type=single-node" elasticsearch: 7.7.0
                     var response = _elasticClient.Index(student, idx => idx.Index("students"));
                 }
                 
