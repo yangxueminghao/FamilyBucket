@@ -5,6 +5,9 @@ using Spire.OCR;
 using System.Drawing;
 using Bucket.ImgVerifyCode;
 using System.Drawing.Imaging;
+using System.Text.Encodings;
+using System.Text;
+using System.Collections.Generic;
 
 namespace Bucket.Utility.Test
 {
@@ -106,6 +109,37 @@ namespace Bucket.Utility.Test
             bitmap.Save(@$"{path}\bitmapRet31.png", ImageFormat.Png);
 
             Assert.True(1 == 1);
+
+        }
+        [Fact]
+        public void TestBit()
+        {
+            var str = "AAAAAAAAAABCC";
+            var bytes = Encoding.ASCII.GetBytes(str);
+            StringBuilder sb = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+            foreach (var byt in bytes)
+            {
+                var bin = Convert.ToString(byt, 2).PadLeft(8, '0').Trim();
+                sb.Append(bin);
+            }
+            var result = sb.ToString();
+            List<bool> isSign = new List<bool>();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                for (int j= 0; j < 8; j++)
+                {
+                    bool isTrue = bytes[i] / (Convert.ToInt16(Math.Pow(2, 7))) == 1;
+                    bytes[i] = (byte)(bytes[i] << (byte)1);
+
+                    isSign.Add(isTrue);
+                    sb2.Append(isTrue ? 1 : 0);
+                }
+                
+
+            }
+            var ret2 = sb2.ToString();
+            Assert.True(ret2 == result);
 
         }
     }
