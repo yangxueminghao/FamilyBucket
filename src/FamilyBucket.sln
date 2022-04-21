@@ -265,7 +265,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bat", "Bat", "{CFB338E4-A35
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Config.AgileConfigClient", "Config\Bucket.Config.AgileConfigClient\Bucket.Config.AgileConfigClient.csproj", "{5A8503DF-CEA4-4860-BF94-7577128A1F0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.Images.Console", "FamilyBucket.Images.Console\FamilyBucket.Images.Console.csproj", "{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.Images.Console", "FamilyBucket.Images.Console\FamilyBucket.Images.Console.csproj", "{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
