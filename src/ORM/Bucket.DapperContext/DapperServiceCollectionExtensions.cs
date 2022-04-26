@@ -36,7 +36,7 @@ namespace Bucket.DapperContext
 
                     });
                 if (contextLifetime == ServiceLifetime.Singleton)
-                    services.AddScoped<IDbConnection>(s =>
+                    services.AddSingleton<IDbConnection>(s =>
                     {
                         if (connectOptions.DbType == DbTypeEnum.Mysql)
                         {
@@ -46,7 +46,7 @@ namespace Bucket.DapperContext
 
                     });
                 if (contextLifetime == ServiceLifetime.Transient)
-                    services.AddScoped<IDbConnection>(s =>
+                    services.AddTransient<IDbConnection>(s =>
                     {
                         if (connectOptions.DbType == DbTypeEnum.Mysql)
                         {

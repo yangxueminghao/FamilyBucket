@@ -42,11 +42,16 @@ namespace Bucket.DapperContext.Dapper
         }
         public IEnumerable<T> Query(string cmdStr, IDictionary<string, object> prams)
         {
-            if (_dbConnection.State != ConnectionState.Closed)
+            //if (_dbConnection.State == ConnectionState.Closed)
+            //{
+            //    _dbConnection.Open();
+            //}
+            using (_dbConnection)
             {
-                _dbConnection.Close();
+               
+                return _dbConnection.Query<T>(cmdStr, prams);
             }
-            return _dbConnection.Query<T>(cmdStr, prams);
+            
         }
 
     }
