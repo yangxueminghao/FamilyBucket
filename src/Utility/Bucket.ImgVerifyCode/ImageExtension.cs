@@ -100,5 +100,20 @@ namespace Bucket.ImgVerifyCode
             imgSrc.Dispose();
             return dest;
         }
+
+        public static Image FillRectangle(this Image imgSrc,  Rectangle layoutRectangle,Color color)
+        {
+            using (Graphics g = Graphics.FromImage(imgSrc))
+            {
+                using (Brush brush=new SolidBrush(color))
+                {
+                    g.FillRectangle(brush, layoutRectangle);
+                }
+                
+
+            }
+            imgSrc.Dispose();
+            return imgSrc;
+        }
     }
 }

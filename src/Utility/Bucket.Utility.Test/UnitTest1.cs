@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using Xunit;
 using System.IO;
 using Spire.OCR;
@@ -16,25 +16,25 @@ namespace Bucket.Utility.Test
         [Fact]
         public void TestExcel()
         {
-            var result = ExcelHelper.ReadFromExcelFile(@"C:\Users\EDZ\Desktop\¡¾TOC¡¿NFVÈıÆÚ£¨º¬µØÖ·Ç¨ÒÆ£©GnµØÖ··ÖÊ¡Çé¿ö-20211221(1)(1)(1).xlsx");
-            ExcelHelper.WriteToExcel(@"C:\Users\EDZ\Documents\WeChat Files\wxid_y65p5ljamjxh22\FileStorage\File\2021-12\¡¾TOC¡¿NFVÈıÆÚ£¨º¬µØÖ·Ç¨ÒÆ£©GnµØÖ··ÖÊ¡Çé¿ö-20211221(16½øÖÆ)(3).xlsx", result);
+            var result = ExcelHelper.ReadFromExcelFile(@"C:\Users\EDZ\Desktop\ã€TOCã€‘NFVä¸‰æœŸï¼ˆå«åœ°å€è¿ç§»ï¼‰Gnåœ°å€åˆ†çœæƒ…å†µ-20211221(1)(1)(1).xlsx");
+            ExcelHelper.WriteToExcel(@"C:\Users\EDZ\Documents\WeChat Files\wxid_y65p5ljamjxh22\FileStorage\File\2021-12\ã€TOCã€‘NFVä¸‰æœŸï¼ˆå«åœ°å€è¿ç§»ï¼‰Gnåœ°å€åˆ†çœæƒ…å†µ-20211221(16è¿›åˆ¶)(3).xlsx", result);
             Assert.Equal(1, 1);
 
         }
         [Fact]
         public void TestRegex()
         {
-            //ReadFromExcelFile(@"H:\°à¼¶ÎÄ¼ş£¨15Èí¼ş£©\15¼¶Èí¼ş¹¤³Ì°àÃûµ¥.xls");
-            var result = RegexHelper.ReplaceChinese("hsadjfhhÈí¼ş¹¤,weqrweqwer°à¼¶ÎÄ¼şteryrteyrt");
+            //ReadFromExcelFile(@"H:\ç­çº§æ–‡ä»¶ï¼ˆ15è½¯ä»¶ï¼‰\15çº§è½¯ä»¶å·¥ç¨‹ç­åå•.xls");
+            var result = RegexHelper.ReplaceChinese("hsadjfhhè½¯ä»¶å·¥,weqrweqwerç­çº§æ–‡ä»¶teryrteyrt");
             Assert.NotNull(result);
         }
         [Fact]
         public void TestOcr()
         {
-            //ReadFromExcelFile(@"H:\°à¼¶ÎÄ¼ş£¨15Èí¼ş£©\15¼¶Èí¼ş¹¤³Ì°àÃûµ¥.xls");
+            //ReadFromExcelFile(@"H:\ç­çº§æ–‡ä»¶ï¼ˆ15è½¯ä»¶ï¼‰\15çº§è½¯ä»¶å·¥ç¨‹ç­åå•.xls");
             OcrScanner scanner = new OcrScanner();
-            //var isSuc=scanner.Scan(@"D:\ÁÙÊ±ÎÄ¼ş\Î¢ĞÅÍ¼Æ¬_20220331173157.jpg"); 
-            var isSuc = scanner.Scan(@"D:\ÁÙÊ±ÎÄ¼ş\1648721535(1).png");
+            //var isSuc=scanner.Scan(@"D:\ä¸´æ—¶æ–‡ä»¶\å¾®ä¿¡å›¾ç‰‡_20220331173157.jpg"); 
+            var isSuc = scanner.Scan(@"D:\ä¸´æ—¶æ–‡ä»¶\1648721535(1).png");
             var result = scanner.Text.ToString().Replace("Evaluation Warning : The version can be used only for evaluation purpose...", "");
             Assert.NotNull(result);
         }
@@ -49,18 +49,18 @@ namespace Bucket.Utility.Test
             Image imagesmp = Image.FromFile(@$"{path}\1.png");
             var bitmapRet1 = imagebase.UniteImage(30, 27, imageorg.CutEllipse(new Rectangle(0, 0, imageorg.Width, imageorg.Height), new Size(48, 48)));
             bitmapRet1.Save(@$"{path}\bitmapRet01.png", ImageFormat.Png);
-            bitmapRet1 = bitmapRet1.DrawText(86, 37, "±ê¸ç½¡¿µ´óÒ©·¿", "Æ»·½-¼ò", 20, Color.White);
+            bitmapRet1 = bitmapRet1.DrawText(86, 37, "æ ‡å“¥å¥åº·å¤§è¯æˆ¿", "è‹¹æ–¹-ç®€", 20, Color.White);
             bitmapRet1.Save(@$"{path}\bitmapRet02.png", ImageFormat.Png);
             var bitmapRet2 = bitmapRet1.UniteImage(45, 123, imagemed.Resize(285, 285)); //0XFF0000
-            bitmapRet2 = bitmapRet2.DrawText(99, 408, "»î¶¯¼Û £¤", "Æ»·½-¼ò", 20, Color.FromArgb(255, 0, 0));
-            bitmapRet2 = bitmapRet2.DrawText(192, 400, "489.00", "Æ»·½-¼ò", 30, Color.FromArgb(255, 0, 0));
+            bitmapRet2 = bitmapRet2.DrawText(99, 408, "æ´»åŠ¨ä»· ï¿¥", "è‹¹æ–¹-ç®€", 20, Color.FromArgb(255, 0, 0));
+            bitmapRet2 = bitmapRet2.DrawText(192, 400, "489.00", "è‹¹æ–¹-ç®€", 30, Color.FromArgb(255, 0, 0));
             bitmapRet2.Save(@$"{path}\bitmapRet21.png", ImageFormat.Png);
-            bitmapRet2 = bitmapRet2.DrawText(171, 452, "£¤689.00", "Æ»·½-¼ò", 20, Color.FromArgb(102, 102, 102));
+            bitmapRet2 = bitmapRet2.DrawText(171, 452, "ï¿¥689.00", "è‹¹æ–¹-ç®€", 20, Color.FromArgb(102, 102, 102));
             bitmapRet2 = bitmapRet2.DrawLine(new Point(171, 463), new Point(240 + 20, 463), Color.FromArgb(102, 102, 102));
             bitmapRet2.Save(@$"{path}\bitmapRet22.png", ImageFormat.Png);
-            bitmapRet2 = bitmapRet2.DrawRectangleText(new RectangleF(44, 491, 196, 44), "±´¶ù(Bubs)Ó¤Ó×¶ùÓĞ»ú²İËÇÅ£ÄÌ·Û3¶Î", "Æ»·½-¼ò", 16, Color.FromArgb(51, 51, 51), FontStyle.Bold);
+            bitmapRet2 = bitmapRet2.DrawRectangleText(new RectangleF(44, 491, 196, 44), "è´å„¿(Bubs)å©´å¹¼å„¿æœ‰æœºè‰é¥²ç‰›å¥¶ç²‰3æ®µ", "è‹¹æ–¹-ç®€", 16, Color.FromArgb(51, 51, 51), FontStyle.Bold);
             bitmapRet2.Save(@$"{path}\bitmapRet23.png", ImageFormat.Png);
-            bitmapRet2 = bitmapRet2.DrawText(44, 543, "Á¢¼´É¨Âë²ÎÓë°É", "Æ»·½-¼ò", 16, Color.FromArgb(51, 51, 51));
+            bitmapRet2 = bitmapRet2.DrawText(44, 543, "ç«‹å³æ‰«ç å‚ä¸å§", "è‹¹æ–¹-ç®€", 16, Color.FromArgb(51, 51, 51));
             bitmapRet2.Save(@$"{path}\bitmapRet2.png", ImageFormat.Png);
             var bitmapRet3 = bitmapRet2.UniteImage(261, 491, imagesmp.Resize(71, 69));
             bitmapRet3.Save(@$"{path}\bitmapRet3.png", ImageFormat.Png);
@@ -71,25 +71,86 @@ namespace Bucket.Utility.Test
         public void TestImageHelper2()
         {
             var path = @"C:\Users\EDZ\Desktop\images";
+            //Image imagebase = Image.FromFile(@$"{path}\base2x.png");
             Image imagebase = Image.FromFile(@$"{path}\base2x.png");
 
             Image imagemed = Image.FromFile(@$"{path}\1.png");
             Image imageorg = Image.FromFile(@$"{path}\1.png");
             Image imagesmp = Image.FromFile(@$"{path}\o=19537&a=20&m=38.jpg");
+            Image imageyh = Image.FromFile(@$"{path}\icon_youhui@2x.png");
+            Image imagemb = Image.FromFile(@$"{path}\icon_manbingguanli@2x.png");
+            Image imagejk = Image.FromFile(@$"{path}\icon_jiankangzice@2x.png");
             var bitmapRet1 = imagebase.UniteImage(30 * 2, 27 * 2, imageorg.CutEllipse(new Rectangle(0, 0, imageorg.Width, imageorg.Height), new Size(48 * 2, 48 * 2)));
             bitmapRet1.Save(@$"{path}\bitmapRet01.png", ImageFormat.Png);
-            bitmapRet1 = bitmapRet1.DrawText(86 * 2, 37 * 2, "±ê¸ç½¡¿µ´óÒ©·¿", "Æ»·½-¼ò", 20 * 2, Color.White);
+            bitmapRet1 = bitmapRet1.DrawText(86 * 2, 37 * 2, "æ ‡å“¥å¥åº·å¤§è¯æˆ¿", "è‹¹æ–¹-ç®€", 20 * 2, Color.White);
+
+            bitmapRet1 = bitmapRet1.UniteImage(86 * 2, 60 * 2, imageyh.Resize(16 * 2, 16 * 2));
+            bitmapRet1 = bitmapRet1.DrawText(104 * 2, 60 * 2, "ç‰¹ä»·ä¼˜æƒ ", "è‹¹æ–¹-ç®€", 14 * 2, Color.White);
+            bitmapRet1 = bitmapRet1.UniteImage(175 * 2, 60 * 2, imagemb.Resize(16 * 2, 16 * 2));
+            bitmapRet1 = bitmapRet1.DrawText(193 * 2, 60 * 2, "æ…¢ç—…ç®¡ç†", "è‹¹æ–¹-ç®€", 14 * 2, Color.White);
+            bitmapRet1 = bitmapRet1.UniteImage(264 * 2, 60 * 2, imagejk.Resize(16 * 2, 16 * 2));
+            bitmapRet1 = bitmapRet1.DrawText(282 * 2, 60 * 2, "å¥åº·è‡ªæµ‹", "è‹¹æ–¹-ç®€", 14 * 2, Color.White);
+
             bitmapRet1.Save(@$"{path}\bitmapRet02.png", ImageFormat.Png);
             var bitmapRet2 = bitmapRet1.UniteImage(45 * 2, 123 * 2, imagemed.Resize(285 * 2, 285 * 2)); //0XFF0000
-            bitmapRet2 = bitmapRet2.DrawText(99 * 2, 408 * 2, "»î¶¯¼Û £¤", "Æ»·½-¼ò", 20 * 2, Color.FromArgb(255, 0, 0));
-            bitmapRet2 = bitmapRet2.DrawText(192 * 2, 400 * 2, "489.00", "Æ»·½-¼ò", 30 * 2, Color.FromArgb(255, 0, 0));
+            //bitmapRet2 = bitmapRet2.DrawText(99 * 2, 408 * 2, "æ´»åŠ¨ä»· ï¿¥", "è‹¹æ–¹-ç®€", 20 * 2, Color.FromArgb(255, 0, 0));
+            //bitmapRet2 = bitmapRet2.DrawText(192 * 2, 400 * 2, "489.00", "è‹¹æ–¹-ç®€", 30 * 2, Color.FromArgb(255, 0, 0));
+
+            bitmapRet2 = bitmapRet2.DrawRectangleText(new RectangleF(45 * 2, 418 * 2, 285 * 2, 28 * 2), "è´å„¿(Bubs)å©´å¹¼å„¿æœ‰æœºè‰é¥²ç‰›å¥¶ç²‰3æ®µ", "è‹¹æ–¹-ç®€", 16 * 2, Color.FromArgb(51, 51, 51), FontStyle.Bold);
+
             bitmapRet2.Save(@$"{path}\bitmapRet21.png", ImageFormat.Png);
-            bitmapRet2 = bitmapRet2.DrawText(171 * 2, 452 * 2, "£¤689.00", "Æ»·½-¼ò", 20 * 2, Color.FromArgb(102, 102, 102));
-            bitmapRet2 = bitmapRet2.DrawLine(new Point(171 * 2, 463 * 2), new Point((240 + 20) * 2, 463 * 2), Color.FromArgb(102, 102, 102));
+            //bitmapRet2 = bitmapRet2.DrawText(171 * 2, 452 * 2, "ï¿¥689.00", "è‹¹æ–¹-ç®€", 20 * 2, Color.FromArgb(102, 102, 102));
+            //bitmapRet2 = bitmapRet2.DrawLine(new Point(171 * 2, 463 * 2), new Point((240 + 20) * 2, 463 * 2), Color.FromArgb(102, 102, 102));
             bitmapRet2.Save(@$"{path}\bitmapRet22.png", ImageFormat.Png);
-            bitmapRet2 = bitmapRet2.DrawRectangleText(new RectangleF(44 * 2, 491 * 2, 196 * 2, 44 * 2), "±´¶ù(Bubs)Ó¤Ó×¶ùÓĞ»ú²İËÇÅ£ÄÌ·Û3¶Î", "Æ»·½-¼ò", 16 * 2, Color.FromArgb(51, 51, 51), FontStyle.Bold);
+
+            //bitmapRet2 = bitmapRet2.DrawRectangleText(new RectangleF(44 * 2, 491 * 2, 196 * 2, 44 * 2), "è´å„¿(Bubs)å©´å¹¼å„¿æœ‰æœºè‰é¥²ç‰›å¥¶ç²‰3æ®µ", "è‹¹æ–¹-ç®€", 16 * 2, Color.FromArgb(51, 51, 51), FontStyle.Bold);
             bitmapRet2.Save(@$"{path}\bitmapRet23.png", ImageFormat.Png);
-            bitmapRet2 = bitmapRet2.DrawText(44 * 2, 543 * 2, "Á¢¼´É¨Âë²ÎÓë°É", "Æ»·½-¼ò", 16 * 2, Color.FromArgb(51, 51, 51));
+            bitmapRet2 = bitmapRet2.DrawText(44 * 2, 543 * 2, "ç«‹å³æ‰«ç å‚ä¸å§", "è‹¹æ–¹-ç®€", 16 * 2, Color.FromArgb(51, 51, 51));
+            bitmapRet2.Save(@$"{path}\bitmapRet2.png", ImageFormat.Png);
+            //var bitmapRet3 = bitmapRet2.UniteImage((261 - 30) * 2, (491 - 15) * 2, imagesmp.Resize2((71 + 40) * 2, (71 + 40) * 2));
+            var bitmapRet3 = bitmapRet2.UniteImage((261) * 2, (491) * 2, imagesmp.Resize2((71) * 2, (71) * 2));
+            bitmapRet3.Save(@$"{path}\bitmapRet3.png", ImageFormat.Png);
+            Assert.True(1 == 1);
+
+        }
+
+        [Fact]
+        public void TestImageHelper4()
+        {
+            var path = @"C:\Users\EDZ\Desktop\images";
+            //Image imagebase = Image.FromFile(@$"{path}\base2x.png");
+            Image imagebase = Image.FromFile(@$"{path}\base2@2x.png");
+
+            Image imagemed = Image.FromFile(@$"{path}\1.png");
+            Image imageorg = Image.FromFile(@$"{path}\1.png");
+            Image imagesmp = Image.FromFile(@$"{path}\o=19537&a=20&m=38.jpg");
+
+            var bitmapRet1 = imagebase.UniteImage(30 * 2, 27 * 2, imageorg.CutEllipse(new Rectangle(0, 0, imageorg.Width, imageorg.Height), new Size(48 * 2, 48 * 2)));
+            bitmapRet1.Save(@$"{path}\bitmapRet01.png", ImageFormat.Png);
+            bitmapRet1 = bitmapRet1.DrawText(86 * 2, 37 * 2, "æ ‡å“¥å¥åº·å¤§è¯æˆ¿", "è‹¹æ–¹-ç®€", 20 * 2, Color.White);
+
+            bitmapRet1.Save(@$"{path}\bitmapRet02.png", ImageFormat.Png);
+            var bitmapRet2 = bitmapRet1.UniteImage(45 * 2, 123 * 2, imagemed.Resize(285 * 2, 285 * 2)); //0XFF0000
+            //bitmapRet2 = bitmapRet2.DrawText(99 * 2, 408 * 2, "æ´»åŠ¨ä»· ï¿¥", "è‹¹æ–¹-ç®€", 20 * 2, Color.FromArgb(255, 0, 0));
+            //bitmapRet2 = bitmapRet2.DrawText(192 * 2, 400 * 2, "489.00", "è‹¹æ–¹-ç®€", 30 * 2, Color.FromArgb(255, 0, 0));
+
+            bitmapRet2 = bitmapRet2.DrawRectangleText(new RectangleF(45 * 2, 418 * 2, 285 * 2, (28 * 2) * 2), "è´å„¿(Bubs)å©´å¹¼å„¿æœ‰æœºè‰é¥²ç‰›å¥¶ç²‰3æ®µ", "è‹¹æ–¹-ç®€", 20 * 2, Color.FromArgb(51, 51, 51), FontStyle.Bold);
+
+            bitmapRet2.Save(@$"{path}\bitmapRet21.png", ImageFormat.Png);
+
+
+
+            bitmapRet2 = bitmapRet2.DrawText(103 * 2, (471 + 5) * 2, "Â¥ 489.00", "è‹¹æ–¹-ç®€", 20 * 2, Color.FromArgb(255, 0, 0));
+
+            bitmapRet2 = bitmapRet2.DrawText(197 * 2, (int)((478.5 + 5) * 2), "Â¥ 689.00", "è‹¹æ–¹-ç®€", 12 * 2, Color.FromArgb(153, 153, 153), FontStyle.Strikeout);
+            //bitmapRet2 = bitmapRet2.DrawLine(new Point(171 * 2, 463 * 2), new Point((240 + 20) * 2, 463 * 2), Color.FromArgb(102, 102, 102));
+
+
+            bitmapRet2.Save(@$"{path}\bitmapRet22.png", ImageFormat.Png);
+
+            //bitmapRet2 = bitmapRet2.DrawRectangleText(new RectangleF(44 * 2, 491 * 2, 196 * 2, 44 * 2), "è´å„¿(Bubs)å©´å¹¼å„¿æœ‰æœºè‰é¥²ç‰›å¥¶ç²‰3æ®µ", "è‹¹æ–¹-ç®€", 16 * 2, Color.FromArgb(51, 51, 51), FontStyle.Bold);
+            bitmapRet2.Save(@$"{path}\bitmapRet23.png", ImageFormat.Png);
+            //bitmapRet2 = bitmapRet2.DrawText(44 * 2, 543 * 2, "ç«‹å³æ‰«ç å‚ä¸å§", "è‹¹æ–¹-ç®€", 16 * 2, Color.FromArgb(51, 51, 51));
             bitmapRet2.Save(@$"{path}\bitmapRet2.png", ImageFormat.Png);
             //var bitmapRet3 = bitmapRet2.UniteImage((261 - 30) * 2, (491 - 15) * 2, imagesmp.Resize2((71 + 40) * 2, (71 + 40) * 2));
             var bitmapRet3 = bitmapRet2.UniteImage((261) * 2, (491) * 2, imagesmp.Resize2((71) * 2, (71) * 2));
@@ -127,7 +188,7 @@ namespace Bucket.Utility.Test
             List<bool> isSign = new List<bool>();
             for (int i = 0; i < bytes.Length; i++)
             {
-                for (int j= 0; j < 8; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     bool isTrue = bytes[i] / (Convert.ToInt16(Math.Pow(2, 7))) == 1;
                     bytes[i] = (byte)(bytes[i] << (byte)1);
@@ -135,12 +196,19 @@ namespace Bucket.Utility.Test
                     isSign.Add(isTrue);
                     sb2.Append(isTrue ? 1 : 0);
                 }
-                
+
 
             }
             var ret2 = sb2.ToString();
             Assert.True(ret2 == result);
 
         }
+        [Fact]
+        public void TestImage()
+        {
+
+
+        }
+
     }
 }
