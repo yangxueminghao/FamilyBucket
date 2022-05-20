@@ -10,3 +10,7 @@ github https://github.com/
 开源中国 https://www.oschina.net/
 码云 https://gitee.com/
 elementui https://element.eleme.cn/#/zh-CN
+npm包源 https://www.npmjs.com/
+nuget包源 https://api.nuget.org/v3/index.json
+maven包源 https://mvnrepository.com/
+dockerhub https://hub.docker.com/
