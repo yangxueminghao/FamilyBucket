@@ -250,6 +250,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\ngrok2.sh = Shell\ngrok2.sh
 		Shell\phpMyadmin.sh = Shell\phpMyadmin.sh
 		Shell\pxc.sh = Shell\pxc.sh
+		readme.txt = readme.txt
 		Shell\redis.sh = Shell\redis.sh
 		Shell\rediscluster.sh = Shell\rediscluster.sh
 		Shell\rediscluster2.sh = Shell\rediscluster2.sh
@@ -268,9 +269,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Config.AgileConfigCl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.Images.Console", "FamilyBucket.Images.Console\FamilyBucket.Images.Console.csproj", "{947B49F0-6B23-4B7C-A039-C0B2C2FC2598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Event.Kafka", "EventBus\Bucket.Event.Kafka\Bucket.Event.Kafka.csproj", "{0F2985F5-DA25-4DD0-8C54-4FC9CE16CE8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Event.Kafka", "EventBus\Bucket.Event.Kafka\Bucket.Event.Kafka.csproj", "{0F2985F5-DA25-4DD0-8C54-4FC9CE16CE8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.EventBus.Tests", "EventBus\Bucket.EventBus.Tests\Bucket.EventBus.Tests.csproj", "{E190A404-89FF-40E9-83E0-7503B8C7866E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.EventBus.Tests", "EventBus\Bucket.EventBus.Tests\Bucket.EventBus.Tests.csproj", "{E190A404-89FF-40E9-83E0-7503B8C7866E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Family.VideoTests", "Utility\Family.VideoTests\Family.VideoTests.csproj", "{04C40D39-DDD1-4287-B751-537A1FC37D0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Family.Framework", "Utility\Family.Framework\Family.Framework.csproj", "{815CA969-D3B4-4147-B797-576866F5C39C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -598,6 +603,14 @@ Global
 		{E190A404-89FF-40E9-83E0-7503B8C7866E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E190A404-89FF-40E9-83E0-7503B8C7866E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E190A404-89FF-40E9-83E0-7503B8C7866E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C40D39-DDD1-4287-B751-537A1FC37D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C40D39-DDD1-4287-B751-537A1FC37D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C40D39-DDD1-4287-B751-537A1FC37D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C40D39-DDD1-4287-B751-537A1FC37D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{815CA969-D3B4-4147-B797-576866F5C39C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815CA969-D3B4-4147-B797-576866F5C39C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{815CA969-D3B4-4147-B797-576866F5C39C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{815CA969-D3B4-4147-B797-576866F5C39C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -684,6 +697,8 @@ Global
 		{947B49F0-6B23-4B7C-A039-C0B2C2FC2598} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
 		{0F2985F5-DA25-4DD0-8C54-4FC9CE16CE8D} = {CAAD2A94-B46B-4D18-8B36-C0C9DD03117B}
 		{E190A404-89FF-40E9-83E0-7503B8C7866E} = {CAAD2A94-B46B-4D18-8B36-C0C9DD03117B}
+		{04C40D39-DDD1-4287-B751-537A1FC37D0B} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
+		{815CA969-D3B4-4147-B797-576866F5C39C} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA0759A0-104C-4213-9D48-D4F7E3E74EEB}
