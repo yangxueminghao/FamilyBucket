@@ -48,7 +48,7 @@ namespace FamilyBucket.ElasticSearch.Client.Job
                 }
                 Dictionary<string, object> para = new Dictionary<string, object>();
                 string recordTime = File.ReadAllText(filePath);
-                var lastUpdateTime = string.IsNullOrWhiteSpace(recordTime) ? DateTime.MinValue : DateTime.Parse(recordTime);
+                var lastUpdateTime = string.IsNullOrWhiteSpace(recordTime) ? DateTime.MinValue : DateTime.Parse(recordTime).AddHours(-8);
                 para.Add("lastUpdateTime", lastUpdateTime);
                 var students = _repository.Query("select * from student where updatetime>@lastUpdateTime", para);
                 _elasticClient = scope.ServiceProvider.GetService<IElasticClient>();

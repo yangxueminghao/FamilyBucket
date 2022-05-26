@@ -43,7 +43,7 @@ namespace FamilyBucket.ElasticSearch.Client
             });
             services.AddElasticSearch();
             services.AddHostedService<MedicationJob>();
-            services.AddDapperDbContext()
+            services.AddDapperDbContext(contextLifetime:ServiceLifetime.Transient)
                 .AddDapperDbRepository();
             services.AddSwaggerGen(option =>
             {
