@@ -12,7 +12,7 @@ namespace FamilyBucket.RulesEngine.Tests
         public static string GetLamdaExpression(ChronicRule chronicRule)
         {
             StringBuilder sb = new StringBuilder();
-            if (chronicRule.ChildRules == null || chronicRule.ChildRules.Count < 2)
+            if (chronicRule == null || chronicRule.ChildRules == null || chronicRule.ChildRules.Count < 2)
             {
                 return sb.ToString();
             }
@@ -20,13 +20,16 @@ namespace FamilyBucket.RulesEngine.Tests
             {
                 for (int i = 0; i < chronicRule.ChildRules.Count; i++)
                 {
-                    if (i == 0)
+                    if (chronicRule.ChildRules[i] != null)
                     {
-                        sb.Append($"({GetLamdaExpressionItem(chronicRule.ChildRules[i])})");
-                    }
-                    else
-                    {
-                        sb.Append($" {chronicRule.Operation} ({GetLamdaExpressionItem(chronicRule.ChildRules[i])})");
+                        if (i == 0)
+                        {
+                            sb.Append($"({GetLamdaExpressionItem(chronicRule.ChildRules[i])})");
+                        }
+                        else
+                        {
+                            sb.Append($" {chronicRule.Operation} ({GetLamdaExpressionItem(chronicRule.ChildRules[i])})");
+                        }
                     }
                 }
                 return sb.ToString();
@@ -36,7 +39,11 @@ namespace FamilyBucket.RulesEngine.Tests
         private static string GetLamdaExpressionItem(ChronicChildRule chronicChildRule)
         {
             StringBuilder sb = new StringBuilder();
-            if (chronicChildRule.ChildRules == null || chronicChildRule.ChildRules.Count < 2)
+            if (chronicChildRule == null)
+            {
+                return sb.ToString();
+            }
+            else if (chronicChildRule.ChildRules == null || chronicChildRule.ChildRules.Count < 2)
             {
                 return $"{chronicChildRule.FieldName}{chronicChildRule.FieldOperation}{chronicChildRule.FieldValue}";
             }
@@ -60,7 +67,7 @@ namespace FamilyBucket.RulesEngine.Tests
         public static HashSet<string> GetParas(ChronicRule chronicRule)
         {
             HashSet<string> hash = new HashSet<string>();
-            if (chronicRule.ChildRules == null || chronicRule.ChildRules.Count < 2)
+            if (chronicRule == null || chronicRule.ChildRules == null || chronicRule.ChildRules.Count < 2)
             {
                 return hash;
             }
@@ -68,7 +75,11 @@ namespace FamilyBucket.RulesEngine.Tests
             {
                 for (int i = 0; i < chronicRule.ChildRules.Count; i++)
                 {
-                    hash.UnionWith(GetParasItem(chronicRule.ChildRules[i]));
+                    if (chronicRule.ChildRules[i] != null)
+                    {
+                        hash.UnionWith(GetParasItem(chronicRule.ChildRules[i]));
+                    }
+                    
                 }
                 return hash;
             }
@@ -77,14 +88,17 @@ namespace FamilyBucket.RulesEngine.Tests
         private static HashSet<string> GetParasItem(ChronicChildRule chronicChildRule)
         {
             HashSet<string> hash = new HashSet<string>();
+            if (chronicChildRule == null)
+            {
+                return hash;
+            }
+            hash.Add(chronicChildRule.FieldName);
             if (chronicChildRule.ChildRules == null || chronicChildRule.ChildRules.Count < 2)
             {
-                hash.Add(chronicChildRule.FieldName);
                 return hash;
             }
             else
             {
-                hash.Add(chronicChildRule.FieldName);
                 for (int i = 0; i < chronicChildRule.ChildRules.Count; i++)
                 {
                     hash.UnionWith(GetParasItem(chronicChildRule.ChildRules[i]));
