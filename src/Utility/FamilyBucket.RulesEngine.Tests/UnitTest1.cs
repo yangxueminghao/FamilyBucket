@@ -25,7 +25,7 @@ namespace FamilyBucket.RulesEngine.Tests
         [Fact]
         public void TestChronicRule()
         {
-            ChronicRule chronicRule = new ChronicRule { Operation = "&&" };
+            ChronicChildRule chronicRule = new ChronicChildRule { Operation = "&&" };
             chronicRule.ChildRules = new List<ChronicChildRule>();
             chronicRule.ChildRules.Add(new ChronicChildRule
             {
@@ -136,7 +136,10 @@ namespace FamilyBucket.RulesEngine.Tests
                 }
             });
             string lamda = ExpressonHelper.GetLamdaExpression(chronicRule);
+            string lamda2 = ExpressonHelper.GetLamdaExpressionItem(chronicRule);
+            
             var set = ExpressonHelper.GetParas(chronicRule);
+            var set2 = ExpressonHelper.GetParasItem(chronicRule);
             Assert.True(1 == 1);
 
         }

@@ -36,7 +36,7 @@ namespace FamilyBucket.RulesEngine.Tests
             }
         }
 
-        private static string GetLamdaExpressionItem(ChronicChildRule chronicChildRule)
+        public static string GetLamdaExpressionItem(ChronicChildRule chronicChildRule)
         {
             StringBuilder sb = new StringBuilder();
             if (chronicChildRule == null)
@@ -87,7 +87,7 @@ namespace FamilyBucket.RulesEngine.Tests
             }
         }
 
-        private static HashSet<(string, string)> GetParasItem(ChronicChildRule chronicChildRule)
+        public static HashSet<(string, string)> GetParasItem(ChronicChildRule chronicChildRule)
         {
             HashSet<(string, string)> hash = new HashSet<(string, string)>();
             if (chronicChildRule == null)
