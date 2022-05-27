@@ -37,11 +37,11 @@ namespace FamilyBucket.RulesEngine.Tests
             });
             chronicRule.ChildRules.Add(new ChronicChildRule
             {
-                FieldGroup = "2",
-                FieldCode = "0002",
-                FieldName = "Height",
-                FieldOperation = "<",
-                FieldValue = "145",
+                //FieldGroup = "2",
+                //FieldCode = "0002",
+                //FieldName = "Height",
+                //FieldOperation = "<",
+                //FieldValue = "145",
                 Operation = "||",
                 ChildRules = new List<ChronicChildRule> {
                     new ChronicChildRule {
@@ -63,30 +63,37 @@ namespace FamilyBucket.RulesEngine.Tests
                         FieldName = "Weight2",
                         FieldOperation = ">",
                         FieldValue = "245"
+                    },new ChronicChildRule {
+                        FieldGroup = "2",
+                        FieldCode = "00023",
+                        FieldName = "Weight2",
+                        FieldOperation = ">",
+                        FieldValue = "245"
                     }
 
                 }
             });
             chronicRule.ChildRules.Add(new ChronicChildRule
             {
-                FieldCode = "0003",
-                FieldName = "Weight",
-                FieldOperation = ">",
-                FieldValue = "149",
-                FieldGroup = "1",
+                //FieldCode = "0003",
+                //FieldName = "Weight",
+                //FieldOperation = ">",
+                //FieldValue = "149",
+                //FieldGroup = "1",
                 Operation = "||",
                 ChildRules = new List<ChronicChildRule> {
                         new ChronicChildRule
                         {
-                            FieldGroup = "3",
-                            FieldCode = "00031",
-                            FieldName = "Age3",
-                            FieldOperation = "<",
-                            FieldValue = "453",
+                            //FieldGroup = "3",
+                            //FieldCode = "00031",
+                            //FieldName = "Age3",
+                            //FieldOperation = "<",
+                            //FieldValue = "453",
                             Operation = "&&",
                             ChildRules = new List<ChronicChildRule> {
                                     new ChronicChildRule
                                     {
+                                        FieldGroup = "3",
                                         FieldCode = "000311",
                                         FieldName = "Age31",
                                         FieldOperation = "<",
@@ -94,6 +101,7 @@ namespace FamilyBucket.RulesEngine.Tests
                                     },
                                     new ChronicChildRule
                                     {
+                                        FieldGroup = "3",
                                         FieldCode = "000312",
                                         FieldName = "Height31",
                                         FieldOperation = "<",
@@ -101,6 +109,7 @@ namespace FamilyBucket.RulesEngine.Tests
                                     },
                                     new ChronicChildRule
                                     {
+                                        FieldGroup = "3",
                                         FieldCode = "000313",
                                         FieldName = "Weight31",
                                         FieldOperation = ">",

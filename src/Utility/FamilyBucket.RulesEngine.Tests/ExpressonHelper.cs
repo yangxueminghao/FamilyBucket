@@ -49,6 +49,7 @@ namespace FamilyBucket.RulesEngine.Tests
             }
             else
             {
+                //sb.Append($"(({chronicChildRule.FieldName}{chronicChildRule.FieldOperation}{chronicChildRule.FieldValue}) {chronicChildRule.Operation}");
                 for (int i = 0; i < chronicChildRule.ChildRules.Count; i++)
                 {
                     if (i == 0)
@@ -60,13 +61,14 @@ namespace FamilyBucket.RulesEngine.Tests
                         sb.Append($" {chronicChildRule.Operation} ({GetLamdaExpressionItem(chronicChildRule.ChildRules[i])})");
                     }
                 }
+                //sb.Append(")");
                 return sb.ToString();
             }
         }
 
-        public static HashSet<string> GetParas(ChronicRule chronicRule)
+        public static HashSet<(string,string)> GetParas(ChronicRule chronicRule)
         {
-            HashSet<string> hash = new HashSet<string>();
+            HashSet<(string, string)> hash = new HashSet<(string, string)>();
             if (chronicRule == null || chronicRule.ChildRules == null || chronicRule.ChildRules.Count < 2)
             {
                 return hash;
@@ -85,16 +87,17 @@ namespace FamilyBucket.RulesEngine.Tests
             }
         }
 
-        private static HashSet<string> GetParasItem(ChronicChildRule chronicChildRule)
+        private static HashSet<(string, string)> GetParasItem(ChronicChildRule chronicChildRule)
         {
-            HashSet<string> hash = new HashSet<string>();
+            HashSet<(string, string)> hash = new HashSet<(string, string)>();
             if (chronicChildRule == null)
             {
                 return hash;
             }
-            hash.Add(chronicChildRule.FieldName);
+            
             if (chronicChildRule.ChildRules == null || chronicChildRule.ChildRules.Count < 2)
             {
+                hash.Add((chronicChildRule.FieldName, chronicChildRule.FieldGroup));
                 return hash;
             }
             else
