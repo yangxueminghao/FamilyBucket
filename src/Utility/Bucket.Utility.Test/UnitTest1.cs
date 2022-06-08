@@ -206,9 +206,60 @@ namespace Bucket.Utility.Test
         [Fact]
         public void TestImage()
         {
+            var orginalPicturePath = "Common/202204/2204111227407955457.jpg";
+            var PicturePath = "";
+            if (!string.IsNullOrWhiteSpace(orginalPicturePath))
+            {
+                var index = orginalPicturePath.LastIndexOf('/');
+                PicturePath = orginalPicturePath.Substring(0, index) + "/Thumbnail" + orginalPicturePath.Substring(index);
+                Assert.True(1 == 1);
+            }
+
+        }
+        [Fact]
+        public void TestCopy()
+        {
+            var students = new List<Student>();
+            var stu1 = new Student { Id = 3, Name = "fdskjfjas;j" };
+            students.Add(stu1);
+            students.Add(new Student { Id = 5, Name = "weryhbdh" });
+            //Student stud2 = stu1.Clone() as Student;
+            //stud2.Name = "dsfgjdflkjgsd";
+            var stus = students.Copy() as List<Student>;
+            var stus2 = students;
+            //foreach (var stu in stus)
+            //{
+            //    stu.Name = "bnzcxm,va";
+            //}
+
+            var isTrue=ReferenceEquals(stus, students);
+            isTrue = Equals(stus, students);
+            isTrue = stus == students;
+            isTrue = stus.Equals(students);
+
+            isTrue = ReferenceEquals(stus2, students);
+            isTrue = Equals(stus2, students);
+            isTrue = stus2 == students;
+            isTrue = stus2.Equals(students);
+
+            //Assert.True(ReferenceEquals(stus, students));
+            //Assert.True(Equals(stus, students));
+            //Assert.True(stus == students);
+            //Assert.True(stus.Equals(students));
 
 
         }
 
+    }
+
+    public class Student//:ICloneable
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        //public object Clone()
+        //{
+        //    return this.MemberwiseClone();
+        //}
     }
 }

@@ -250,6 +250,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\ngrok2.sh = Shell\ngrok2.sh
 		Shell\phpMyadmin.sh = Shell\phpMyadmin.sh
 		Shell\pxc.sh = Shell\pxc.sh
+		rabbitMq.sh = rabbitMq.sh
 		readme.txt = readme.txt
 		Shell\redis.sh = Shell\redis.sh
 		Shell\rediscluster.sh = Shell\rediscluster.sh
@@ -277,7 +278,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Family.VideoTests", "Utilit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Family.Framework", "Utility\Family.Framework\Family.Framework.csproj", "{815CA969-D3B4-4147-B797-576866F5C39C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyBucket.RulesEngine.Tests", "Utility\FamilyBucket.RulesEngine.Tests\FamilyBucket.RulesEngine.Tests.csproj", "{EFFFE6F2-C0E3-418C-B8EE-5474DF8D364A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.RulesEngine.Tests", "Utility\FamilyBucket.RulesEngine.Tests\FamilyBucket.RulesEngine.Tests.csproj", "{EFFFE6F2-C0E3-418C-B8EE-5474DF8D364A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
