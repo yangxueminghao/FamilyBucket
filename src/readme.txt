@@ -14,6 +14,7 @@ npm包源 https://www.npmjs.com/
 nuget包源 https://api.nuget.org/v3/index.json
 maven包源 https://mvnrepository.com/
 dockerhub https://hub.docker.com/
+脚本之家 https://www.jb51.net/
 
 GitHub上整理的一些工具
 分类 编程技术
