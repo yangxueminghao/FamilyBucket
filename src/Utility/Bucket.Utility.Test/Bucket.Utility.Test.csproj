@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NPOI" Version="2.5.5" />
     <PackageReference Include="Spire.OCR" Version="1.8.0" />
     <PackageReference Include="xunit" Version="2.4.1" />

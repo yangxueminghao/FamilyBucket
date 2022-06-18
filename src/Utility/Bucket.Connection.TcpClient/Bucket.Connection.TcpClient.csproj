@@ -9,8 +9,4 @@
     <PackageReference Include="RRQMSocket" Version="8.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Utility\Bucket.ImgVerifyCode\Bucket.ImgVerifyCode.csproj" />
-  </ItemGroup>
-
 </Project>

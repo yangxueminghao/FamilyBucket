@@ -127,7 +127,7 @@ namespace Bucket.Utility.Test
 
             var bitmapRet1 = imagebase.UniteImage(30 * 2, 27 * 2, imageorg.CutEllipse(new Rectangle(0, 0, imageorg.Width, imageorg.Height), new Size(48 * 2, 48 * 2)));
             bitmapRet1.Save(@$"{path}\bitmapRet01.png", ImageFormat.Png);
-            bitmapRet1 = bitmapRet1.DrawText(86 * 2, 37 * 2, "标哥健康大药房", "苹方-简", 20 * 2, Color.White);
+            bitmapRet1 = bitmapRet1.DrawText(86 * 2, 37 * 2, "标哥健康\n大金色/白色/粉色药房", "苹方-简", 20 * 2, Color.White);
 
             bitmapRet1.Save(@$"{path}\bitmapRet02.png", ImageFormat.Png);
             var bitmapRet2 = bitmapRet1.UniteImage(45 * 2, 123 * 2, imagemed.Resize(285 * 2, 285 * 2)); //0XFF0000
@@ -206,14 +206,23 @@ namespace Bucket.Utility.Test
         [Fact]
         public void TestImage()
         {
-            var orginalPicturePath = "Common/202204/2204111227407955457.jpg";
-            var PicturePath = "";
-            if (!string.IsNullOrWhiteSpace(orginalPicturePath))
-            {
-                var index = orginalPicturePath.LastIndexOf('/');
-                PicturePath = orginalPicturePath.Substring(0, index) + "/Thumbnail" + orginalPicturePath.Substring(index);
-                Assert.True(1 == 1);
-            }
+            //var orginalPicturePath = "Common/202204/2204111227407955457.jpg";
+            //var PicturePath = "";
+            //if (!string.IsNullOrWhiteSpace(orginalPicturePath))
+            //{
+            //    var index = orginalPicturePath.LastIndexOf('/');
+            //    PicturePath = orginalPicturePath.Substring(0, index) + "/Thumbnail" + orginalPicturePath.Substring(index);
+            //    Assert.True(1 == 1);
+            //}
+
+            var path = @"C:\Users\EDZ\Desktop\images";
+            Image imagebase = Image.FromFile(@$"{path}\base2x.png");
+            var str = ("\n &c=3&d=4&f/空气\n氧吧-南山奖产品(桌面机) 金色/白色/粉色（请在订单页备注颜色）dhsg-kjhfd.png").Replace(@"/", "").Replace(@"\", "").Replace('\n', 'a');
+            var title = (@$"{path}\{str}");
+
+
+            imagebase.Save(title, ImageFormat.Png);
+
 
         }
         [Fact]
@@ -247,6 +256,90 @@ namespace Bucket.Utility.Test
             //Assert.True(stus == students);
             //Assert.True(stus.Equals(students));
 
+
+        }
+
+        [Fact]
+        public void TestImaf()
+        {
+
+            var str = "{\"baseImagePath\":\"hfgd\",\"logoImagePath\":\"\\\\10.12.110.24\\Resource\\Common / 202205 / 2205301750382601812.jpg\",\"wxCodeImagePath\":\"\\\\10.12.110.24\\Resource\\AppletQRCode / 5 / OrgCode / o = 19845 & a = 1384 & m = 3056 & c = 888692 & d = 13.jpg\",\"mainImagePath\":\"\\\\10.12.110.24\\Resource\\Common / 202206 / 2206061145106474648.jpg\",\"title\":\"新起点健康旗舰店\",\"content\":\"空气氧吧 - 南\n山奖产品(桌\n面机) 金色 / 白色 / 粉色（请在订单页备注颜色）\",\"shortContent\":\"森态空气系列分销 & c = 888692 & d = 13_空气氧吧 - 南\n山奖产品(桌\n面机)_1384\",\"orginalPrice\":5999.00,\"actPrice\":5999.00,\"bottomContent\":null}";
+            bool istrue;
+            GenerateCodeImageV2(Newtonsoft.Json.JsonConvert.DeserializeObject<P_CodeImage>(str),out istrue);
+        }
+
+        /// <summary>
+        /// 生成活动商品推广码图片V2
+        /// </summary>
+        /// <param name="CodeImage"></param>
+        /// <returns></returns>
+        public string GenerateCodeImageV2(P_CodeImage CodeImage, out bool isStoreToDb, bool isCompres = false)
+        {
+            isStoreToDb = true;
+            Image bitmapRet;
+            var fileName = $"{ CodeImage.Title?.Replace(@"/", "").Replace(@"\", "")}_{ CodeImage.ShortContent?.Replace(@"/", "").Replace(@"\", "")}.png";
+            try
+            {
+                var path = @"C:\Users\EDZ\Desktop\images";
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                Image imagebase = Image.FromFile(CodeImage.BaseImagePath);
+
+                bitmapRet = imagebase.DrawText(86 * 2, 37 * 2, CodeImage.Title, "苹方-简", 20 * 2, Color.White)
+                                           .DrawText(103 * 2, (471 + 5) * 2, $"¥ {CodeImage.ActPrice.ToString("0.00")}", "苹方-简", 20 * 2, Color.FromArgb(255, 0, 0))
+                                           .DrawText(197 * 2, (int)((478.5 + 5) * 2), $"¥ {CodeImage.OrginalPrice.ToString("0.00")}", "苹方-简", 12 * 2, Color.FromArgb(153, 153, 153), FontStyle.Strikeout)
+                                           .DrawRectangleText(new RectangleF(45 * 2, 418 * 2, 285 * 2, (28 * 2) * 2), CodeImage.Content, "苹方-简", 16 * 2, Color.FromArgb(51, 51, 51), FontStyle.Bold);
+
+                if (File.Exists(CodeImage.LogoImagePath))
+                {
+                    Image imageorg = Image.FromFile(CodeImage.LogoImagePath);
+                    bitmapRet = bitmapRet.UniteImage(30 * 2, 27 * 2, imageorg.CutEllipse(new Rectangle(0, 0, imageorg.Width, imageorg.Height), new Size(48 * 2, 48 * 2)));
+                    imageorg.Dispose();
+                }
+                else
+                {
+                    isStoreToDb = false;
+                }
+                if (File.Exists(CodeImage.WxCodeImagePath))
+                {
+                    Image imagesmp = Image.FromFile(CodeImage.WxCodeImagePath);
+                    bitmapRet = bitmapRet.UniteImage(261 * 2, 491 * 2, imagesmp.Resize(71 * 2, 71 * 2));
+                    imagesmp.Dispose();
+                }
+                else
+                {
+                    isStoreToDb = false;
+                }
+                if (File.Exists(CodeImage.MainImagePath))
+                {
+                    Image imagemed = Image.FromFile(CodeImage.MainImagePath);
+                    bitmapRet = bitmapRet.UniteImage(45 * 2, 123 * 2, imagemed.Resize(285 * 2, 285 * 2));
+                    imagemed.Dispose();
+                }
+                else
+                {
+                    isStoreToDb = false;
+                }
+
+
+                if (isCompres)
+                {
+                    bitmapRet.Save(Path.Combine(path, fileName), ImageFormat.Jpeg);
+                    //ThumbnailHandler.GetPicThumbnail(Path.Combine(path, fileName), Path.Combine(path, ThumbnailHandler.ThumbnailName, fileName), 50);
+                }
+                else
+                {
+                    bitmapRet.Save(Path.Combine(path, fileName), ImageFormat.Png);
+                }
+                bitmapRet.Dispose();
+                
+            }
+            catch (Exception e)
+            {
+               
+                throw;
+            }
+            
+            return "";
 
         }
 
