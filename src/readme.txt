@@ -15,6 +15,8 @@ nuget包源 https://api.nuget.org/v3/index.json
 maven包源 https://mvnrepository.com/
 dockerhub https://hub.docker.com/
 脚本之家 https://www.jb51.net/
+CentOS镜像 https://www.centos.org/download/
+
 
 GitHub上整理的一些工具
 分类 编程技术
