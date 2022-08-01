@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Text.Encodings;
 using System.Text;
 using System.Collections.Generic;
+using Bucket.Utility.Test.Model;
 
 namespace Bucket.Utility.Test
 {
@@ -241,7 +242,7 @@ namespace Bucket.Utility.Test
             //    stu.Name = "bnzcxm,va";
             //}
 
-            var isTrue=ReferenceEquals(stus, students);
+            var isTrue = ReferenceEquals(stus, students);
             isTrue = Equals(stus, students);
             isTrue = stus == students;
             isTrue = stus.Equals(students);
@@ -265,7 +266,7 @@ namespace Bucket.Utility.Test
 
             var str = "{\"baseImagePath\":\"hfgd\",\"logoImagePath\":\"\\\\10.12.110.24\\Resource\\Common / 202205 / 2205301750382601812.jpg\",\"wxCodeImagePath\":\"\\\\10.12.110.24\\Resource\\AppletQRCode / 5 / OrgCode / o = 19845 & a = 1384 & m = 3056 & c = 888692 & d = 13.jpg\",\"mainImagePath\":\"\\\\10.12.110.24\\Resource\\Common / 202206 / 2206061145106474648.jpg\",\"title\":\"新起点健康旗舰店\",\"content\":\"空气氧吧 - 南\n山奖产品(桌\n面机) 金色 / 白色 / 粉色（请在订单页备注颜色）\",\"shortContent\":\"森态空气系列分销 & c = 888692 & d = 13_空气氧吧 - 南\n山奖产品(桌\n面机)_1384\",\"orginalPrice\":5999.00,\"actPrice\":5999.00,\"bottomContent\":null}";
             bool istrue;
-            GenerateCodeImageV2(Newtonsoft.Json.JsonConvert.DeserializeObject<P_CodeImage>(str),out istrue);
+            GenerateCodeImageV2(Newtonsoft.Json.JsonConvert.DeserializeObject<P_CodeImage>(str), out istrue);
         }
 
         /// <summary>
@@ -331,15 +332,24 @@ namespace Bucket.Utility.Test
                     bitmapRet.Save(Path.Combine(path, fileName), ImageFormat.Png);
                 }
                 bitmapRet.Dispose();
-                
+
             }
             catch (Exception e)
             {
-               
+
                 throw;
             }
-            
+
             return "";
+
+        }
+
+        [Fact]
+        public void TestAbstract()
+        {
+            BaseDataTool dataTool = new SqlServerDataTool();
+            var text = dataTool.Process();
+            Assert.True(1 == 1);
 
         }
 
@@ -355,4 +365,5 @@ namespace Bucket.Utility.Test
         //    return this.MemberwiseClone();
         //}
     }
+
 }
