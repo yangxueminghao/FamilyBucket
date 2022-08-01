@@ -232,6 +232,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\harbor.sh = Shell\harbor.sh
 		Shell\jenkins.sh = Shell\jenkins.sh
 		Shell\k8s.yml = Shell\k8s.yml
+		Shell\kafka.sh = Shell\kafka.sh
 		Shell\kibana.sh = Shell\kibana.sh
 		Shell\mailserver.sh = Shell\mailserver.sh
 		Shell\minio.sh = Shell\minio.sh
@@ -280,7 +281,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Family.Framework", "Utility
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.RulesEngine.Tests", "Utility\FamilyBucket.RulesEngine.Tests\FamilyBucket.RulesEngine.Tests.csproj", "{EFFFE6F2-C0E3-418C-B8EE-5474DF8D364A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Connection.TcpClient", "Utility\Bucket.Connection.TcpClient\Bucket.Connection.TcpClient.csproj", "{A2BA5BF1-AED3-4464-9FCB-8190893B2975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Connection.TcpClient", "Utility\Bucket.Connection.TcpClient\Bucket.Connection.TcpClient.csproj", "{A2BA5BF1-AED3-4464-9FCB-8190893B2975}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

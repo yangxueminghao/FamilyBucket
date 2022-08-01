@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bucket.ImgVerifyCode\Bucket.ImgVerifyCode.csproj" />
+    <ProjectReference Include="..\Bucket.Pinyin\Bucket.Pinyin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

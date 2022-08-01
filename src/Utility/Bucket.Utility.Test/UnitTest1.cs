@@ -9,6 +9,7 @@ using System.Text.Encodings;
 using System.Text;
 using System.Collections.Generic;
 using Bucket.Utility.Test.Model;
+using Bucket.Pinyin;
 
 namespace Bucket.Utility.Test
 {
@@ -353,6 +354,13 @@ namespace Bucket.Utility.Test
 
         }
 
+        [Fact]
+        public void TestPinYin()
+        {
+            var std = PinYinConverterHelper.GetTotalPingYin("中华人名共和国 阿萨德回复");
+            Assert.True(1 == 1);
+
+        }
     }
 
     public class Student//:ICloneable
