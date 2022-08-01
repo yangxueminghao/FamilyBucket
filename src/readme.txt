@@ -17,6 +17,9 @@ dockerhub https://hub.docker.com/
 脚本之家 https://www.jb51.net/
 CentOS镜像 https://www.centos.org/download/
 
+echo $JAVA_HOME
+可以看到环境位置，但是Java -version就是找不到Java命令
+yum install java-devel 安装这个就好了
 
 GitHub上整理的一些工具
 分类 编程技术
