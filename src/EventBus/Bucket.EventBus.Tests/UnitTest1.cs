@@ -90,8 +90,8 @@ namespace Bucket.EventBus.Tests
         [Fact]
         public async void TestConsumer()
         {
-            var brokerList = "";
-            var topics = new List<string> { "" };
+            var brokerList = "192.168.244.132:9092";
+            var topics = new List<string> { "test_topic" };
 
             Console.WriteLine($"Started consumer, Ctrl-C to stop consuming");
 
