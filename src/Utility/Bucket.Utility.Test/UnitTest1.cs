@@ -10,6 +10,10 @@ using System.Text;
 using System.Collections.Generic;
 using Bucket.Utility.Test.Model;
 using Bucket.Pinyin;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Net.Http;
+using System.Diagnostics;
 
 namespace Bucket.Utility.Test
 {
@@ -361,6 +365,19 @@ namespace Bucket.Utility.Test
             Assert.True(1 == 1);
 
         }
+        [Fact]
+        public async void TestCancell()
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.CancelAfter(TimeSpan.FromMilliseconds(500000));
+            Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}");
+            //Task.Run(()=>Student.DownLoadAsync(cancellationTokenSource.Token));
+            await Student.DownLoadAsync(cancellationTokenSource.Token);
+
+            Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}");
+            //cancellationTokenSource.Cancel();
+
+        }
     }
 
     public class Student//:ICloneable
@@ -372,6 +389,28 @@ namespace Bucket.Utility.Test
         //{
         //    return this.MemberwiseClone();
         //}
+        public static async Task DownLoadAsync(CancellationToken token)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    //var text = await httpClient.GetAsync("http://www.baidu.com");
+                    //Console.WriteLine($"{DateTime.Now}");
+                    //if (token.IsCancellationRequested)
+                    //{
+                    //    Console.WriteLine($"{DateTime.Now}");
+                    //    break;
+                    //}
+                    Debug.WriteLine($"{DateTime.Now}");
+                    Debug.WriteLine($"{Thread.CurrentThread.ManagedThreadId}");
+                    var text = await httpClient.GetAsync("http://www.baidu.com", token);
+                    Debug.WriteLine($"{DateTime.Now}");
+                    
+                }
+            }
+
+        }
     }
 
 }

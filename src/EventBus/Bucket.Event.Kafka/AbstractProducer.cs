@@ -14,6 +14,7 @@ namespace Bucket.Event.Kafka
     {
         protected AbstractProducer(ProducerBuilder<TKey, TValue> builder)
         {
+            InnerProducer = builder.Build();
         }
 
         protected readonly IProducer<TKey, TValue> InnerProducer;

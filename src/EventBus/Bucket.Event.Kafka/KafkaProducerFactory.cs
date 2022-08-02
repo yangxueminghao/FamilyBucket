@@ -18,7 +18,8 @@ namespace Bucket.Event.Kafka
 
         public TProducer Create()
         {
-            var producerConfig = this.options.Get(typeof(TProducer).Name);
+            //var producerConfig = this.options.Get(typeof(TProducer).Name);
+            var producerConfig = this.options.CurrentValue;
 
             var producer = (TProducer)Activator.CreateInstance(typeof(TProducer), producerConfig);
 

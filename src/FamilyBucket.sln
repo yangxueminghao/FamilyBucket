@@ -283,6 +283,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.RulesEngine.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Connection.TcpClient", "Utility\Bucket.Connection.TcpClient\Bucket.Connection.TcpClient.csproj", "{A2BA5BF1-AED3-4464-9FCB-8190893B2975}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Event.KafkaClient", "EventBus\Bucket.Event.KafkaClient\Bucket.Event.KafkaClient.csproj", "{54E8C799-5717-4481-A2BE-ED37AAF6D818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -625,6 +627,10 @@ Global
 		{A2BA5BF1-AED3-4464-9FCB-8190893B2975}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2BA5BF1-AED3-4464-9FCB-8190893B2975}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2BA5BF1-AED3-4464-9FCB-8190893B2975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54E8C799-5717-4481-A2BE-ED37AAF6D818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54E8C799-5717-4481-A2BE-ED37AAF6D818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54E8C799-5717-4481-A2BE-ED37AAF6D818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54E8C799-5717-4481-A2BE-ED37AAF6D818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -715,6 +721,7 @@ Global
 		{815CA969-D3B4-4147-B797-576866F5C39C} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
 		{EFFFE6F2-C0E3-418C-B8EE-5474DF8D364A} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
 		{A2BA5BF1-AED3-4464-9FCB-8190893B2975} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
+		{54E8C799-5717-4481-A2BE-ED37AAF6D818} = {CAAD2A94-B46B-4D18-8B36-C0C9DD03117B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA0759A0-104C-4213-9D48-D4F7E3E74EEB}
