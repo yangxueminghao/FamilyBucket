@@ -30,11 +30,15 @@ namespace Bucket.Event.KafkaClient
            
             services.AddMvc();
             services.Configure<ProducerConfig>(Configuration.GetSection("ProducerConfig"));
-            services.AddOptions();
+            services.AddOptions().Configure<ConsumerConfig>(e=> Configuration.GetSection("ConsumerConfig").Bind(e));
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterType<KafkaProducerFactory<StandProducer<string, string>>>().As<IKafkaProducerFactory<StandProducer<string, string>>>();
+            builder.RegisterType<KafkaConsumerFactory<StandConsumer<string, string>>>().As<IKafkaConsumerFactory<StandConsumer<string, string>>>();
+
+            builder.RegisterType<KafkaProducerManager>().AsSelf();
+            builder.RegisterType<KafkaConsumerManager>().AsSelf();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

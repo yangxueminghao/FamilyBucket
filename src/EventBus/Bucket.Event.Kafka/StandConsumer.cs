@@ -9,24 +9,24 @@ namespace Bucket.Event.Kafka
 {
     public class StandConsumer<TKey, TValue> : AbstractConsumer<TKey, TValue>
     {
-        public StandConsumer(ProducerConfig proConfig)
+        public StandConsumer(ConsumerConfig conConfig) : base(new ConsumerBuilder<TKey, TValue>(conConfig))
         {
 
         }
 
         public override void IncrementalAssign(IEnumerable<TopicPartitionOffset> partitions)
         {
-            throw new NotImplementedException();
+            consumer.IncrementalAssign(partitions);
         }
 
         public override void IncrementalAssign(IEnumerable<TopicPartition> partitions)
         {
-            throw new NotImplementedException();
+            consumer.IncrementalAssign(partitions);
         }
 
         public override void IncrementalUnassign(IEnumerable<TopicPartition> partitions)
         {
-            throw new NotImplementedException();
+            consumer.IncrementalAssign(partitions);
         }
     }
 }

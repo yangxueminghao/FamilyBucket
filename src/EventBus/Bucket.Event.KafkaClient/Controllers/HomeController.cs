@@ -18,17 +18,24 @@ namespace Bucket.EventBus.Cap.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ProducerConfig _ProducerConfig;
         private readonly IKafkaProducerFactory<StandProducer<string,string>> _kafkaProducerFactory;
+        private readonly IOptionsSnapshot<ConsumerConfig> _consumerConfig;
+        private readonly KafkaConsumerManager _kafkaConsumerManager;
         
+
         public HomeController(ILogger<HomeController> logger,
             IOptions<ProducerConfig> producerConfig,
-            IKafkaProducerFactory<StandProducer<string, string>> kafkaProducerFactory) 
+            IKafkaProducerFactory<StandProducer<string, string>> kafkaProducerFactory,
+            IOptionsSnapshot<ConsumerConfig> consumerConfig,
+            KafkaConsumerManager kafkaConsumerManager) 
         {
             _logger = logger;
             _ProducerConfig = producerConfig.Value;
             _kafkaProducerFactory = kafkaProducerFactory;
+            _consumerConfig = consumerConfig;
+            _kafkaConsumerManager = kafkaConsumerManager;
         }
         [HttpGet]
-        public async Task<IEnumerable<string>> GetValues()
+        public async Task<IEnumerable<string>> Product()
         {
             using (var producer =_kafkaProducerFactory.Create())
             {
@@ -83,6 +90,69 @@ namespace Bucket.EventBus.Cap.Controllers
             
             _logger.LogInformation("{q}请求开始", "a");
             return  new string[]{ "a","b"};
+            //_logger.LogInformation("{q}请求结束", "b");
+        }
+
+        [HttpGet]
+        public  IEnumerable<string> Consume()
+        {
+            using (var consumer = _kafkaConsumerManager.Create<StandConsumer<string,string>>())
+            {
+                consumer.Subscribe("test_topic");
+
+                try
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            const int commitPeriod = 5;
+                            var consumeResult = consumer.Consume();
+
+                            if (consumeResult.IsPartitionEOF)
+                            {
+                                Console.WriteLine(
+                                    $"Reached end of topic {consumeResult.Topic}, partition {consumeResult.Partition}, offset {consumeResult.Offset}.");
+
+                                continue;
+                            }
+
+                            Console.WriteLine($"Received message at {consumeResult.TopicPartitionOffset}: {consumeResult.Message.Value}");
+
+                            if (consumeResult.Offset % commitPeriod == 0)
+                            {
+                                // The Commit method sends a "commit offsets" request to the Kafka
+                                // cluster and synchronously waits for the response. This is very
+                                // slow compared to the rate at which the consumer is capable of
+                                // consuming messages. A high performance application will typically
+                                // commit offsets relatively infrequently and be designed handle
+                                // duplicate messages in the event of failure.
+                                try
+                                {
+                                    consumer.Commit(consumeResult);
+                                }
+                                catch (KafkaException e)
+                                {
+                                    Console.WriteLine($"Commit error: {e.Error.Reason}");
+                                }
+                            }
+                        }
+                        catch (ConsumeException e)
+                        {
+                            Console.WriteLine($"Consume error: {e.Error.Reason}");
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    Console.WriteLine("Closing consumer.");
+                    consumer.Close();
+                }
+
+            }
+
+            _logger.LogInformation("{q}请求开始", "a");
+            return new string[] { "a", "b" };
             //_logger.LogInformation("{q}请求结束", "b");
         }
     }

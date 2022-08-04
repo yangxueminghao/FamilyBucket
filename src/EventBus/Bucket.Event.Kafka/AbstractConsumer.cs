@@ -11,8 +11,11 @@ namespace Bucket.Event.Kafka
 
     public abstract class AbstractConsumer<TKey, TValue> : AbstractConsumer, IConsumer<TKey, TValue>
     {
-        private readonly IConsumer<TKey, TValue> consumer;
-
+        protected readonly IConsumer<TKey, TValue> consumer;
+        protected AbstractConsumer(ConsumerBuilder<TKey, TValue> builder)
+        {
+            consumer = builder.Build();
+        }
         public string MemberId => this.consumer?.MemberId ?? "";
         public List<TopicPartition> Assignment => this.consumer.Assignment;
         public List<string> Subscription => this.consumer.Subscription;
