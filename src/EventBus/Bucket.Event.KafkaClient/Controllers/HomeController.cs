@@ -17,16 +17,16 @@ namespace Bucket.EventBus.Cap.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ProducerConfig _ProducerConfig;
-        private readonly IKafkaProducerFactory<StandProducer<string,string>> _kafkaProducerFactory;
+        private readonly IKafkaProducerFactory<StandProducer<string, string>> _kafkaProducerFactory;
         private readonly IOptionsSnapshot<ConsumerConfig> _consumerConfig;
         private readonly KafkaConsumerManager _kafkaConsumerManager;
-        
+
 
         public HomeController(ILogger<HomeController> logger,
             IOptions<ProducerConfig> producerConfig,
             IKafkaProducerFactory<StandProducer<string, string>> kafkaProducerFactory,
             IOptionsSnapshot<ConsumerConfig> consumerConfig,
-            KafkaConsumerManager kafkaConsumerManager) 
+            KafkaConsumerManager kafkaConsumerManager)
         {
             _logger = logger;
             _ProducerConfig = producerConfig.Value;
@@ -37,7 +37,8 @@ namespace Bucket.EventBus.Cap.Controllers
         [HttpGet]
         public async Task<IEnumerable<string>> Product()
         {
-            using (var producer =_kafkaProducerFactory.Create())
+            List<string> list = new List<string>();
+            using (var producer = _kafkaProducerFactory.Create())
             {
                 for (int i = 0; i < 100; i++)
                 {
@@ -79,31 +80,39 @@ namespace Bucket.EventBus.Cap.Controllers
                             "test_topic", new Message<string, string> { Key = key, Value = val });
 
                         Console.WriteLine($"delivered to: {deliveryReport.TopicPartitionOffset}");
+                        list.Add($"{nameof(Product)} TopicPartitionOffset: {deliveryReport.TopicPartitionOffset},Value:{deliveryReport.Value}");
                     }
                     catch (ProduceException<string, string> e)
                     {
                         Console.WriteLine($"failed to deliver message: {e.Message} [{e.Error.Code}]");
                     }
                 }
-                
+
             }
-            
+
             _logger.LogInformation("{q}请求开始", "a");
-            return  new string[]{ "a","b"};
+            return list;
             //_logger.LogInformation("{q}请求结束", "b");
         }
 
         [HttpGet]
-        public  IEnumerable<string> Consume()
+        public async Task<IEnumerable<string>> Consume()
         {
-            using (var consumer = _kafkaConsumerManager.Create<StandConsumer<string,string>>())
+            List<string> list = new List<string>();
+            using (var consumer = _kafkaConsumerManager.Create<StandConsumer<string, string>>())
             {
                 consumer.Subscribe("test_topic");
 
                 try
                 {
+                    int i = 0;
                     while (true)
                     {
+                        if (i >= 100)
+                        {
+                            break;
+                        }
+
                         try
                         {
                             const int commitPeriod = 5;
@@ -118,6 +127,7 @@ namespace Bucket.EventBus.Cap.Controllers
                             }
 
                             Console.WriteLine($"Received message at {consumeResult.TopicPartitionOffset}: {consumeResult.Message.Value}");
+                            list.Add($"{nameof(Consume)} TopicPartitionOffset: {consumeResult.TopicPartitionOffset},Value:{consumeResult.Message.Value}");
 
                             if (consumeResult.Offset % commitPeriod == 0)
                             {
@@ -136,6 +146,7 @@ namespace Bucket.EventBus.Cap.Controllers
                                     Console.WriteLine($"Commit error: {e.Error.Reason}");
                                 }
                             }
+                            i++;
                         }
                         catch (ConsumeException e)
                         {
@@ -151,8 +162,8 @@ namespace Bucket.EventBus.Cap.Controllers
 
             }
 
-            _logger.LogInformation("{q}请求开始", "a");
-            return new string[] { "a", "b" };
+            _logger.LogInformation("{q}请求结束", "a");
+            return await Task.FromResult(list);
             //_logger.LogInformation("{q}请求结束", "b");
         }
     }
