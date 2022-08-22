@@ -43,12 +43,12 @@ namespace Bucket.Event.KafkaClient.Extensions
                 //    .InstancePerDependency()
                 //    .PropertiesAutowired();
 
-                container
-                    .RegisterAssemblyTypes(assemblies)
-                    .Where(type => type.IsAbstract == false && type.IsAssignableTo(typeof(ControllerBase)))
-                    .AsSelf()
-                    .InstancePerDependency()
-                    .PropertiesAutowired();
+                //container
+                //    .RegisterAssemblyTypes(assemblies)
+                //    .Where(type => type.IsAbstract == false && type.IsAssignableTo(typeof(ControllerBase)))
+                //    .AsSelf()
+                //    .InstancePerDependency()
+                //    .PropertiesAutowired();
             });
 
             return host;

@@ -1,0 +1,350 @@
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="$(SolutionDir)\packages\MySql.Data.6.9.12\lib\net45\MySql.Data.dll" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="System.Data"#>
+<#@ import namespace="System.Data.SqlClient"#>
+<#@ import namespace="MySql.Data.MySqlClient"#>
+<#+
+
+	#region 数据库参数配置
+
+	public class DBSchemaFactory
+	{
+		public static readonly string DatabaseType = "MySql";
+		public static readonly string TablePrefix = "";	
+		public static readonly string DatabaseConnectionString = "Server=192.168.192.128;Port=3306;Database=db_ers_business_dev; User=root;Password=123456;Use Procedure Bodies=false;Charset=utf8;Allow Zero Datetime=True; Pooling=True; Max Pool Size=50;";
+	
+		public static IDBSchema GetDBSchema()
+        {
+			IDBSchema dbSchema;
+			switch(DatabaseType.ToUpper())
+            {
+				case "SQLSERVER":
+					dbSchema = new SqlServerSchema();
+					break;
+				case "MYSQL":
+					dbSchema = new MySqlSchema();
+					break;
+				default:
+					throw new ArgumentException("数据库类型参数配置错误");
+			}
+			return dbSchema;
+		}
+	}
+
+	#endregion
+
+	#region 数据库结构定义
+
+	public interface IDBSchema : IDisposable
+	{
+		Dictionary<string, string> GetTableList();
+
+		Table GetTableMetaData(string tableName);
+	}
+
+	public class SqlServerSchema : IDBSchema
+    {
+		public SqlConnection conn;
+
+		public SqlServerSchema()
+        {
+			conn = new SqlConnection(DBSchemaFactory.DatabaseConnectionString);
+			conn.Open();
+		}
+
+		public Dictionary<string, string> GetTableList()
+        {
+			DataTable dt = conn.GetSchema("Tables");
+			Dictionary<string, string> list = new Dictionary<string, string>();
+			foreach(DataRow row in dt.Rows)
+            {
+				list.Add(row["TABLE_NAME"].ToString(), row["TABLE_COMMENT"].ToString());
+			}
+			return list;
+		}
+
+		public Table GetTableMetaData(string tableName)
+        {
+			string cmdText = string.Format("show full fields from {0}", tableName);
+			SqlCommand command = new SqlCommand(cmdText, conn);
+			SqlDataAdapter adapter = new SqlDataAdapter(command);
+			DataSet ds = new DataSet();
+			adapter.FillSchema(ds, SchemaType.Mapped, tableName);
+
+			Table table = new Table(ds.Tables[0]);
+			return table;
+		}
+
+		public void Dispose()
+		{
+			if(conn != null)
+            {
+				conn.Close();
+			}
+		}
+	}
+
+	public class MySqlSchema : IDBSchema
+    {
+		public MySqlConnection conn;
+
+		public MySqlSchema()
+        {
+			conn = new MySqlConnection(DBSchemaFactory.DatabaseConnectionString);
+            conn.Open();
+        }
+
+        public Dictionary<string,string> GetTableList()
+        {
+            DataTable dt = conn.GetSchema("Tables");
+            Dictionary<string,string> list = new Dictionary<string,string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(row["TABLE_NAME"].ToString(),row["TABLE_COMMENT"].ToString());
+            }
+            return list;
+        }
+
+        public Table GetTableMetaData(string tableName)
+        {
+            string selectCmdText = string.Format("show full fields from {0}", tableName); ;
+            MySqlCommand command = new MySqlCommand(selectCmdText, conn);
+            MySqlDataAdapter ad = new MySqlDataAdapter(command);
+            System.Data.DataSet ds = new DataSet();
+            ad.Fill(ds,tableName);
+
+            Table table = new Table(ds.Tables[0]);
+            return table;
+        }
+
+        public void Dispose()
+        {
+            if (conn != null)
+                conn.Close();
+        }
+	}
+	
+	#endregion
+
+	#region 数据表结构定义
+
+	public class Column
+	{
+		public string Field { get; set; }
+		public string TypeName { get; set; }
+		public string IsNull { get; set; }
+		public string Key { get; set; }
+		public string Default { get; set; }
+		public string Extra { get; set; }
+		public string Comment { get; set; }
+	}
+
+	public class Table
+    {
+		public List<Column> Columns;
+
+		public Table(DataTable dt)
+        {
+			this.Columns = GetColumnList(dt);
+		}
+
+		private List<Column> GetColumnList(DataTable dt)
+        {
+			List<Column> list = new List<Column>();
+			foreach(DataRow row in dt.Rows)
+            {
+				Column c = new Column();
+				c.Field = row["Field"].ToString();
+				c.TypeName = row["Type"].ToString();
+				c.IsNull = row["Null"].ToString();
+				c.Key = row["Key"].ToString();
+				c.Default = row["Default"].ToString();
+				c.Extra = row["Extra"].ToString();
+				c.Comment = row["Comment"].ToString();
+				list.Add(c);
+			}
+
+			return list;
+		}
+	}
+
+	#endregion
+
+	#region 自定义转换帮助类
+
+	public class GeneratorHelper
+    {
+        public static readonly string StringType = "String";
+        public static readonly string DateTimeType = "DateTime";
+
+		#region 字段类型转换
+
+        public static string GetQuesMarkByType(string typeName)
+        {
+            string result = typeName;
+
+			if(typeName.StartsWith("int"))
+            {
+				if(typeName.EndsWith("unsigned")){
+					result = "uint";
+				}else{
+					result = "int";
+				}
+				return result;
+            }
+			if(typeName.StartsWith("varchar")||typeName.Contains("text")||typeName.StartsWith("char"))
+            {
+				result = "string";
+				return result;
+            }
+			if(typeName.StartsWith("date")||typeName.StartsWith("timestamp"))
+            {
+				result = "DateTime";
+				return result;
+            }
+			if(typeName.StartsWith("tinyint"))
+            {
+				result = "sbyte";
+				return result;
+            }
+			if(typeName.StartsWith("bigint"))
+            {
+				result = "long";
+				return result;
+            }
+			if(typeName.StartsWith("decimal"))
+            {
+				result = "decimal";
+				return result;
+            }	
+			if(typeName.StartsWith("double"))
+            {
+				result = "double";
+				return result;
+            }	
+			if(typeName.StartsWith("bit"))
+            {
+				result = "bool";
+				return result;
+            }
+			if(typeName.EndsWith("blob"))
+			{
+				result="byte[]";
+				return result;
+			}	
+			if(typeName.StartsWith("smallint"))	{
+				result = "short";
+				return result;
+			}
+			if(typeName.Equals("time"))	{
+				result = "TimeSpan";
+				return result;
+			}
+            return result;
+        }
+
+		#endregion
+
+		#region 自定义转换
+
+		//指定的数据库表是否需要处理
+		public static bool IsNeedDealTable(string tableName)
+        {
+			//如果该库下所有表都要转换请直接返回true
+			//if(tableName.ToLower()=="xqd_operationactivity" || 
+			//tableName.ToLower()=="xqd_operationactivitydetail"|| 
+			//tableName.ToLower()=="xqd_opreationactivitydetailimg"|| 
+			//tableName.ToLower()=="xqd_operationacitivityappoint"|| 
+			//tableName.ToLower()=="xqd_appointchancerecieve"|| 
+			//tableName.ToLower()=="xqd_acitivityappointrec"){
+				//return true;
+			//}
+			//else {
+				//return false;
+			//}
+			return true;
+		}
+
+		//数据库表名与实体名称转换
+		public static Tuple<string,string> ConvertTableNameDesc(string tableName,string tableDesc)
+		{		
+			//tableName = tableName.Replace(DBSchemaFactory.TablePrefix.ToLower(),"");
+			return new Tuple<string,string>(tableName,tableDesc);
+		}
+
+		//根据目标表名称获取源数据表名称
+		public static string GetSourceTableName(string desTableName)
+        {
+			return desTableName;
+		}
+
+		//是否需要过滤的字段
+		public static bool IsNeedFilter(string columnName)
+		{
+			//if(columnName.ToLower().Equals("updatetime")){
+			//	return true;
+			//} else if(columnName.ToLower().Equals("createtime")){
+			//	return true;
+			//} else {
+			//	return false;
+			//}
+
+			return false;
+		}
+
+		//获取包含文件的字段
+		public static List<string> GetFileColumns(string tableName)
+		{
+			List<string> liColumns = new List<string>();
+
+			/*
+			if(tableName=="rmsms_signaldata"){
+				liColumns.Add("FilePath");
+				liColumns.Add("PPGFilePath");
+				liColumns.Add("FreqFilePath");
+			}*/
+			
+			return liColumns;
+		}
+
+		//是否可空类型
+		public static bool IsNeedSetNULL(string columnIsNull,string columnType){
+			if(columnIsNull=="YES"){
+				if(columnType.ToLower()=="short"){
+					return true;
+				}else if(columnType.ToLower()=="int"){
+					return true;
+				}else if(columnType.ToLower()=="sbyte"){
+					return true;
+				}else if(columnType.ToLower()=="long"){
+					return true;
+				}else if(columnType.ToLower()=="decimal"){
+					return true;
+				}else if(columnType.ToLower()=="double"){
+					return true;
+				}else if(columnType.ToLower()=="bool"){
+					return true;
+				}else if(columnType.ToLower()=="date"){
+					return true;
+				}else if(columnType.ToLower()=="datetime"){
+					return true;
+				}else {
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}
+
+		#endregion
+    }
+
+	#endregion
+
+	
+#>

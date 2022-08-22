@@ -1,6 +1,6 @@
-﻿namespace Bucket.EventBus.RabbitMQ
+﻿namespace Bucket.EventBus.Kafka
 {
-    public class EventBusRabbitMqOptions
+    public class EventBusKafkaMqOptions
     {
         public string ExchangeName { get; set; } = "bucket_event_bus";
         public string HostName { get; set; } = "localhost";

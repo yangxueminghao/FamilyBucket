@@ -251,7 +251,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\ngrok2.sh = Shell\ngrok2.sh
 		Shell\phpMyadmin.sh = Shell\phpMyadmin.sh
 		Shell\pxc.sh = Shell\pxc.sh
-		rabbitMq.sh = rabbitMq.sh
+		Shell\rabbitMq.sh = Shell\rabbitMq.sh
 		readme.txt = readme.txt
 		Shell\redis.sh = Shell\redis.sh
 		Shell\rediscluster.sh = Shell\rediscluster.sh
@@ -283,7 +283,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyBucket.RulesEngine.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Connection.TcpClient", "Utility\Bucket.Connection.TcpClient\Bucket.Connection.TcpClient.csproj", "{A2BA5BF1-AED3-4464-9FCB-8190893B2975}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Event.KafkaClient", "EventBus\Bucket.Event.KafkaClient\Bucket.Event.KafkaClient.csproj", "{54E8C799-5717-4481-A2BE-ED37AAF6D818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Event.KafkaClient", "EventBus\Bucket.Event.KafkaClient\Bucket.Event.KafkaClient.csproj", "{54E8C799-5717-4481-A2BE-ED37AAF6D818}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.EFCoreContext", "ORM\Bucket.EFCoreContext\Bucket.EFCoreContext.csproj", "{A5D25B36-4E62-4BF9-B7A6-7D318C85E60F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4Helper", "ORM\T4Helper\T4Helper.csproj", "{CBE67941-4B43-4D5F-8EA0-CF6D147A2603}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Event.EasyQClient", "EventBus\Bucket.Event.EasyQClient\Bucket.Event.EasyQClient.csproj", "{B948578F-ECFD-405A-A73D-307A144645FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Quartz.Server", "HangFire\Bucket.Quartz.Server\Bucket.Quartz.Server\Bucket.Quartz.Server.csproj", "{D04923F4-5D2C-48AD-9B94-644B94578448}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -631,6 +639,22 @@ Global
 		{54E8C799-5717-4481-A2BE-ED37AAF6D818}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54E8C799-5717-4481-A2BE-ED37AAF6D818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54E8C799-5717-4481-A2BE-ED37AAF6D818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D25B36-4E62-4BF9-B7A6-7D318C85E60F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D25B36-4E62-4BF9-B7A6-7D318C85E60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D25B36-4E62-4BF9-B7A6-7D318C85E60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D25B36-4E62-4BF9-B7A6-7D318C85E60F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE67941-4B43-4D5F-8EA0-CF6D147A2603}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE67941-4B43-4D5F-8EA0-CF6D147A2603}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE67941-4B43-4D5F-8EA0-CF6D147A2603}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE67941-4B43-4D5F-8EA0-CF6D147A2603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B948578F-ECFD-405A-A73D-307A144645FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B948578F-ECFD-405A-A73D-307A144645FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B948578F-ECFD-405A-A73D-307A144645FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B948578F-ECFD-405A-A73D-307A144645FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D04923F4-5D2C-48AD-9B94-644B94578448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D04923F4-5D2C-48AD-9B94-644B94578448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D04923F4-5D2C-48AD-9B94-644B94578448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D04923F4-5D2C-48AD-9B94-644B94578448}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -722,6 +746,10 @@ Global
 		{EFFFE6F2-C0E3-418C-B8EE-5474DF8D364A} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
 		{A2BA5BF1-AED3-4464-9FCB-8190893B2975} = {D1BD2BBF-B8EB-4831-9693-B89623501692}
 		{54E8C799-5717-4481-A2BE-ED37AAF6D818} = {CAAD2A94-B46B-4D18-8B36-C0C9DD03117B}
+		{A5D25B36-4E62-4BF9-B7A6-7D318C85E60F} = {20411163-EFBD-4A04-9583-5567665CE8A7}
+		{CBE67941-4B43-4D5F-8EA0-CF6D147A2603} = {20411163-EFBD-4A04-9583-5567665CE8A7}
+		{B948578F-ECFD-405A-A73D-307A144645FA} = {CAAD2A94-B46B-4D18-8B36-C0C9DD03117B}
+		{D04923F4-5D2C-48AD-9B94-644B94578448} = {282067C7-0BC9-4EFD-B207-57AD59ECF3FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA0759A0-104C-4213-9D48-D4F7E3E74EEB}

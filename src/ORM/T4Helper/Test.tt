@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" hostspecific="True"#>  
+<#@include file="$(ProjectDir)/TextTemplate/Manager.ttinclude"#>  
+<#@ include file="$(ProjectDir)/TextTemplate/DbHelper.ttinclude"  #>
+
+
+<# var manager = Manager.Create(Host, GenerationEnvironment); #>  
+
+<# manager.StartHeader(); #>  
+using System;  
+using System.Collections.Generic;
+namespace T4Demo{
+<# manager.EndBlock(); #>  
+
+<#foreach(DbTable table in DbHelper.GetDbTables(config.ConnectionString,config.DbDatabase)){#>
+<#manager.StartNewFile(table.TableName+".cs");#>
+public partial class <#=table.TableName#>
+{
+    <#foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString,config.DbDatabase,config.TableName)){#>
+
+
+#region <#=column.ColumnName#>
+///<summary>
+///<#=column.ColumnName#>
+///<#=column.Remark#>
+///</summary>
+
+public <#= column.CSharpType#><# if(column.CommonType.IsValueType && column.IsNullable){#>?<#}#> <#=column.ColumnName#>  {get;set;}
+  
+#endregion
+  <#  }#>
+   }
+<# manager.EndBlock();
+    }
+#>  
+  
+<# manager.StartFooter(); #>  
+  }
+<# manager.EndBlock(); #>
+
+<# manager.Process(true); #>  
+
+

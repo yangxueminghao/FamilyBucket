@@ -37,15 +37,16 @@ namespace Bucket.EventBus.Cap
             {
                 // If you are using ADO.NET, choose to add configuration you needed：
                 x.UseMySql(Configuration["Cap:Db:Con"].ToString());
-                
+
                 // CAP support RabbitMQ,Kafka,AzureService as the MQ, choose to add configuration you needed：
                 //x.UseRabbitMQ(Configuration["Cap:Mq:Con"].ToString());
                 x.UseRabbitMQ(options =>
                 {
                     //上一篇中我创建的用户名密码 
-                    options.HostName = "127.0.0.1";
-                    options.UserName = "sa";
-                    options.Password = "123456";
+                    options.HostName = "192.168.192.128";
+                    options.UserName = "admin";
+                    options.Password = "admin";
+                    options.VirtualHost = "/";
                 });
             }).AddSubscribeFilter<CapSubscribeFilter>();
             services.AddMongoDbContext(section: "MongoDbConfig")

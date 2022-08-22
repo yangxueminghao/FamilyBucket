@@ -1,6 +1,8 @@
 using Autofac;
-using Bucket.Event.Kafka;
+//using Bucket.Event.Kafka;
+using Bucket.Event.KafkaClient.Extensions;
 using Confluent.Kafka;
+using EasyNetQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Bucket.Event.KafkaClient
@@ -31,14 +34,16 @@ namespace Bucket.Event.KafkaClient
             services.AddMvc();
             services.Configure<ProducerConfig>(Configuration.GetSection("ProducerConfig"));
             services.AddOptions().Configure<ConsumerConfig>(e=> Configuration.GetSection("ConsumerConfig").Bind(e));
+            string rabbitMqConnection = Configuration["RabbitMqConnection"];
+            services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnection));
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<KafkaProducerFactory<StandProducer<string, string>>>().As<IKafkaProducerFactory<StandProducer<string, string>>>();
-            builder.RegisterType<KafkaConsumerFactory<StandConsumer<string, string>>>().As<IKafkaConsumerFactory<StandConsumer<string, string>>>();
+            //builder.RegisterType<KafkaProducerFactory<StandProducer<string, string>>>().As<IKafkaProducerFactory<StandProducer<string, string>>>();
+            //builder.RegisterType<KafkaConsumerFactory<StandConsumer<string, string>>>().As<IKafkaConsumerFactory<StandConsumer<string, string>>>();
 
-            builder.RegisterType<KafkaProducerManager>().AsSelf();
-            builder.RegisterType<KafkaConsumerManager>().AsSelf();
+            //builder.RegisterType<KafkaProducerManager>().AsSelf();
+            //builder.RegisterType<KafkaConsumerManager>().AsSelf();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,7 +65,7 @@ namespace Bucket.Event.KafkaClient
             app.UseRouting();
 
             app.UseAuthorization();
-
+            //app.UseSubscribe("OrderService", Assembly.GetExecutingAssembly());
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapRazorPages();
