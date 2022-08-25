@@ -218,7 +218,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5-75C3-4650-83B6-8497BD548B0B}"
 	ProjectSection(SolutionItems) = preProject
 		Shell\agileconfig.sh = Shell\agileconfig.sh
+		Shell\appollo.sh = Shell\appollo.sh
 		Shell\baget.sh = Shell\baget.sh
+		Shell\docker-compose-appollo.sh = Shell\docker-compose-appollo.sh
 		Shell\docker-compose-kafka.yml = Shell\docker-compose-kafka.yml
 		Shell\docker-compose-mongodb.yml = Shell\docker-compose-mongodb.yml
 		Shell\docker-compose-mysql.yml = Shell\docker-compose-mysql.yml
@@ -291,7 +293,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4Helper", "ORM\T4Helper\T4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Event.EasyQClient", "EventBus\Bucket.Event.EasyQClient\Bucket.Event.EasyQClient.csproj", "{B948578F-ECFD-405A-A73D-307A144645FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.Quartz.Server", "HangFire\Bucket.Quartz.Server\Bucket.Quartz.Server\Bucket.Quartz.Server.csproj", "{D04923F4-5D2C-48AD-9B94-644B94578448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Quartz.Server", "HangFire\Bucket.Quartz.Server\Bucket.Quartz.Server\Bucket.Quartz.Server.csproj", "{D04923F4-5D2C-48AD-9B94-644B94578448}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

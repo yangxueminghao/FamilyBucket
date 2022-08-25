@@ -39,6 +39,20 @@ namespace Bucket.Event.KafkaClient.Controllers
         [Route("DelayProduce")]
         public (int,IEnumerable<string>) DelayProduce()
         {
+            #region 安装rabbitMq延迟队列插件
+            //            Download a Binary Build
+            //Binary builds are distributed via GitHub releases.
+
+            //As with all 3rd party plugins, the.ez file must be placed into a node's plugins directory and be readable by the effective user of the RabbitMQ process.
+
+            //To find out what the plugins directory is, use rabbitmq-plugins directories
+
+            //rabbitmq - plugins directories - s
+            //Enabling the Plugin
+            //Then run the following command:
+
+            //rabbitmq - plugins enable rabbitmq_delayed_message_exchange
+            #endregion
             var strList = new List<string>();
 
             try
