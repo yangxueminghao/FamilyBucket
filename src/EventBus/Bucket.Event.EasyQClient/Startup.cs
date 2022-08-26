@@ -1,6 +1,8 @@
 using Bucket.Event.EasyNetQClient.Extensions;
 using Bucket.Event.EasyQClient.BackJob;
+using Bucket.Event.EasyQClient.RedisSubscribe;
 using EasyNetQ;
+using InitQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,9 +29,18 @@ namespace Bucket.Event.EasyQClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            string rabbitMqConnection = Configuration["RabbitMqConnection"];
-            services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnection));
-            services.AddHostedService<ConsumeJob>();
+
+            //string rabbitMqConnection = Configuration["RabbitMqConnection"];
+            //services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnection));
+            //services.AddHostedService<ConsumeJob>();
+
+            services.AddInitQ(m =>
+            {
+                m.SuspendTime = 1000;
+                m.ConnectionString = "192.168.192.130:6379,password=admin";
+                m.ListSubscribe = new List<Type>() { typeof(RedisDelaySubscribe)};
+                m.ShowLog = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

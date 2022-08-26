@@ -291,5 +291,16 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             });
             return services;
         }
+        [Fact]
+        public void TestLazyMes()
+        {
+            var services = Init();
+            var redis = services.BuildServiceProvider().GetRequiredService<IRedisDatabaseProvider>();
+            var database = redis.GetDatabase();
+            database.StringSet("a", "sfdgfds");
+            var str= database.StringGet("a").ToString();
+            Assert.True(str == "100");
+
+        }
     }
 }

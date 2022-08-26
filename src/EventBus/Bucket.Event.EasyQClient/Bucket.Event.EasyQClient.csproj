@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="EasyNetQ" Version="7.0.0" />
+    <PackageReference Include="InitQ" Version="1.0.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
