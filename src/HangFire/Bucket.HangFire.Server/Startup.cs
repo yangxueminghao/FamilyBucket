@@ -1,10 +1,14 @@
 ﻿using Hangfire;
+using Hangfire.Common;
 using Hangfire.Console;
+using Hangfire.MySql.Core;
+using Hangfire.RecurringJobAdmin;
 using Hangfire.RecurringJobExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Bucket.HangFire.Server
 {
@@ -32,7 +36,20 @@ namespace Bucket.HangFire.Server
             {
                 services.AddHangfire(build =>
                 {
-                    build.UseRedisStorage(Configuration.GetValue<string>("Scheduler:RedisServer"));
+                    //build.UseRedisStorage(Configuration.GetValue<string>("Scheduler:RedisServer"));
+                    build.UseStorage(new MySqlStorage(Configuration.GetValue<string>("Scheduler:MysqlServer"), new MySqlStorageOptions
+                    {
+                        TransactionIsolationLevel = System.Data.IsolationLevel.ReadCommitted,
+                        QueuePollInterval=System.TimeSpan.FromSeconds(15),
+                        JobExpirationCheckInterval= System.TimeSpan.FromHours(1),
+                        CountersAggregateInterval = System.TimeSpan.FromMinutes(5),
+                        PrepareSchemaIfNecessary = true,
+                        DashboardJobListLimit = 50000,
+                        TransactionTimeout = System.TimeSpan.FromMinutes(1),
+                        TablePrefix = "Hangfire",
+
+                    }));
+                    build.UseRecurringJobAdmin(true, typeof(Startup).Assembly);
                     build.UseConsole();
                     build.UseRecurringJob("recurringjob.json");
                     build.UseDefaultActivator();
@@ -68,6 +85,9 @@ namespace Bucket.HangFire.Server
                     Authorization = new[] { new HangfireAuthorizationFilter() }
                 });
 
+                var manager = new RecurringJobManager();
+                manager.AddOrUpdate("ReadTransactionJob", Job.FromExpression(() => Console.WriteLine("")), "*/5 * * * *");
+                manager.AddOrUpdate("ReadTransactionJob2", Job.FromExpression(() => Console.WriteLine("")), "*/8 * * * *");
                 ///
                 /// 特别注意，linux下运行时，可能存在"timezone": "China Standard Time"找不到的情况
                 /// 需进行时区复制 cp /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/'China Standard Time'
