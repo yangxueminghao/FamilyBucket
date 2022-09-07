@@ -42,7 +42,7 @@ namespace Bucket.Event.EasyNetQClient.Controllers
                     //redis对象
                     var _redis = scope.ServiceProvider.GetService<ICacheService>();
 
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 50; i++)
                     {
                         var dt = DateTime.Now.AddMinutes(3 * (i + 1));
                         //key:redis里的key,唯一

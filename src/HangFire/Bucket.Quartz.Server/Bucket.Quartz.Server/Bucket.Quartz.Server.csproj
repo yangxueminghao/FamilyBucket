@@ -12,8 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GZY.Quartz.MUI" Version="1.1.5" />
+    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
+    <PackageReference Include="Zhan.Quartz.MUI" Version="1.1.6" />
   </ItemGroup>
 
 </Project>

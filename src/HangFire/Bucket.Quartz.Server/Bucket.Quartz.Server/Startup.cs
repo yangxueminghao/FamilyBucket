@@ -1,3 +1,4 @@
+using Autofac;
 using GZY.Quartz.MUI.EFContext;
 using GZY.Quartz.MUI.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +24,9 @@ namespace Bucket.Quartz.Server
         }
 
         public IConfiguration Configuration { get; }
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,6 +37,7 @@ namespace Bucket.Quartz.Server
             var optionsBuilder = new DbContextOptionsBuilder<QuarzEFContext>();
             optionsBuilder.UseMySql<QuarzEFContext>(connectionString, ServerVersion.Parse("5.7.39"),b => b.MaxBatchSize(1));
             services.AddQuartzUI(optionsBuilder.Options);
+            services.AddQuartzClassJobs();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,10 +54,10 @@ namespace Bucket.Quartz.Server
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-            //app.UseRouting();
+            app.UseRouting();
 
             app.UseQuartz();
             //app.UseEndpoints(endpoints =>
@@ -67,7 +72,6 @@ namespace Bucket.Quartz.Server
             //        await context.Response.WriteAsync("hello");
             //    });
             //});
-
 
 
             //app.UseAuthorization();
