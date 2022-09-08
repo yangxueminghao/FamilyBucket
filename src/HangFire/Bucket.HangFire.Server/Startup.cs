@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Hangfire.Common;
 using Hangfire.Console;
+using Hangfire.HttpJob;
 using Hangfire.MySql.Core;
 using Hangfire.RecurringJobAdmin;
 using Hangfire.RecurringJobExtensions;
@@ -51,8 +52,15 @@ namespace Bucket.HangFire.Server
                     }));
                     build.UseRecurringJobAdmin(true, typeof(Startup).Assembly);
                     build.UseConsole();
+                    build.UseHangfireHttpJob();
                     build.UseRecurringJob("recurringjob.json");
                     build.UseDefaultActivator();
+                });
+                // 启动Scheduler服务
+                services.AddHangfireServer(option=>
+                {
+                    option.ServerName = Configuration.GetValue<string>("Scheduler:ServerName");
+                    // 注意队列名，进行任务隔离
                 });
 
             }
@@ -72,12 +80,7 @@ namespace Bucket.HangFire.Server
             {
                 // 容器载入Scheduler服务
                 HangfireServiceProvider.ServiceProvider = app.ApplicationServices;
-                // 启动Scheduler服务
-                app.UseHangfireServer(new BackgroundJobServerOptions
-                {
-                    ServerName = Configuration.GetValue<string>("Scheduler:ServerName")
-                    // 注意队列名，进行任务隔离
-                });
+                
                 // 启动Job界面UI
                 app.UseHangfireDashboard(options: new DashboardOptions()
                 {
