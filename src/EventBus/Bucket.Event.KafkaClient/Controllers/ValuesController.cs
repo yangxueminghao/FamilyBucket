@@ -1,4 +1,5 @@
-﻿using EasyNetQ;
+﻿using Bucket.Event.KafkaClient.Model;
+using EasyNetQ;
 using EasyNetQ.AutoSubscribe;
 using EasyNetQ.Topology;
 using Microsoft.AspNetCore.Http;
@@ -79,6 +80,42 @@ namespace Bucket.Event.KafkaClient.Controllers
 
                     // 发送消息
                     bus.Advanced.Publish(exDelay, "delay", false, new Message<string>(msg, msgHeaders));
+
+                    Debug.WriteLine($"{DateTimeOffset.Now} 发送成功 {msg}");
+                    strList.Add(msg);
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
+
+        [HttpGet]
+        [Route("FutureProduce")]
+        public (int, IEnumerable<string>) FutureProduce()
+        {            
+            var strList = new List<string>();
+
+            try
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    // 以下是测试发送消息的代码
+                    int sec = new Random(i).Next(100, 5000);
+                    var msg = sec.ToString();
+                    StudentMessage studentMessage = new StudentMessage { Id = sec, Name = $"张{msg}" };
+                    bus.Scheduler.FuturePublish(studentMessage, TimeSpan.FromSeconds(sec));
 
                     Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功 {msg}");
                     strList.Add(msg);

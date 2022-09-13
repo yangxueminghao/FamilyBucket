@@ -4,6 +4,17 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\样例\FamilyBucket\src\EventBus\Bucket.Event.KafkaClient\Bucket.Event.KafkaClient.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\**" />
+    <Content Remove="Pages\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Remove="Controllers\HomeController.cs" />
   </ItemGroup>
@@ -13,6 +24,7 @@
     <PackageReference Include="Confluent.Kafka" Version="1.9.0" />
     <PackageReference Include="EasyNetQ" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
 </Project>

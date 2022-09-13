@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bucket.Event.KafkaClient</name>
+    </assembly>
+    <members>
+        <member name="P:Bucket.Event.KafkaClient.Models.MessageBase.BusType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Bucket.Event.KafkaClient.Models.MessageBase.CreateTime">
+            <summary>
+            生成时间
+            </summary>
+        </member>
+        <member name="P:Bucket.Event.KafkaClient.Models.MessageBase.MsgNo">
+            <summary>
+            消息编号
+            </summary>
+        </member>
+        <member name="P:Bucket.Event.KafkaClient.Models.MessageBase.ClientName">
+            <summary>
+            客户端名称
+            </summary>
+        </member>
+    </members>
+</doc>

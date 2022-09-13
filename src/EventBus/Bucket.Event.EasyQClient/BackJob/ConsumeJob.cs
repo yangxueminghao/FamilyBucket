@@ -1,4 +1,5 @@
-﻿using EasyNetQ;
+﻿using Bucket.Event.EasyNetQClient.Model;
+using EasyNetQ;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Bucket.Event.EasyQClient.BackJob
         {
             //_timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
             DoWork(null);
+            //DoWork2(null);
             return Task.CompletedTask;
         }
 
@@ -34,6 +36,23 @@ namespace Bucket.Event.EasyQClient.BackJob
             var qNormal = bus.Advanced.QueueDeclare("Ers_normal_queue");
 
             bus.Advanced.Consume<string>(qNormal, (msg, msgInfo) =>
+            {
+                strList.Add($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg.Body}");
+                Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg.Body}");
+
+            });
+
+            Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        }
+
+        private void DoWork2(object? state)
+        {
+            var strList = new List<string>();
+            // 创建普通队列，设置好 RoutingKey
+            // 和第二步 MsgProducer 项目中的普通队列名称一致！！！
+            var qNormal = bus.Advanced.QueueDeclare("StudentMessage");
+
+            bus.Advanced.Consume<StudentMessage>(qNormal, (msg, msgInfo) =>
             {
                 strList.Add($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg.Body}");
                 Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg.Body}");

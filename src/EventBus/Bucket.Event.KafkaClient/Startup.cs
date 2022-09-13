@@ -9,8 +9,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -30,12 +33,23 @@ namespace Bucket.Event.KafkaClient
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddRazorPages();
-           
+
             services.AddMvc();
             services.Configure<ProducerConfig>(Configuration.GetSection("ProducerConfig"));
-            services.AddOptions().Configure<ConsumerConfig>(e=> Configuration.GetSection("ConsumerConfig").Bind(e));
+            services.AddOptions().Configure<ConsumerConfig>(e => Configuration.GetSection("ConsumerConfig").Bind(e));
             string rabbitMqConnection = Configuration["RabbitMqConnection"];
-            services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnection));
+            services.AddScoped<IBus>(s => RabbitHutch.CreateBus(rabbitMqConnection, x => x.EnableDelayedExchangeScheduler()));
+            #region swagger
+            services.AddSwaggerGen(c =>
+            {
+                //c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "ErsApi.Entity.xml"), true);
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "KafkaClient", Version = "V1", Description = "KafkaClient Description" });
+                var xmlFile = $"{Assembly.GetEntryAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath, true);
+
+            });
+            #endregion
         }
         public void ConfigureContainer(ContainerBuilder builder)
         {
@@ -63,6 +77,13 @@ namespace Bucket.Event.KafkaClient
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "V1");
+                c.DocExpansion(DocExpansion.None);
+            });
 
             app.UseAuthorization();
             //app.UseSubscribe("OrderService", Assembly.GetExecutingAssembly());
