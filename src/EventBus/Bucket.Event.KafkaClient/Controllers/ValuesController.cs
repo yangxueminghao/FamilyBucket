@@ -1,15 +1,10 @@
-﻿using Bucket.Event.KafkaClient.Model;
+﻿using Bucket.EventBus.Model;
 using EasyNetQ;
-using EasyNetQ.AutoSubscribe;
 using EasyNetQ.Topology;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Bucket.Event.KafkaClient.Controllers
 {
@@ -116,6 +111,41 @@ namespace Bucket.Event.KafkaClient.Controllers
                     var msg = sec.ToString();
                     StudentMessage studentMessage = new StudentMessage { Id = sec, Name = $"张{msg}" };
                     bus.Scheduler.FuturePublish(studentMessage, TimeSpan.FromSeconds(sec));
+
+                    Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功 {msg}");
+                    strList.Add(msg);
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
+        [HttpGet]
+        [Route("Publish")]
+        public (int, IEnumerable<string>) Publish()
+        {
+            var strList = new List<string>();
+
+            try
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    // 以下是测试发送消息的代码
+                    int sec = new Random(i).Next(100, 5000);
+                    var msg = sec.ToString();
+                    StudentMessage studentMessage = new StudentMessage { Id = sec, Name = $"张{msg}" };
+                    bus.PubSub.Publish(studentMessage);
 
                     Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功 {msg}");
                     strList.Add(msg);
