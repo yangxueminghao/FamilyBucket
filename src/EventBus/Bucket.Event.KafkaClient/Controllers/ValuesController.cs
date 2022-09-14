@@ -33,7 +33,7 @@ namespace Bucket.Event.KafkaClient.Controllers
 
         [HttpGet]
         [Route("DelayProduce")]
-        public (int,IEnumerable<string>) DelayProduce()
+        public (int,IEnumerable<int>) DelayProduce()
         {
             #region 安装rabbitMq延迟队列插件
             //            Download a Binary Build
@@ -49,7 +49,7 @@ namespace Bucket.Event.KafkaClient.Controllers
 
             //rabbitmq - plugins enable rabbitmq_delayed_message_exchange
             #endregion
-            var strList = new List<string>();
+            var strList = new List<int>();
 
             try
             {
@@ -67,17 +67,17 @@ namespace Bucket.Event.KafkaClient.Controllers
                     bus.Advanced.Bind(exNormal, qNormal, "delay");
 
                     // 以下是测试发送消息的代码
-                    string msg = new Random(i).Next(100, 50000).ToString();
+                    int expire = new Random(i).Next(1000, 700000);
 
                     // 针对单个消息，设置延迟时间（毫秒）
                     var msgHeaders = new MessageProperties();
-                    msgHeaders.Headers.Add("x-delay", new Random().Next(1000, 70000));
+                    msgHeaders.Headers.Add("x-delay", expire);
 
                     // 发送消息
-                    bus.Advanced.Publish(exDelay, "delay", false, new Message<string>(msg, msgHeaders));
+                    bus.Advanced.Publish(exDelay, "delay", false, new Message<int>(expire, msgHeaders));
 
-                    Debug.WriteLine($"{DateTimeOffset.Now} 发送成功 {msg}");
-                    strList.Add(msg);
+                    Debug.WriteLine($"{DateTimeOffset.Now} 发送成功 {expire}");
+                    strList.Add(expire);
                 }
             }
             catch (Exception e)

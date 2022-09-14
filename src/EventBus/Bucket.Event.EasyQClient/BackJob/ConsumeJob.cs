@@ -22,7 +22,7 @@ namespace Bucket.Event.EasyQClient.BackJob
         public Task StartAsync(CancellationToken cancellationToken)
         {
             //_timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-            //DoWork(null);
+            DoWork(null);
             //DoWork2(null);
             DoWork3(null);
             return Task.CompletedTask;
@@ -35,10 +35,10 @@ namespace Bucket.Event.EasyQClient.BackJob
             // 和第二步 MsgProducer 项目中的普通队列名称一致！！！
             var qNormal = bus.Advanced.QueueDeclare("Ers_normal_queue");
 
-            bus.Advanced.Consume<string>(qNormal, (msg, msgInfo) =>
+            bus.Advanced.Consume<int>(qNormal, (msg, msgInfo) =>
             {
-                strList.Add($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg.Body}");
-                Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg.Body}");
+                strList.Add($"{DateTimeOffset.Now} 收到消息：{msg.Body}");
+                Debug.WriteLine($"{DateTimeOffset.Now} 收到消息：{msg.Body}");
 
             });
 
