@@ -229,6 +229,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\docker.sh = Shell\docker.sh
 		Shell\elasticserach.sh = Shell\elasticserach.sh
 		Shell\elk.yml = Shell\elk.yml
+		Shell\exceptionless.sh = Shell\exceptionless.sh
 		Shell\filebrowser.sh = Shell\filebrowser.sh
 		Shell\gitlab.sh = Shell\gitlab.sh
 		Shell\harbor.sh = Shell\harbor.sh
@@ -295,7 +296,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Event.EasyQClient", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.Quartz.Server", "HangFire\Bucket.Quartz.Server\Bucket.Quartz.Server\Bucket.Quartz.Server.csproj", "{D04923F4-5D2C-48AD-9B94-644B94578448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bucket.EventBus.Model", "EventBus\Bucket.EventBus.Model\Bucket.EventBus.Model.csproj", "{783F7B0D-F8F0-45B2-8213-03F51E95D3A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bucket.EventBus.Model", "EventBus\Bucket.EventBus.Model\Bucket.EventBus.Model.csproj", "{783F7B0D-F8F0-45B2-8213-03F51E95D3A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
