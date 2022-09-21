@@ -261,6 +261,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\redis.sh = Shell\redis.sh
 		Shell\rediscluster.sh = Shell\rediscluster.sh
 		Shell\rediscluster2.sh = Shell\rediscluster2.sh
+		Shell\smtp4dev.sh = Shell\smtp4dev.sh
 		Shell\sonarqube.sh = Shell\sonarqube.sh
 		Shell\tool.sql = Shell\tool.sql
 		Shell\treesoft.sh = Shell\treesoft.sh
