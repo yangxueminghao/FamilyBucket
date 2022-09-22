@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\HomeController.cs" />
+    <Compile Remove="Model\StudentMessage.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,14 @@
     <PackageReference Include="EasyNetQ" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bucket.EventBus.Model\Bucket.EventBus.Model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,5 +14,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\Bucket.EventBus.Model\Bucket.EventBus.Model.csproj" />
+	</ItemGroup>
 </Project>
