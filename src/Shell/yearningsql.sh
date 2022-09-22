@@ -8,6 +8,7 @@ docker-compose up -d
 #docker run -d --link=some-mysql -it -p8000:8000 -e MYSQL_USER=root -e MYSQL_ADDR=some-mysql:3306 -e MYSQL_PASSWORD=123456 -e MYSQL_DB=yearning   zhangsean/yearning
 #docker exec -it 102 /bin/sh
 #CMD ["/bin/sh"] ./Yearning install
-
+#docker run -d -it  -p8000:8000 --link=some-mysql -e IS_DOCKER=is_docker -e SECRET_KEY=dbcjqheupqjsuwsm  -e MYSQL_USER=root -e MYSQL_ADDR=some-mysql:3306 -e MYSQL_PASSWORD=123456  -e MYSQL_DB=Yearning chaiyd/yearning
+# 默认账号：admin，默认密码：Yearning_admin  全部设置保存
 echo '启动完成'
 
