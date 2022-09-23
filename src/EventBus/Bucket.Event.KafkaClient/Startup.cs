@@ -92,6 +92,7 @@ namespace Bucket.Event.KafkaClient
                 //endpoints.MapRazorPages();
                 endpoints.MapDefaultControllerRoute();
             });
+            app.UsePush();
         }
     }
 }

@@ -90,10 +90,11 @@ namespace Bucket.Event.EasyQClient
                 //endpoints.MapRazorPages();
                 endpoints.MapDefaultControllerRoute();
             });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapRazorPages();
+            //});
+            
         }
     }
 }
