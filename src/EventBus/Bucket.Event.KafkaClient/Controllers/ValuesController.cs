@@ -33,7 +33,7 @@ namespace Bucket.Event.KafkaClient.Controllers
 
         [HttpGet]
         [Route("DelayProduce")]
-        public (int,IEnumerable<int>) DelayProduce()
+        public (int, IEnumerable<int>) DelayProduce()
         {
             #region 安装rabbitMq延迟队列插件
             //            Download a Binary Build
@@ -99,7 +99,7 @@ namespace Bucket.Event.KafkaClient.Controllers
         [HttpGet]
         [Route("FutureProduce")]
         public (int, IEnumerable<string>) FutureProduce()
-        {            
+        {
             var strList = new List<string>();
 
             try
@@ -155,6 +155,57 @@ namespace Bucket.Event.KafkaClient.Controllers
             {
 
                 throw;
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
+        [HttpGet]
+        [Route("PublishTopic")]
+        public (int, IEnumerable<string>) PublishTopic()
+        {
+            var strList = new List<string>();
+
+            try
+            {
+                var exchange1 = bus.Advanced.ExchangeDeclare("Ers.EventBus.StudentEx", "topic");
+                var queue1 = bus.Advanced.QueueDeclare("Ers.EventBus.queue1");
+                var queue2 = bus.Advanced.QueueDeclare("Ers.EventBus.queue2");
+                var queue3 = bus.Advanced.QueueDeclare("Ers.EventBus.queue3");
+                bus.Advanced.Bind(exchange1,queue1,"Ers.*.Student");
+                bus.Advanced.Bind(exchange1, queue2, "Ers.#");
+                bus.Advanced.Bind(exchange1, queue3, "Ers.a.Student");
+                for (int i = 0; i < 100; i++)
+                {
+                    // 以下是测试发送消息的代码
+                    int sec = new Random(i).Next(100, 5000);
+                    var msg = sec.ToString();
+                    StudentMessage studentMessage = new StudentMessage { Id = sec, Name = $"张{msg}" };
+                    try
+                    {
+                        bus.Advanced.Publish<StudentMessage>(exchange1, "Ers.b.Student", false, new Message<StudentMessage>(studentMessage));
+                        //throw new Exception("fgksdfgioerterwpoyier");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"{ex.Message}");
+                    }
+                    
+
+                    Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功 {msg}");
+                    strList.Add(msg);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Debug.WriteLine($"{e.Message}");
             }
             finally
             {
