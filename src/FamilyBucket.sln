@@ -265,6 +265,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shell", "Shell", "{70D4C9D5
 		Shell\sonarqube.sh = Shell\sonarqube.sh
 		Shell\tool.sql = Shell\tool.sql
 		Shell\treesoft.sh = Shell\treesoft.sh
+		Shell\xxl_job.sh = Shell\xxl_job.sh
 		Shell\yearningsql.sh = Shell\yearningsql.sh
 		Shell\zentao.sh = Shell\zentao.sh
 	EndProjectSection
