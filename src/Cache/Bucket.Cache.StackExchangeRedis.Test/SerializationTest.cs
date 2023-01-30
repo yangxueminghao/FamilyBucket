@@ -48,6 +48,18 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             Assert.Equal(std, std20);
             Assert.Equal(std0, std20);
             Assert.True(bytes.Length - bytes2.Length < 0);
+
+
+            var services3 = Init3();
+            var service3 = services3.BuildServiceProvider().GetRequiredService<ICachingSerializer>();
+            var bytes3 = service3.Serialize(std);
+            var std30 = service3.Deserialize<Student>(bytes3);
+
+            var byteStr3 = Encoding.ASCII.GetString(bytes3);
+
+            Assert.Equal(std, std30);
+            Assert.Equal(std0, std30);
+            Assert.True(bytes3.Length - bytes.Length < 0);
         }
 
         public IServiceCollection Init()
