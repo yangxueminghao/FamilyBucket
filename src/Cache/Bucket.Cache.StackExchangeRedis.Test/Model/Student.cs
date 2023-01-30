@@ -11,5 +11,10 @@ namespace Bucket.Cache.StackExchangeRedis.Test.Model
         public DateTime Birthday { get; set; }
         public sbyte Sex { get; set; }
         public int ClassId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return this.ToString().Equals(obj.ToString());    
+        }
     }
 }

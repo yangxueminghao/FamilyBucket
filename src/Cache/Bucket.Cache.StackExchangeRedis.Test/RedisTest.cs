@@ -1,27 +1,26 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using Xunit;
+using Bucket.Cache.StackExchangeRedis.Test.Model;
+using Bucket.Caching.Abstractions;
 using Bucket.Caching.Extensions;
 using Bucket.Caching.StackExchangeRedis;
-using Bucket.Caching.Abstractions;
-using Bucket.Cache.StackExchangeRedis.Test.Model;
+using Bucket.Caching.StackExchangeRedis.Abstractions;
 using Bucket.Extensions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Unicode;
-using Bucket.Caching.StackExchangeRedis.Abstractions;
-using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.Json;
-using System.Collections.Generic;
+using Xunit;
 
 namespace Bucket.Cache.StackExchangeRedis.Test
 {
-    public class UnitTest1
+    public class RedisTest
     {
         [Fact]
         public void TestRedis()

@@ -24,6 +24,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Bucket.Core\Bucket.Core.csproj" />
+    <ProjectReference Include="..\Bucket.Caching.Codec.MessagePack\Bucket.Caching.Codec.MessagePack.csproj" />
+    <ProjectReference Include="..\Bucket.Caching.Codec.ProtoBuffer\Bucket.Caching.Codec.ProtoBuffer.csproj" />
     <ProjectReference Include="..\Bucket.Caching.StackExchangeRedis\Bucket.Caching.StackExchangeRedis.csproj" />
     <ProjectReference Include="..\Bucket.Caching\Bucket.Caching.csproj" />
   </ItemGroup>
