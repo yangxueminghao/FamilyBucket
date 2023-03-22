@@ -31,7 +31,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             {
                 string key = Convert.ToChar(i).ToString();
                 service.Set<string>(key, "ÕÅÈı" + i, TimeSpan.FromDays(1));
-                service.Get<string>(key);
+                var str = service.Get<string>(key);
             }
 
 
@@ -255,7 +255,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             Student student = new Student();
             student.Id = 10000;
             //Random random = new Random();
-            var key = $"usersign:{DateTime.Now.Year }:{student.Id}";
+            var key = $"usersign:{DateTime.Now.Year}:{student.Id}";
             for (int i = 0; i < 100; i++)
             {
                 database.StringSetBit(key, DateTime.Now.DayOfYear + i, true);
@@ -268,7 +268,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
                 {
                     count++;
                 }
-                
+
             }
 
             Assert.True(count == 100);
@@ -297,7 +297,7 @@ namespace Bucket.Cache.StackExchangeRedis.Test
             var redis = services.BuildServiceProvider().GetRequiredService<IRedisDatabaseProvider>();
             var database = redis.GetDatabase();
             database.StringSet("a", "sfdgfds");
-            var str= database.StringGet("a").ToString();
+            var str = database.StringGet("a").ToString();
             Assert.True(str == "100");
 
         }
