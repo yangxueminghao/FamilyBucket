@@ -3,6 +3,7 @@ using EasyNetQ;
 using EasyNetQ.Topology;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -10,10 +11,10 @@ namespace Bucket.Event.KafkaClient.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class PublishController : ControllerBase
     {
         private IBus bus;
-        public ValuesController(IBus _bus)
+        public PublishController(IBus _bus)
         {
             bus = _bus;
         }
@@ -42,12 +43,11 @@ namespace Bucket.Event.KafkaClient.Controllers
             //As with all 3rd party plugins, the.ez file must be placed into a node's plugins directory and be readable by the effective user of the RabbitMQ process.
 
             //To find out what the plugins directory is, use rabbitmq-plugins directories
-
-            //rabbitmq - plugins directories - s
+            //rabbitmq-plugins list
+            //rabbitmq-plugins directories -s
             //Enabling the Plugin
             //Then run the following command:
-
-            //rabbitmq - plugins enable rabbitmq_delayed_message_exchange
+            //rabbitmq-plugins enable rabbitmq_delayed_message_exchange
             #endregion
             var strList = new List<int>();
 
@@ -178,7 +178,7 @@ namespace Bucket.Event.KafkaClient.Controllers
                 var queue1 = bus.Advanced.QueueDeclare("Ers.EventBus.queue1");
                 var queue2 = bus.Advanced.QueueDeclare("Ers.EventBus.queue2");
                 var queue3 = bus.Advanced.QueueDeclare("Ers.EventBus.queue3");
-                bus.Advanced.Bind(exchange1,queue1,"Ers.*.Student");
+                bus.Advanced.Bind(exchange1, queue1, "Ers.*.Student");
                 bus.Advanced.Bind(exchange1, queue2, "Ers.#");
                 bus.Advanced.Bind(exchange1, queue3, "Ers.a.Student");
                 for (int i = 0; i < 100; i++)
@@ -196,7 +196,7 @@ namespace Bucket.Event.KafkaClient.Controllers
                     {
                         Debug.WriteLine($"{ex.Message}");
                     }
-                    
+
 
                     Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功 {msg}");
                     strList.Add(msg);

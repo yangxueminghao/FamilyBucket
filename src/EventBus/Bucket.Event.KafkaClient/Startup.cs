@@ -1,8 +1,10 @@
 using Autofac;
+using Bucket.Event.KafkaClient.BackJob;
 //using Bucket.Event.Kafka;
 using Bucket.Event.KafkaClient.Extensions;
 using Confluent.Kafka;
 using EasyNetQ;
+using EasyNetQ.DI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,7 +40,8 @@ namespace Bucket.Event.KafkaClient
             services.Configure<ProducerConfig>(Configuration.GetSection("ProducerConfig"));
             services.AddOptions().Configure<ConsumerConfig>(e => Configuration.GetSection("ConsumerConfig").Bind(e));
             string rabbitMqConnection = Configuration["RabbitMqConnection"];
-            services.AddScoped<IBus>(s => RabbitHutch.CreateBus(rabbitMqConnection, x => x.EnableDelayedExchangeScheduler()));
+            services.AddScoped<IBus>(s => RabbitHutch.CreateBus(rabbitMqConnection, x => x.EnableDelayedExchangeScheduler().Register<IScheduler, DelayedExchangeScheduler>()));
+            services.AddHostedService<ConsumeJob>();
             #region swagger
             services.AddSwaggerGen(c =>
             {
