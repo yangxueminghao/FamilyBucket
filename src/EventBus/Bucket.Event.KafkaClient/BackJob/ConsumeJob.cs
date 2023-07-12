@@ -9,6 +9,9 @@ using Bucket.EventBus.Model;
 
 namespace Bucket.Event.KafkaClient.BackJob
 {
+    /// <summary>
+    /// 后台任务监听rabbitMQ推送的消息
+    /// </summary>
     public class ConsumeJob : IHostedService, IDisposable
     {
         private IBus bus;
@@ -53,7 +56,7 @@ namespace Bucket.Event.KafkaClient.BackJob
             // 和第二步 MsgProducer 项目中的普通队列名称一致！！！
             //var qNormal = bus.Advanced.QueueDeclare("StudentMessage");
 
-            bus.PubSub.Subscribe<StudentMessage>("StudentMessage", async ( msg) =>
+            bus.PubSub.Subscribe<StudentMessage>("StudentMessage", async (msg) =>
             {
                 strList.Add($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg}");
                 Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg}");
@@ -87,12 +90,12 @@ namespace Bucket.Event.KafkaClient.BackJob
             // 和第二步 MsgProducer 项目中的普通队列名称一致！！！
             //var qNormal = bus.Advanced.QueueDeclare("StudentMessage");
 
-            bus.Advanced.Consume<StudentMessage>(new EasyNetQ.Topology.Queue("Ers.EventBus.PriorityQueue"), async (msg,rev) =>
+            bus.Advanced.Consume<StudentMessage>(new EasyNetQ.Topology.Queue("Ers.EventBus.PriorityQueue1"), async (msg, rev) =>
             {
                 strList.Add($"{nameof(DoWorkPriority)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
                 Debug.WriteLine($"{nameof(DoWorkPriority)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
                 await Task.CompletedTask;
-            });
+            }, conf => conf.WithPrefetchCount(10));
 
             Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
         }

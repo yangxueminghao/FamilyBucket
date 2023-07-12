@@ -228,9 +228,9 @@ namespace Bucket.Event.KafkaClient.Controllers
             {
                 var exchange1 = bus.Advanced.ExchangeDeclare("Ers.EventBus.StudentPriorityEx", "topic");
 
-                var queuePriority = bus.Advanced.QueueDeclare("Ers.EventBus.PriorityQueue");
+                var queuePriority = bus.Advanced.QueueDeclare("Ers.EventBus.PriorityQueue1", conf => conf.WithMaxPriority(9));//优先级队列才支持优先级消息
                 bus.Advanced.Bind(exchange1, queuePriority, "Ers.*.Student");
-                for (int i = 0; i < 5000000; i++)
+                for (int i = 0; i < 500; i++)
                 {
                     // 以下是测试发送消息的代码
                     int sec = new Random(i).Next(100, 5000);
@@ -238,7 +238,7 @@ namespace Bucket.Event.KafkaClient.Controllers
                     StudentMessage studentMessage = new StudentMessage { Id = i, Name = $"张{msg}" };
                     try
                     {
-                        var properties = new MessageProperties { Priority = (byte)(sec % 10) };
+                        var properties = new MessageProperties { Priority = (byte)(i % 10) };
                         bus.Advanced.Publish<StudentMessage>(exchange1, "Ers.b.Student", false, new Message<StudentMessage>(studentMessage, properties));
                     }
                     catch (Exception ex)
@@ -248,6 +248,65 @@ namespace Bucket.Event.KafkaClient.Controllers
 
 
                     Debug.WriteLine($"{nameof(PublishPriority)}{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功{i}- {msg}");
+                    strList.Add(msg);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Debug.WriteLine($"{e.Message}");
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
+
+        [HttpGet]
+        [Route("PublishLimit")]
+        public (int, IEnumerable<string>) PublishLimit()
+        {
+            var strList = new List<string>();
+
+            try
+            {
+                var exchange = bus.Advanced.ExchangeDeclare("Ers.EventBus.StudentLimitEx", "topic");
+                var exchangeDead = bus.Advanced.ExchangeDeclare("Ers.EventBus.StudentLimitDeadEx", "topic");
+                var queueDead = bus.Advanced.QueueDeclare("Ers.EventBus.StudentLimitDeadQueue", conf => conf
+                .WithMaxPriority(9)
+                );
+                bus.Advanced.Bind(exchangeDead, queueDead, "Ers.Dead.*.Student");
+
+                var queueLimit = bus.Advanced.QueueDeclare("Ers.EventBus.StudentLimitQueue", conf => conf
+                .WithMaxLength(10)
+                .WithOverflowType(OverflowType.RejectPublishDlx)
+                .WithDeadLetterExchange(exchangeDead)
+                .WithDeadLetterRoutingKey("Ers.Dead.a.Student")
+                );//优先级队列才支持优先级消息
+                bus.Advanced.Bind(exchange, queueLimit, "Ers.*.Student");
+                for (int i = 0; i < 500; i++)
+                {
+                    // 以下是测试发送消息的代码
+                    int sec = new Random(i).Next(100, 5000);
+                    var msg = sec.ToString();
+                    StudentMessage studentMessage = new StudentMessage { Id = i, Name = $"张{msg}" };
+                    try
+                    {
+                        var properties = new MessageProperties { Priority = (byte)(i % 10) };
+                        bus.Advanced.Publish<StudentMessage>(exchange, "Ers.b.Student", false, new Message<StudentMessage>(studentMessage, properties));
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"{ex.Message}");
+                    }
+
+
+                    Debug.WriteLine($"{nameof(PublishLimit)}{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功{i}- {msg}");
                     strList.Add(msg);
                 }
             }

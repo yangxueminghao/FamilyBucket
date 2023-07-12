@@ -4,6 +4,11 @@
         <name>Bucket.Event.KafkaClient</name>
     </assembly>
     <members>
+        <member name="T:Bucket.Event.KafkaClient.BackJob.ConsumeJob">
+            <summary>
+            后台任务监听rabbitMQ推送的消息
+            </summary>
+        </member>
         <member name="P:Bucket.Event.KafkaClient.Models.MessageBase.BusType">
             <summary>
             业务类型
