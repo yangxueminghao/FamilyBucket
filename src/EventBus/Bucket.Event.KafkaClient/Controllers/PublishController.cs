@@ -325,6 +325,55 @@ namespace Bucket.Event.KafkaClient.Controllers
             return (strList.Count, strList);
 
         }
+
+        [HttpGet]
+        [Route("PublishConfirm")]
+        public (int, IEnumerable<string>) PublishConfirm()
+        {
+            var strList = new List<string>();
+
+            try
+            {
+                var exchange = bus.Advanced.ExchangeDeclare("Ers.EventBus.StudentConfirmEx", "topic");
+
+                var queue = bus.Advanced.QueueDeclare("Ers.EventBus.StudentConfirmQueue");//优先级队列才支持优先级消息
+                bus.Advanced.Bind(exchange, queue, "Ers.*.Student");
+                for (int i = 0; i < 500; i++)
+                {
+                    // 以下是测试发送消息的代码
+                    int sec = new Random(i).Next(100, 5000);
+                    var msg = sec.ToString();
+                    StudentMessage studentMessage = new StudentMessage { Id = i, Name = $"张{msg}" };
+                    try
+                    {
+                        var properties = new MessageProperties { Priority = (byte)(i % 10) };
+                        bus.Advanced.Publish<StudentMessage>(exchange, "Ers.b.Student", false, new Message<StudentMessage>(studentMessage, properties));
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"{ex.Message}");
+                    }
+
+
+                    Debug.WriteLine($"{nameof(PublishLimit)}{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功{i}- {msg}");
+                    strList.Add(msg);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Debug.WriteLine($"{e.Message}");
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
     }
 
     //[Queue("Qka.Order", ExchangeName = "Qka.Order")]
