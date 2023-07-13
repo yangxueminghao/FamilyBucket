@@ -391,6 +391,7 @@ namespace Bucket.Event.KafkaClient.Controllers
                 int i=0;
                 while (i<100)
                 {
+                    //注册发布者监听器
                     using (var connection = factory.CreateConnection())
                     {
                         using (var channel = connection.CreateModel())
