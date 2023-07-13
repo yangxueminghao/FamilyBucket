@@ -43,16 +43,16 @@ namespace Bucket.EventBus.Cap
                 x.UseRabbitMQ(options =>
                 {
                     //上一篇中我创建的用户名密码 
-                    options.HostName = "192.168.192.128";
+                    options.HostName = "192.168.192.129";
                     options.UserName = "admin";
                     options.Password = "admin";
                     options.VirtualHost = "/";
                 });
             }).AddSubscribeFilter<CapSubscribeFilter>();
-            services.AddMongoDbContext(section: "MongoDbConfig")
-                .AddMongoDbRepository();
-            services.AddDapperDbContext(section: "DapperDbConfig")
-                .AddDapperDbRepository();
+            //services.AddMongoDbContext(section: "MongoDbConfig")
+            //    .AddMongoDbRepository();
+            //services.AddDapperDbContext(section: "DapperDbConfig")
+            //    .AddDapperDbRepository();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,6 +10,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 using RabbitMQ.Client;
 using System.Reflection;
+using EasyNetQ.Consumer;
 
 namespace Bucket.Event.EasyQClient.BackJob
 {
@@ -25,11 +26,12 @@ namespace Bucket.Event.EasyQClient.BackJob
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(DoWorkConfirm, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+            //_timer = new Timer(DoWorkConfirm, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
             //DoWork(null);
             //DoWork2(null);
             //DoWork3(null);
             //DoWorkConfirm(null);
+            DoWorkQos(null);
             return Task.CompletedTask;
         }
 
@@ -57,7 +59,7 @@ namespace Bucket.Event.EasyQClient.BackJob
             // 和第二步 MsgProducer 项目中的普通队列名称一致！！！
             //var qNormal = bus.Advanced.QueueDeclare("StudentMessage");
 
-            bus.PubSub.Subscribe<StudentMessage>("StudentMessage", async ( msg) =>
+            bus.PubSub.Subscribe<StudentMessage>("StudentMessage", async (msg) =>
             {
                 strList.Add($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg}");
                 Debug.WriteLine($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 收到消息：{msg}");
@@ -108,8 +110,9 @@ namespace Bucket.Event.EasyQClient.BackJob
             // 和第二步 MsgProducer 项目中的普通队列名称一致！！！
             //var qNormal = bus.Advanced.QueueDeclare("StudentMessage");
 
-            bus.Advanced.Consume<StudentMessage>(new EasyNetQ.Topology.Queue("Ers.EventBus.StudentConfirmQueue"), async (msg, rev) =>
+            bus.Advanced.Consume<StudentMessage>(new EasyNetQ.Topology.Queue("Ers.EventBus.StudentConfirmQueue"), async (msg, rev, c) =>
             {
+                await Task.Yield();
                 strList.Add($"{nameof(DoWorkQos)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
                 Debug.WriteLine($"{nameof(DoWorkQos)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
                 await Task.Delay(1000);
@@ -143,6 +146,7 @@ namespace Bucket.Event.EasyQClient.BackJob
                         await Task.Delay(1000);
                         try
                         {
+                            await Task.Yield();
                             //处理完成，手动确认
                             ((AsyncEventingBasicConsumer)model).Model.BasicAck(ea.DeliveryTag, false);
                             //channel.BasicAck(ea.DeliveryTag, false);
@@ -152,7 +156,7 @@ namespace Bucket.Event.EasyQClient.BackJob
 
                             throw;
                         }
-                        
+
                         Debug.WriteLine($"处理消息【{Encoding.UTF8.GetString(ea.Body.Span)}】完成");
                     };
                     Debug.WriteLine("消费者准备就绪....");

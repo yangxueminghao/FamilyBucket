@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using System.Threading.Channels;
 
 namespace Bucket.Event.KafkaClient.Controllers
 {
@@ -388,8 +389,8 @@ namespace Bucket.Event.KafkaClient.Controllers
             {
                 IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
                 //AutomaticRecoveryEnabled = true; DispatchConsumersAsync = true;
-                int i=0;
-                while (i<100)
+                int i = 0;
+                while (i < 100)
                 {
                     //注册发布者监听器
                     using (var connection = factory.CreateConnection())
@@ -398,12 +399,22 @@ namespace Bucket.Event.KafkaClient.Controllers
                         {
                             var baPro = channel.CreateBasicProperties();
                             baPro.DeliveryMode = 2;
+                            baPro.Persistent = true;
                             channel.ConfirmSelect();
-                            channel.BasicPublish("Ers.EventBus.StudentConfirmEx", "Ers.b.Student", false, baPro, Encoding.UTF8.GetBytes("zhang"+i));
+                            channel.BasicAcks += (model, arg) =>
+                            {
+                                //(model as IModel).
+                            };
+                            channel.BasicNacks += (model, arg) =>
+                            {
+
+                            };
+                            channel.BasicPublish("Ers.EventBus.StudentConfirmEx", "Ers.b.Student", false, baPro, Encoding.UTF8.GetBytes("zhang" + i));
                             channel.WaitForConfirms();
                             i++;
                         }
                     }
+
                     Thread.Sleep(1000);
                 }
             }
@@ -422,19 +433,55 @@ namespace Bucket.Event.KafkaClient.Controllers
             return (strList.Count, strList);
 
         }
-    }
 
-    //[Queue("Qka.Order", ExchangeName = "Qka.Order")]
-    //public class Order
-    //{
-    //    public int OrderId { get; set; }
-    //}
-    //public class OrderConsumer : IConsume<Order>
-    //{
-    //    [AutoSubscriberConsumer(SubscriptionId = "OrderService")]
-    //    public void Consume(Order message, CancellationToken cancellationToken = default)
-    //    {
-    //        Debug.WriteLine($"Order:{message.OrderId},{DateTime.Now}");
-    //    }
-    //}
+        [HttpGet]
+        [Route("PublishConfirm2")]
+        public (int, IEnumerable<string>) PublishConfirm2()
+        {
+            var strList = new List<string>();
+            var confirmCount = 0;
+            var nonConfirmedCount = 0;
+
+            //using (var channel = bus.OpenPublishChannel(x => x.WithPublisherConfirms()))
+            //{
+            //    for (int i = 0; i < 100; i++)
+            //    {
+            //        var message = new StudentMessage { Id = i, Name = $"张{i}" };
+            //        channel.Publish(message, x =>
+            //                x.OnSuccess(() =>
+            //                {
+            //                    callbackCount++;
+            //                    confirmCount++;
+            //                })
+            //                .OnFailure(() =>
+            //                {
+            //                    callbackCount++;
+            //                    nonConfirmedCount++;
+            //                }));
+            //    }
+
+            //}  
+            Debug.WriteLine("The confirmed count is: {0}.", confirmCount);
+            Debug.WriteLine("The non confirmed count is: {0}", nonConfirmedCount);
+
+
+            return (strList.Count, strList);
+
+        }
+
+
+        //[Queue("Qka.Order", ExchangeName = "Qka.Order")]
+        //public class Order
+        //{
+        //    public int OrderId { get; set; }
+        //}
+        //public class OrderConsumer : IConsume<Order>
+        //{
+        //    [AutoSubscriberConsumer(SubscriptionId = "OrderService")]
+        //    public void Consume(Order message, CancellationToken cancellationToken = default)
+        //    {
+        //        Debug.WriteLine($"Order:{message.OrderId},{DateTime.Now}");
+        //    }
+        //}
+    }
 }
