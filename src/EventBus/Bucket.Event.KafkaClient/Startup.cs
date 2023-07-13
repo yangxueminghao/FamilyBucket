@@ -41,7 +41,7 @@ namespace Bucket.Event.KafkaClient
             services.AddOptions().Configure<ConsumerConfig>(e => Configuration.GetSection("ConsumerConfig").Bind(e));
             string rabbitMqConnection = Configuration["RabbitMqConnection"];
             services.AddScoped<IBus>(s => RabbitHutch.CreateBus(rabbitMqConnection, x => x.EnableDelayedExchangeScheduler().Register<IScheduler, DelayedExchangeScheduler>()));
-            services.AddHostedService<ConsumeJob>();
+            //services.AddHostedService<ConsumeJob>();
             #region swagger
             services.AddSwaggerGen(c =>
             {

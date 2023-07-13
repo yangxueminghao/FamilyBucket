@@ -2,10 +2,14 @@
 using EasyNetQ;
 using EasyNetQ.Topology;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
+using System.Threading;
 
 namespace Bucket.Event.KafkaClient.Controllers
 {
@@ -56,9 +60,9 @@ namespace Bucket.Event.KafkaClient.Controllers
                 for (int i = 0; i < 100; i++)
                 {
                     // 建立延时 exchange
-                    var exDelay = bus.Advanced.ExchangeDeclare("Ers_delay_exchange", cfg => cfg.AsDelayedExchange(ExchangeType.Direct));
+                    var exDelay = bus.Advanced.ExchangeDeclare("Ers_delay_exchange", cfg => cfg.AsDelayedExchange(EasyNetQ.Topology.ExchangeType.Direct));
                     // 建立普通 exchange
-                    var exNormal = bus.Advanced.ExchangeDeclare("Ers_normal_exchange", ExchangeType.Direct);
+                    var exNormal = bus.Advanced.ExchangeDeclare("Ers_normal_exchange", EasyNetQ.Topology.ExchangeType.Direct);
                     // 绑定两个 exchange，设置好 RoutingKey
                     bus.Advanced.Bind(exDelay, exNormal, "delay");
 
@@ -327,8 +331,8 @@ namespace Bucket.Event.KafkaClient.Controllers
         }
 
         [HttpGet]
-        [Route("PublishConfirm")]
-        public (int, IEnumerable<string>) PublishConfirm()
+        [Route("PublishQos")]
+        public (int, IEnumerable<string>) PublishQos()
         {
             var strList = new List<string>();
 
@@ -346,7 +350,7 @@ namespace Bucket.Event.KafkaClient.Controllers
                     StudentMessage studentMessage = new StudentMessage { Id = i, Name = $"张{msg}" };
                     try
                     {
-                        var properties = new MessageProperties { Priority = (byte)(i % 10) };
+                        var properties = new MessageProperties { Priority = (byte)(i % 10), DeliveryMode = 2 };
                         bus.Advanced.Publish<StudentMessage>(exchange, "Ers.b.Student", false, new Message<StudentMessage>(studentMessage, properties));
                     }
                     catch (Exception ex)
@@ -355,8 +359,51 @@ namespace Bucket.Event.KafkaClient.Controllers
                     }
 
 
-                    Debug.WriteLine($"{nameof(PublishLimit)}{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功{i}- {msg}");
+                    Debug.WriteLine($"{nameof(PublishQos)}{DateTimeOffset.Now.ToUnixTimeMilliseconds()} 发送成功{i}- {msg}");
                     strList.Add(msg);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Debug.WriteLine($"{e.Message}");
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
+        [HttpGet]
+        [Route("PublishConfirm")]
+        public (int, IEnumerable<string>) PublishConfirm()
+        {
+            var strList = new List<string>();
+
+            try
+            {
+                IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
+                //AutomaticRecoveryEnabled = true; DispatchConsumersAsync = true;
+                int i=0;
+                while (i<100)
+                {
+                    using (var connection = factory.CreateConnection())
+                    {
+                        using (var channel = connection.CreateModel())
+                        {
+                            var baPro = channel.CreateBasicProperties();
+                            baPro.DeliveryMode = 2;
+                            channel.ConfirmSelect();
+                            channel.BasicPublish("Ers.EventBus.StudentConfirmEx", "Ers.b.Student", false, baPro, Encoding.UTF8.GetBytes("zhang"+i));
+                            channel.WaitForConfirms();
+                            i++;
+                        }
+                    }
+                    Thread.Sleep(1000);
                 }
             }
             catch (Exception e)

@@ -47,9 +47,9 @@ namespace Bucket.Event.EasyQClient
             string rabbitMqConnection = Configuration["RabbitMqConnection"];
             services.AddSingleton(RabbitHutch.CreateBus(rabbitMqConnection, x => x.EnableDelayedExchangeScheduler()));
             services.AddHostedService<ConsumeJob>();
-            services.AddHostedService<ConsumeJobA>();
-            services.AddHostedService<ConsumeJobB>();
-            services.AddHostedService<ConsumeJobC>();
+            //services.AddHostedService<ConsumeJobA>();
+            //services.AddHostedService<ConsumeJobB>();
+            //services.AddHostedService<ConsumeJobC>();
 
             //services.AddInitQ(m =>
             //{

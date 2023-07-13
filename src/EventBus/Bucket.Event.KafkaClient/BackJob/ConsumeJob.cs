@@ -32,7 +32,8 @@ namespace Bucket.Event.KafkaClient.BackJob
             //DoWork2(null);
             //DoWork3(null);
             //DoWorkPriority(null);
-            DoWorkQos(null);
+            //DoWorkQos(null);
+            DoWorkConfirm(null);
             return Task.CompletedTask;
         }
 
@@ -111,19 +112,27 @@ namespace Bucket.Event.KafkaClient.BackJob
             // 和第二步 MsgProducer 项目中的普通队列名称一致！！！
             //var qNormal = bus.Advanced.QueueDeclare("StudentMessage");
 
-            //bus.Advanced.Consume<StudentMessage>(new EasyNetQ.Topology.Queue("Ers.EventBus.StudentConfirmQueue"), async (msg, rev) =>
-            //{
-            //    strList.Add($"{nameof(DoWorkQos)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
-            //    Debug.WriteLine($"{nameof(DoWorkQos)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
-            //    await Task.Delay(1000);
-            //    await Task.CompletedTask;
-            //}, conf => conf.WithPrefetchCount(10));
+            bus.Advanced.Consume<StudentMessage>(new EasyNetQ.Topology.Queue("Ers.EventBus.StudentConfirmQueue"), async (msg, rev) =>
+            {
+                strList.Add($"{nameof(DoWorkQos)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
+                Debug.WriteLine($"{nameof(DoWorkQos)}-Priority:{msg.Properties.Priority}-{DateTimeOffset.Now} 收到消息：{msg.Body.Id},{msg.Body.Name}");
+                await Task.Delay(1000);
+                await Task.CompletedTask;
+            }, conf => conf.WithPrefetchCount(10));
+
+
+        }
+
+        private void DoWorkConfirm(object? state)
+        {
+            var strList = new List<string>();
 
             IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
-            while (true)
-            {
+            //while (true)
+            //{
                 using (var connection = factory.CreateConnection())
                 {
+                    //factory.AutomaticRecoveryEnabled = true;
                     using (var channel = connection.CreateModel())
                     {
                         channel.BasicQos(prefetchSize: 0, prefetchCount: 2, global: false);
@@ -148,8 +157,8 @@ namespace Bucket.Event.KafkaClient.BackJob
                     }
                 }
                 Thread.Sleep(1000);
-            }
-            
+            //}
+
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
