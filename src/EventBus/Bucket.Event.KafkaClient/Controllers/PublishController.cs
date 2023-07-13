@@ -390,6 +390,8 @@ namespace Bucket.Event.KafkaClient.Controllers
                 IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
                 //AutomaticRecoveryEnabled = true; DispatchConsumersAsync = true;
                 int i = 0;
+                int ackNum = 0;
+                int nackNum = 0;
                 while (i < 100)
                 {
                     //注册发布者监听器
@@ -401,13 +403,15 @@ namespace Bucket.Event.KafkaClient.Controllers
                             baPro.DeliveryMode = 2;
                             baPro.Persistent = true;
                             channel.ConfirmSelect();
+                            
                             channel.BasicAcks += (model, arg) =>
                             {
-                                //(model as IModel).
+                                ackNum++;
+                                //(model as IModel)
                             };
                             channel.BasicNacks += (model, arg) =>
                             {
-
+                                nackNum++;
                             };
                             channel.BasicPublish("Ers.EventBus.StudentConfirmEx", "Ers.b.Student", false, baPro, Encoding.UTF8.GetBytes("zhang" + i));
                             channel.WaitForConfirms();
