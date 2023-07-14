@@ -113,18 +113,18 @@ namespace Bucket.EventBus.Cap.Controllers
         }
         [NonAction]
         [CapSubscribe("Bucket.EventBus.Cap.show.time.delay", Group = "Mysql")]
-        public string CheckReceivedDelayMessage(DateTime datetime)
+        public DateTime CheckReceivedDelayMessage(DateTime datetime)
         {
             _logger.LogInformation("CheckReceivedDelayMessage订阅到当前时间{datetime}", datetime);
-            return datetime.ToString("yyyy-MM-dd HH:mm:ss");
+            return datetime;
         }
-
+        //消费者处理方法的出参成为回调函数的入参
         [HttpGet, HttpPost]
         [CapSubscribe("Bucket.EventBus.Cap.show.time.delay.callback", Group = "Mysqlcallback")]
-        public string CheckReceivedDelayMessageCallback(DateTime? datetime)
+        public string CheckReceivedDelayMessageCallback(DateTime datetime)
         {
             _logger.LogInformation("CheckReceivedDelayMessageCallback订阅到当前时间{datetime}", datetime);
-            return datetime.GetValueOrDefault().ToString("yyyy-MM-dd HH:mm:ss");
+            return datetime.ToString("yyyy-MM-dd HH:mm:ss");
         }
     }
 }
