@@ -403,7 +403,7 @@ namespace Bucket.Event.KafkaClient.Controllers
                             baPro.DeliveryMode = 2;
                             baPro.Persistent = true;
                             channel.ConfirmSelect();
-                            
+
                             channel.BasicAcks += (model, arg) =>
                             {
                                 ackNum++;
@@ -473,7 +473,150 @@ namespace Bucket.Event.KafkaClient.Controllers
 
         }
 
+        [HttpGet]
+        [Route("PublishDelayTTLDLX")]
+        public (int, IEnumerable<string>) PublishDelayTTLDLX()
+        {
+            var strList = new List<string>();
 
+            try
+            {
+                IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
+                //AutomaticRecoveryEnabled = true; DispatchConsumersAsync = true;
+                int i = 0;
+                int ackNum = 0;
+                int nackNum = 0;
+                while (i < 100)
+                {
+                    //注册发布者监听器
+                    using (var connection = factory.CreateConnection())
+                    {
+                        using (var channel = connection.CreateModel())
+                        {
+                            Dictionary<string, object> dic = new Dictionary<string, object>
+                            {
+                                //{ "x-expires", 30000 },
+                                { "x-message-ttl", 8000 },//队列上消息过期时间，应小于队列过期时间  
+                                { "x-dead-letter-exchange", "DelayTTLDLX_DeadEx" },//过期消息转向路由  
+                                { "x-dead-letter-routing-key", "fyu.a.log" }//过期消息转向路由相匹配routingkey 
+                            };
+
+                            channel.ExchangeDeclare("DelayTTLDLX_NormarlEx", "topic", true);
+                            channel.ExchangeDeclare("DelayTTLDLX_DeadEx", "topic", true);
+                            channel.QueueDeclare("DelayTTLDLX_NormarlQe", true, false, false, dic);
+                            channel.QueueDeclare("DelayTTLDLX_DeadQe", true, false, false);
+
+                            channel.QueueBind("DelayTTLDLX_NormarlQe", "DelayTTLDLX_NormarlEx", "fua.*.log");
+
+                            channel.QueueBind("DelayTTLDLX_DeadQe", "DelayTTLDLX_DeadEx", "fyu.*.log");
+                            var baPro = channel.CreateBasicProperties();
+                            baPro.DeliveryMode = 2;
+                            baPro.Persistent = true;
+                            channel.ConfirmSelect();
+
+                            channel.BasicAcks += (model, arg) =>
+                            {
+                                ackNum++;
+                                //(model as IModel)
+                            };
+                            channel.BasicNacks += (model, arg) =>
+                            {
+                                nackNum++;
+                            };
+                            channel.BasicPublish("DelayTTLDLX_NormarlEx", "fua.a.log", false, baPro, Encoding.UTF8.GetBytes("zhang" + i));
+                            channel.WaitForConfirms();
+                            i++;
+                        }
+                    }
+
+                    Thread.Sleep(1000);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Debug.WriteLine($"{e.Message}");
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
+
+        [HttpGet]
+        [Route("PublishDelayPlugin")]
+        public (int, IEnumerable<string>) PublishDelayPlugin()
+        {
+            var strList = new List<string>();
+
+            try
+            {
+                IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
+                //AutomaticRecoveryEnabled = true; DispatchConsumersAsync = true;
+                int i = 0;
+                int ackNum = 0;
+                int nackNum = 0;
+                while (i < 100)
+                {
+                    //注册发布者监听器
+                    using (var connection = factory.CreateConnection())
+                    {
+                        using (var channel = connection.CreateModel())
+                        {
+
+                            Dictionary<string, object> dic = new Dictionary<string, object>();
+                            dic.Add("x-delayed-type", "topic");//延迟交换机类型  
+
+                            channel.ExchangeDeclare("DelayPlugin_Ex", "x-delayed-message", true, false, dic);
+                            channel.QueueDeclare("DelayPlugin_NormarlQe", true, false, false);
+
+                            channel.QueueBind("DelayPlugin_NormarlQe", "DelayPlugin_Ex", "fua.plugin.*.log");
+                            var baPro = channel.CreateBasicProperties();
+                            baPro.DeliveryMode = 2;
+                            baPro.Persistent = true;
+                            //baPro.Expiration = "8000";
+
+                            baPro.Headers = new Dictionary<string, object>() { { "x-delay", 1000 * i } };
+                            channel.ConfirmSelect();
+
+                            channel.BasicAcks += (model, arg) =>
+                            {
+                                ackNum++;
+                                //(model as IModel)
+                            };
+                            channel.BasicNacks += (model, arg) =>
+                            {
+                                nackNum++;
+                            };
+                            channel.BasicPublish("DelayPlugin_Ex", "fua.plugin.a.log", false, baPro, Encoding.UTF8.GetBytes("zhang" + i));
+                            channel.WaitForConfirms();
+                            i++;
+                        }
+                    }
+
+                    Thread.Sleep(1000);
+                }
+            }
+            catch (Exception e)
+            {
+
+                Debug.WriteLine($"{e.Message}");
+            }
+            finally
+            {
+                bus.Dispose();
+            }
+
+
+
+            return (strList.Count, strList);
+
+        }
         //[Queue("Qka.Order", ExchangeName = "Qka.Order")]
         //public class Order
         //{
