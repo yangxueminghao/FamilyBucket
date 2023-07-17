@@ -147,7 +147,7 @@ namespace Bucket.Event.EasyQClient.BackJob
                 //factory.DispatchConsumersAsync = true;
                 using (var channel = connection.CreateModel())
                 {
-                    //channel.BasicQos(prefetchSize: 0, prefetchCount: 2, global: false);
+                    channel.BasicQos(prefetchSize: 0, prefetchCount: 2, global: false);
                     #region EventingBasicConsumer
 
                     //定义消费者                                      
