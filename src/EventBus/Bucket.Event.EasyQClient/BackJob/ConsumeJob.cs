@@ -26,12 +26,12 @@ namespace Bucket.Event.EasyQClient.BackJob
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            //_timer = new Timer(DoWorkConfirm, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+            _timer = new Timer(DoWorkConfirm, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
             //DoWork(null);
             //DoWork2(null);
             //DoWork3(null);
             //DoWorkConfirm(null);
-            DoWorkQos(null);
+            //DoWorkQos(null);
             return Task.CompletedTask;
         }
 
@@ -125,7 +125,19 @@ namespace Bucket.Event.EasyQClient.BackJob
         private void DoWorkConfirm(object? state)
         {
             var strList = new List<string>();
-            IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
+
+            //IConnectionFactory factory = bus.Advanced.Container.Resolve<IConnectionFactory>();
+            IConnectionFactory factory = new ConnectionFactory()
+            {
+                DispatchConsumersAsync = true,
+                HostName = "192.168.192.129",
+                Port = 5672,
+                Uri = new Uri("amqp://192.168.192.129:5672/"),
+                UserName = "admin",
+                Password = "admin",
+                VirtualHost = "/"
+
+            };
             //while (true)
             //{
             using (var connection = factory.CreateConnection())
@@ -135,7 +147,7 @@ namespace Bucket.Event.EasyQClient.BackJob
                 //factory.DispatchConsumersAsync = true;
                 using (var channel = connection.CreateModel())
                 {
-                    channel.BasicQos(prefetchSize: 0, prefetchCount: 2, global: false);
+                    //channel.BasicQos(prefetchSize: 0, prefetchCount: 2, global: false);
                     #region EventingBasicConsumer
 
                     //定义消费者                                      
