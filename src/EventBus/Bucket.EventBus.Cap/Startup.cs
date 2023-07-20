@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Bucket.MongoDbContext;
 using Bucket.DapperContext;
 using Bucket.EventBus.Cap.Filters;
+using Bucket.EventBus.Cap.Services;
 
 namespace Bucket.EventBus.Cap
 {
@@ -27,6 +28,7 @@ namespace Bucket.EventBus.Cap
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ISubscriberService, SubscriberService>();
             //services.AddRazorPages();
             services.AddMvc();
             services.AddSwaggerGen(c =>
